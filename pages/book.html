@@ -1,0 +1,126 @@
+<div class="page" id="page-book">
+  <section class="page-header">
+    <div class="container">
+      <h1>Book a consultation</h1>
+      <p>Take the first step. We'll be in touch within 1–2 business days.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="pricing-note reveal">
+        <h4>Flexible pricing</h4>
+        <p>Every person's situation is different. After you submit your details, Dr Katoa will be in touch to discuss the right pathway and pricing plan for you.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;"><strong>We offer flexible pricing options. If cost is a barrier, let us know — we'll work with you.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-light">
+    <div class="container">
+      <div class="form-section reveal">
+        <form id="booking-form">
+          <!-- Service Selection -->
+          <div class="form-group">
+            <label>Select a service</label>
+            <div class="service-selector">
+              <div class="service-option" data-service="ADHD Assessment">
+                <h4>ADHD Assessment</h4>
+                <p>Comprehensive assessment over 2–3 sessions</p>
+              </div>
+              <div class="service-option" data-service="Anxiety Pathway">
+                <h4>Anxiety Support</h4>
+                <p>Six-week structured programme</p>
+              </div>
+              <div class="service-option" data-service="Depression Pathway">
+                <h4>Depression Support</h4>
+                <p>Six-week structured programme</p>
+              </div>
+            </div>
+            <input type="hidden" id="selected-service" name="service" required>
+          </div>
+
+          <!-- Personal Details -->
+          <div class="form-group">
+            <label for="name">Full name</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="dob">Date of birth</label>
+            <input type="date" id="dob" name="dob" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" name="phone" required>
+          </div>
+
+          <!-- Additional Questions -->
+          <div class="form-group">
+            <label>Tell us briefly what's going on</label>
+            <textarea name="message" maxlength="500" placeholder="What brings you here? What would you like help with?"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Are you currently seeing a GP?</label>
+            <div class="radio-group">
+              <label>
+                <input type="radio" name="gp" value="Yes" checked>
+                Yes
+              </label>
+              <label>
+                <input type="radio" name="gp" value="No">
+                No
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Are you under 18?</label>
+            <div class="radio-group">
+              <label>
+                <input type="radio" name="under18" value="Yes">
+                Yes
+              </label>
+              <label>
+                <input type="radio" name="under18" value="No" checked>
+                No
+              </label>
+            </div>
+            <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">If yes, a parent or guardian must consent to the assessment.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="referral">How did you hear about us?</label>
+            <select id="referral" name="referral">
+              <option value="">Select an option</option>
+              <option value="GP referral">GP referral</option>
+              <option value="School counsellor">School counsellor</option>
+              <option value="Social media">Social media</option>
+              <option value="Word of mouth">Word of mouth</option>
+              <option value="Web search">Web search</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Submit request</button>
+        </form>
+        
+        <p style="text-align: center; color: #666; font-size: 0.85rem; margin-top: 1.5rem;">This is a booking request, not a confirmed appointment. We'll contact you to arrange a time that works.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p style="font-family: 'DM Serif Display', serif; font-size: 1.25rem; margin-bottom: 1rem;">Connect Clinic</p>
+      <p>A service of Pasifika Rise Limited</p>
+    </div>
+  </footer>
+</div>
