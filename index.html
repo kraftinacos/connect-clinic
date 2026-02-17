@@ -1,200 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Connect — Virtual Mental Health | Aotearoa New Zealand</title>
-<meta name="description" content="Structured virtual mental health care for young New Zealanders aged 16–30. No waitlist. No referral needed.">
-<meta property="og:title" content="Connect — Virtual Mental Health | Aotearoa New Zealand">
-<meta property="og:description" content="Structured virtual mental health care for young New Zealanders aged 16–30. No waitlist. No referral needed.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;font-weight:300;background:#000;color:#fff;line-height:1.6}
-.container{max-width:1080px;margin:0 auto;padding:0 2rem}
-section{padding:8rem 0;text-align:center}
-/* Nav */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:#000;border-bottom:1px solid transparent;transition:border-color 0.3s}
-nav.scrolled{border-bottom-color:rgba(255,255,255,0.08)}
-.nav-inner{max-width:1080px;margin:0 auto;padding:1.2rem 2rem;display:flex;justify-content:space-between;align-items:center}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#fff;font-weight:300}
-.nav-links{display:flex;gap:2.5rem;align-items:center}
-.nav-links a{color:#a0a0a0;text-decoration:none;font-size:0.82rem;transition:color 0.2s}
-.nav-links a:hover{color:#fff}
-.nav-links a.book{color:#e8c4a0;font-weight:400}
-.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:0}
-.hamburger span{width:20px;height:1px;background:#fff}
-/* Hero */
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding-top:0}
-.hero-title{font-family:'Cormorant Garamond',serif;font-size:6rem;font-weight:300;color:#fff;letter-spacing:-0.03em;line-height:1}
-.hero-subtitle{font-family:'Inter',sans-serif;font-size:1.1rem;font-weight:300;color:#a0a0a0;max-width:440px;margin:1.5rem auto 0}
-.hero-buttons{display:flex;gap:1rem;justify-content:center;margin-top:2.5rem}
-.btn-primary{font-family:'Inter',sans-serif;font-size:0.88rem;font-weight:500;background:#e8c4a0;color:#000;padding:0.8rem 2rem;border-radius:2px;text-decoration:none;transition:all 0.2s}
-.btn-primary:hover{background:#fff}
-.btn-secondary{font-family:'Inter',sans-serif;font-size:0.88rem;font-weight:300;border:1px solid rgba(255,255,255,0.15);color:#a0a0a0;padding:0.8rem 2rem;border-radius:2px;text-decoration:none;transition:all 0.2s}
-.btn-secondary:hover{border-color:#fff;color:#fff}
-.scroll-line{width:1px;height:40px;background:rgba(255,255,255,0.2);margin:5rem auto 0;animation:bounce 2s infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
-/* Sections */
-.section-title{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:300;color:#fff}
-.section-subtitle{font-family:'Inter',sans-serif;font-size:0.95rem;font-weight:300;color:#a0a0a0;max-width:480px;margin:1rem auto 0}
-.alt-bg{background:#0a0a0a}
-/* Services */
-.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:4rem;max-width:900px;margin-left:auto;margin-right:auto}
-.service-card{background:#111;padding:2.5rem;text-align:center}
-.service-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#fff;margin-bottom:0.75rem}
-.service-desc{font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:300;color:#a0a0a0;margin-bottom:1rem}
-.service-link{font-family:'Inter',sans-serif;font-size:0.8rem;color:#e8c4a0;text-decoration:none;transition:all 0.2s}
-.service-link:hover{color:#fff}
-.service-link:hover span{transform:translateX(3px);display:inline-block;transition:transform 0.2s}
-.features-list{margin-top:3rem;font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:300;color:#a0a0a0;line-height:2}
-/* About */
-.about-text{max-width:600px;margin:2rem auto 0;text-align:center}
-.about-text p{font-family:'Inter',sans-serif;font-size:0.95rem;font-weight:300;color:#a0a0a0;margin-bottom:1.5rem;line-height:1.7}
-.about-text strong{color:#fff;font-weight:400}
-.about-creds{margin-top:2.5rem;font-family:'Inter',sans-serif;font-size:0.75rem;color:#666}
-.about-creds span{color:#a0a0a0}
-.about-source{margin-top:1.5rem;font-family:'Inter',sans-serif;font-size:0.68rem;color:#666}
-/* Footer */
-footer{border-top:1px solid rgba(255,255,255,0.08);padding:3rem 0;text-align:center}
-.footer-name{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#fff;margin-bottom:0.25rem}
-.footer-sub{font-family:'Inter',sans-serif;font-size:0.72rem;color:#666;margin-bottom:0.25rem}
-.footer-email{font-family:'Inter',sans-serif;font-size:0.72rem;color:#a0a0a0;text-decoration:none}
-.footer-email:hover{color:#fff}
-.footer-crisis{margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.06);font-family:'Inter',sans-serif;font-size:0.72rem;color:#666}
-.footer-crisis span{color:#a0a0a0}
-/* Animations */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
-.reveal.visible{opacity:1;transform:translateY(0)}
-/* Responsive */
-@media(max-width:768px){
-section{padding:5rem 0}
-.hero-title{font-size:3.5rem}
-.nav-links{position:fixed;top:60px;left:0;right:0;background:#000;flex-direction:column;padding:2rem;display:none;border-top:1px solid rgba(255,255,255,0.08)}
-.nav-links.show{display:flex}
-.hamburger{display:flex}
-.services-grid{grid-template-columns:1fr}
-.hero-buttons{flex-direction:column;align-items:center}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Clinic | Culturally Attuned Telehealth</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #000;
+            --bg-surface: #0a0a0a;
+            --bg-card: #111;
+            --gold: #e8c4a0;
+            --text-primary: #fff;
+            --text-secondary: #a0a0a0;
+            --border: #222;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(0,0,0,0.95); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        nav .container {
+            display: flex; justify-content: space-between; align-items: center;
+            height: 72px;
+        }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--text-primary); }
+        .logo span { color: var(--gold); }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--text-primary); }
+        .lang-selector { position: relative; }
+        .lang-btn {
+            background: var(--bg-card); border: 1px solid var(--border);
+            color: var(--text-primary); padding: 8px 16px; border-radius: 2px;
+            font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 8px;
+        }
+        .lang-dropdown {
+            position: absolute; top: 100%; right: 0; margin-top: 8px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 2px; min-width: 140px; display: none;
+        }
+        .lang-dropdown.active { display: block; }
+        .lang-dropdown a {
+            display: block; padding: 10px 16px; color: var(--text-secondary);
+            text-decoration: none; font-size: 0.85rem; transition: all 0.3s;
+        }
+        .lang-dropdown a:hover { background: var(--bg-surface); color: var(--text-primary); }
+        .lang-dropdown a.active { color: var(--gold); }
+        /* Hero */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 120px 24px 80px;
+            background: radial-gradient(ellipse at center, var(--bg-surface) 0%, var(--bg-primary) 70%);
+        }
+        .hero-content { max-width: 800px; }
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 600; line-height: 1.1; margin-bottom: 24px;
+            opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease forwards;
+        }
+        .hero h1 span { color: var(--gold); }
+        .hero p {
+            font-size: 1.2rem; color: var(--text-secondary); max-width: 600px;
+            margin: 0 auto 40px; opacity: 0; transform: translateY(30px);
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+        .hero-buttons {
+            display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+            opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease 0.4s forwards;
+        }
+        .btn {
+            padding: 14px 32px; border-radius: 2px; font-size: 0.95rem;
+            font-weight: 500; text-decoration: none; transition: all 0.3s; cursor: pointer; border: none;
+        }
+        .btn-primary { background: var(--gold); color: #000; }
+        .btn-primary:hover { background: #f0d4b0; transform: translateY(-2px); }
+        .btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        /* Services */
+        .services { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 {
+            font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600; margin-bottom: 16px;
+        }
+        .section-header p { color: var(--text-secondary); max-width: 500px; margin: 0 auto; }
+        .services-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        .service-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px;
+            padding: 40px; transition: all 0.3s; opacity: 0; transform: translateY(30px);
+        }
+        .service-card.visible { opacity: 1; transform: translateY(0); transition: all 0.6s ease; }
+        .service-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+        .service-icon {
+            width: 56px; height: 56px; background: var(--bg-surface); border-radius: 2px;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 24px;
+            font-size: 1.5rem;
+        }
+        .service-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; margin-bottom: 12px; }
+        .service-card p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 24px; }
+        .service-card .btn { padding: 10px 24px; font-size: 0.85rem; display: inline-block; }
+        /* About */
+        .about {
+            padding: 100px 0; background: var(--bg-surface);
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+        }
+        .about-content {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+        }
+        .about-text h2 {
+            font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600; margin-bottom: 24px;
+        }
+        .about-text p { color: var(--text-secondary); margin-bottom: 20px; }
+        .about-features { display: flex; flex-direction: column; gap: 20px; }
+        .feature {
+            display: flex; gap: 16px; align-items: flex-start;
+            opacity: 0; transform: translateX(30px);
+        }
+        .feature.visible { opacity: 1; transform: translateX(0); transition: all 0.6s ease; }
+        .feature-icon { width: 40px; height: 40px; background: var(--bg-card); border-radius: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature h4 { font-size: 1rem; margin-bottom: 4px; }
+        .feature p { color: var(--text-secondary); font-size: 0.9rem; }
+        /* Footer */
+        footer { padding: 60px 0 40px; text-align: center; }
+        .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; margin-bottom: 20px; }
+        .footer-logo span { color: var(--gold); }
+        footer p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 8px; }
+        .footer-links { display: flex; gap: 24px; justify-content: center; margin: 24px 0; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--gold); }
+        .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 24px; }
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .about-content { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-<!-- NAV -->
-<nav id="nav">
-<div class="nav-inner">
-<div class="nav-logo">Connect</div>
-<div class="nav-links" id="navLinks">
-<a href="#services">Services</a>
-<a href="#about">About</a>
-<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="book">Book</a>
-</div>
-<button class="hamburger" onclick="toggleMenu()">
-<span></span><span></span><span></span>
-</button>
-</div>
-</nav>
+    <nav>
+        <div class="container">
+            <div class="logo">Connect<span>Clinic</span></div>
+            <div class="nav-links">
+                <a href="#services">Services</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <div class="lang-selector">
+                    <button class="lang-btn" onclick="toggleLang()">EN &#9662;</button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <a href="index.html" class="active">English</a>
+                        <a href="index-to.html">Lea fakatonga</a>
+                        <a href="index-sm.html">Gagana Samoa</a>
+                        <a href="index-fj.html">Vosa Vakaviti</a>
+                        <a href="index-ck.html">Te reo Māori Kūki</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-<!-- HERO -->
-<section class="hero">
-<div class="container">
-<h1 class="hero-title reveal">Connect</h1>
-<p class="hero-subtitle reveal">Virtual mental health care for young New Zealanders</p>
-<div class="hero-buttons reveal">
-<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="btn-primary">Book a session →</a>
-<a href="#services" class="btn-secondary">Learn more</a>
-</div>
-<div class="scroll-line reveal"></div>
-</div>
-</section>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Culturally Attuned <span>Mental Health</span> Care</h1>
+            <p>Professional telehealth services designed for Pasifika and Indigenous communities. Supporting your wellbeing with understanding and respect.</p>
+            <div class="hero-buttons">
+                <a href="#services" class="btn btn-primary">Explore Services</a>
+                <a href="#about" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
 
-<!-- SERVICES -->
-<section class="alt-bg" id="services">
-<div class="container">
-<h2 class="section-title reveal">What we treat</h2>
-<p class="section-subtitle reveal">Six-session structured pathways. Validated screening. Measured outcomes. $120–180.</p>
-<div class="services-grid">
-<div class="service-card reveal">
-<div class="service-name">Anxiety</div>
-<div class="service-desc">CBT-based intervention for GAD, social anxiety, panic, and health anxiety.</div>
-<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book <span>→</span></a>
-</div>
-<div class="service-card reveal">
-<div class="service-name">Depression</div>
-<div class="service-desc">Behavioural activation and cognitive work for low mood and withdrawal.</div>
-<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book <span>→</span></a>
-</div>
-<div class="service-card reveal">
-<div class="service-name">ADHD Assessment</div>
-<div class="service-desc">ASRS screening, clinical interview, collateral. Medication where indicated.</div>
-<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book <span>→</span></a>
-</div>
-<div class="service-card reveal">
-<div class="service-name">Stress & Burnout</div>
-<div class="service-desc">Boundary setting and sustainable coping for work and study pressure.</div>
-<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book <span>→</span></a>
-</div>
-<div class="service-card reveal">
-<div class="service-name">Grief & Loss</div>
-<div class="service-desc">Culturally safe support for bereavement and life transitions.</div>
-<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book <span>→</span></a>
-</div>
-<div class="service-card reveal">
-<div class="service-name">Sleep</div>
-<div class="service-desc">CBT-I protocols for insomnia and disrupted sleep.</div>
-<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book <span>→</span></a>
-</div>
-</div>
-<div class="features-list reveal">
-<div>— From your phone, wherever you are</div>
-<div>— No referral needed</div>
-<div>— Start within the week</div>
-</div>
-</div>
-</section>
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Services</h2>
+                <p>Specialised mental health support tailored to your unique journey and cultural background</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">&#128719;</div>
+                    <h3>Anxiety Support</h3>
+                    <p>Evidence-based strategies to manage anxiety, panic, and worry within a culturally safe framework.</p>
+                    <a href="forms/anxiety.html" class="btn btn-primary">Get Support</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#128524;</div>
+                    <h3>Depression Care</h3>
+                    <p>Compassionate support for navigating depression, low mood, and finding your path forward.</p>
+                    <a href="forms/depression.html" class="btn btn-primary">Get Support</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#128161;</div>
+                    <h3>ADHD Assessment</h3>
+                    <p>Comprehensive assessment and support for attention, focus, and executive function challenges.</p>
+                    <a href="forms/adhd.html" class="btn btn-primary">Get Support</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#127795;</div>
+                    <h3>Stress Management</h3>
+                    <p>Practical tools to manage life stressors, work pressure, and restore balance to your life.</p>
+                    <a href="forms/stress.html" class="btn btn-primary">Get Support</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#128330;</div>
+                    <h3>Grief Support</h3>
+                    <p>Understanding guidance through loss, honouring your loved ones while caring for yourself.</p>
+                    <a href="forms/grief.html" class="btn btn-primary">Get Support</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#127769;</div>
+                    <h3>Sleep Wellness</h3>
+                    <p>Personalised approaches to improve sleep quality and establish healthy rest patterns.</p>
+                    <a href="forms/sleep.html" class="btn btn-primary">Get Support</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- ABOUT -->
-<section id="about">
-<div class="container">
-<h2 class="section-title reveal">About</h2>
-<div class="about-text reveal">
-<p>Connect is led by <strong>Dr Francis Katoa</strong> — GP, RNZCGP Fellow, seven years in high-needs primary care. Trained in CBT and youth mental health.</p>
-<p>Connect exists because the system has a gap. In 2025, UNICEF ranked New Zealand last out of 36 wealthy nations for youth mental health. The youth suicide rate is 17.1 per 100,000 — nearly three times the OECD average. Māori youth rates are double non-Māori. Over the past five years, 10,000 fewer young people have accessed mental health services, even as distress has risen.</p>
-<p>The Auditor-General found that services for young people are fragmented. Most sit in the missing middle — too complex for a 15-minute GP consult, not severe enough for specialist care, unable to afford private therapy. Connect provides structured, virtual, outcome-measured intervention in that gap.</p>
-<p>Connect operates under <strong>Pasifika Rise Limited</strong>. Pacific-governed. Aotearoa-based.</p>
-</div>
-<div class="about-creds reveal">
-RNZCGP Fellow <span>·</span> Pacific Chapter Secretary <span>·</span> University of Auckland Clinical Tutor <span>·</span> Postgraduate CBT & Youth MH <span>·</span> Seven years high-needs primary care
-</div>
-<div class="about-source reveal">
-UNICEF Innocenti 2025 · NZ Health Survey 2024/25 · Office of the Auditor-General 2024
-</div>
-</div>
-</section>
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Why Connect Clinic?</h2>
+                    <p>We understand that mental health support must acknowledge and honour your cultural identity. Our team includes clinicians with deep understanding of Pasifika and Indigenous ways of being.</p>
+                    <p>Telehealth means you can access quality care from anywhere, in the comfort of your own space. No travel, no waiting rooms—just meaningful connection.</p>
+                    <a href="#services" class="btn btn-primary">View Services</a>
+                </div>
+                <div class="about-features">
+                    <div class="feature">
+                        <div class="feature-icon">&#127760;</div>
+                        <div>
+                            <h4>Cultural Understanding</h4>
+                            <p>Clinicians who respect and understand your background</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">&#128187;</div>
+                        <div>
+                            <h4>Telehealth Access</h4>
+                            <p>Quality care from anywhere, no travel required</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">&#128100;</div>
+                        <div>
+                            <h4>Personalised Care</h4>
+                            <p>Treatment plans tailored to your unique needs</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">&#128272;</div>
+                        <div>
+                            <h4>Confidential & Safe</h4>
+                            <p>Your privacy and trust are our highest priority</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- FOOTER -->
-<footer>
-<div class="container">
-<div class="footer-name reveal">Connect</div>
-<div class="footer-sub reveal">Pasifika Rise Limited · Aotearoa New Zealand</div>
-<a href="mailto:connect@pasifikarise.nz" class="footer-email reveal">connect@pasifikarise.nz</a>
-<div class="footer-crisis reveal">
-In crisis — call or text <span>1737</span> · Lifeline <span>0800 543 354</span> · Emergency <span>111</span>
-</div>
-</div>
-</footer>
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-logo">Connect<span>Clinic</span></div>
+            <p>Culturally attuned mental health care for our communities</p>
+            <div class="footer-links">
+                <a href="#services">Services</a>
+                <a href="#about">About</a>
+                <a href="mailto:hello@connectclinic.health">Contact</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Connect Clinic. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
-<script>
-// Nav scroll
-window.addEventListener('scroll',()=>{if(window.scrollY>10)document.getElementById('nav').classList.add('scrolled')});
-// Mobile menu
-function toggleMenu(){document.getElementById('navLinks').classList.toggle('show')}
-document.querySelectorAll('.nav-links a').forEach(l=>l.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('show')));
-// Reveal animations
-const obs=new IntersectionObserver((e)=>{e.forEach((el,i)=>{if(el.isIntersecting){setTimeout(()=>el.target.classList.add('visible'),i*100);obs.unobserve(el.target)}})},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
-document.querySelectorAll('.reveal').forEach(e=>obs.observe(e));
-</script>
+    <script>
+        // Language dropdown toggle
+        function toggleLang() {
+            document.getElementById('langDropdown').classList.toggle('active');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.lang-selector')) {
+                document.getElementById('langDropdown').classList.remove('active');
+            }
+        });
+        // Scroll reveal animation
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.service-card, .feature').forEach(el => observer.observe(el));
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
 </body>
 </html>

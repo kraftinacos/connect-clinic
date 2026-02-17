@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="sm">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Clinic | Telehealth Fa'asinomaga</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-primary: #000; --bg-surface: #0a0a0a; --bg-card: #111; --gold: #e8c4a0; --text-primary: #fff; --text-secondary: #a0a0a0; --border: #222; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+        nav .container { display: flex; justify-content: space-between; align-items: center; height: 72px; }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; }
+        .logo span { color: var(--gold); }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--text-primary); }
+        .lang-selector { position: relative; }
+        .lang-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); padding: 8px 16px; border-radius: 2px; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .lang-dropdown { position: absolute; top: 100%; right: 0; margin-top: 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px; min-width: 140px; display: none; }
+        .lang-dropdown.active { display: block; }
+        .lang-dropdown a { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; transition: all 0.3s; }
+        .lang-dropdown a:hover { background: var(--bg-surface); color: var(--text-primary); }
+        .lang-dropdown a.active { color: var(--gold); }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; background: radial-gradient(ellipse at center, var(--bg-surface) 0%, var(--bg-primary) 70%); }
+        .hero-content { max-width: 800px; }
+        .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 600; line-height: 1.1; margin-bottom: 24px; opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease forwards; }
+        .hero h1 span { color: var(--gold); }
+        .hero p { font-size: 1.2rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 40px; opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease 0.2s forwards; }
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease 0.4s forwards; }
+        .btn { padding: 14px 32px; border-radius: 2px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: all 0.3s; cursor: pointer; border: none; }
+        .btn-primary { background: var(--gold); color: #000; }
+        .btn-primary:hover { background: #f0d4b0; transform: translateY(-2px); }
+        .btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        .services { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; margin-bottom: 16px; }
+        .section-header p { color: var(--text-secondary); max-width: 500px; margin: 0 auto; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+        .service-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px; padding: 40px; transition: all 0.3s; opacity: 0; transform: translateY(30px); }
+        .service-card.visible { opacity: 1; transform: translateY(0); transition: all 0.6s ease; }
+        .service-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+        .service-icon { width: 56px; height: 56px; background: var(--bg-surface); border-radius: 2px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; font-size: 1.5rem; }
+        .service-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; margin-bottom: 12px; }
+        .service-card p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 24px; }
+        .service-card .btn { padding: 10px 24px; font-size: 0.85rem; display: inline-block; }
+        .about { padding: 100px 0; background: var(--bg-surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .about-text h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; margin-bottom: 24px; }
+        .about-text p { color: var(--text-secondary); margin-bottom: 20px; }
+        .about-features { display: flex; flex-direction: column; gap: 20px; }
+        .feature { display: flex; gap: 16px; align-items: flex-start; opacity: 0; transform: translateX(30px); }
+        .feature.visible { opacity: 1; transform: translateX(0); transition: all 0.6s ease; }
+        .feature-icon { width: 40px; height: 40px; background: var(--bg-card); border-radius: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature h4 { font-size: 1rem; margin-bottom: 4px; }
+        .feature p { color: var(--text-secondary); font-size: 0.9rem; }
+        footer { padding: 60px 0 40px; text-align: center; }
+        .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; margin-bottom: 20px; }
+        .footer-logo span { color: var(--gold); }
+        footer p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 8px; }
+        .footer-links { display: flex; gap: 24px; justify-content: center; margin: 24px 0; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--gold); }
+        .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 24px; }
+        @media (max-width: 768px) { .nav-links { display: none; } .about-content { grid-template-columns: 1fr; } .services-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">Connect<span>Clinic</span></div>
+            <div class="nav-links">
+                <a href="#services">Auaunaga</a>
+                <a href="#about">E Uiga I</a>
+                <a href="#contact">Feso'ota'iga</a>
+                <div class="lang-selector">
+                    <button class="lang-btn" onclick="toggleLang()">SM &#9662;</button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <a href="index.html">English</a>
+                        <a href="index-to.html">Lea fakatonga</a>
+                        <a href="index-sm.html" class="active">Gagana Samoa</a>
+                        <a href="index-fj.html">Vosa Vakaviti</a>
+                        <a href="index-ck.html">Te reo Māori Kūki</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Soifua Maloloina <span>Mafaufau</span> Fa'asinomaga</h1>
+            <p>Auaunaga telehealth fa'atautaia mo atunuu Pasifiki ma atunuu fakamotu. Lagolagoina lou soifua maua ma lou fa'aaloalo.</p>
+            <div class="hero-buttons">
+                <a href="#services" class="btn btn-primary">Saili Auaunaga</a>
+                <a href="#about" class="btn btn-secondary">Fiafia Lava</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>O Mata Auaunaga</h2>
+                <p>Lagolago mafaufau fa'atautaia sa'o mo lou folauga taua ma lou aganu'u</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">&#128719;</div>
+                    <h3>Lagolago Mata'u</h3>
+                    <p>Fa'atulagaina fakamafuta'i e pulea le mata'u, le fefe, ma le popole i se tulaga sa'o fa'asinomaga.</p>
+                    <a href="forms/anxiety.html" class="btn btn-primary">Maua Lagolago</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#128524;</div>
+                    <h3>Fa'amaoni Pōuliuli</h3>
+                    <p>Lagolago alofa mo le tafa'i pōuliuli, le loto ma'ua, ma le su'e lou auala ki luma.</p>
+                    <a href="forms/depression.html" class="btn btn-primary">Maua Lagolago</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#128161;</div>
+                    <h3>Su'esu'ega ADHD</h3>
+                    <p>Su'esu'ega mo lagolago mo le fa'atuitui, loto'i, ma fa'atulagaina 'aiga.</p>
+                    <a href="forms/adhd.html" class="btn btn-primary">Maua Lagolago</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#127795;</div>
+                    <h3>Pulea le Faigatā</h3>
+                    <p>Mea faigaluega e pule ai faigatā, totogiga galuega, ma toe fa'aleleia le balansi.</p>
+                    <a href="forms/stress.html" class="btn btn-primary">Maua Lagolago</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#128330;</div>
+                    <h3>Lagolago Togi</h3>
+                    <p>Fa'amalamalama e ala atu i le fa'alavelave, fa'aaloalo lou aiga 'ua malō, tausisi lou lava.</p>
+                    <a href="forms/grief.html" class="btn btn-primary">Maua Lagolago</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#127769;</div>
+                    <h3>Soifua Malolo</h3>
+                    <p>Auala fa'atautaia mo le fa'aleleia lelei o mea tau moega ma fa'atulagaina tulaga lelei.</p>
+                    <a href="forms/sleep.html" class="btn btn-primary">Maua Lagolago</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Aisea Connect Clinic?</h2>
+                    <p>E matou malamalama e tatau ona fa'ailoa le lagolago mafaufau lou aganu'u. O le matou kulupu aofia ai fa'amalamalama fa'atautaia o atunuu Pasifiki ma atunuu fakamotu.</p>
+                    <p>O le telehealth e uiga i le mafai ona e maua le fa'amaoni lelei mai so'o se mea, i lou nofoa fiafia. Leai se fa'afe'ese'ese, leai se loka fa'atali—e matou le fetufaa'i moni.</p>
+                    <a href="#services" class="btn btn-primary">Vakai Auaunaga</a>
+                </div>
+                <div class="about-features">
+                    <div class="feature">
+                        <div class="feature-icon">&#127760;</div>
+                        <div>
+                            <h4>Malamalaga Fa'asinomaga</h4>
+                            <p>Fa'amaoni 'oku nau fa'aaloalo ma malamalama lou kuunga</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">&#128187;</div>
+                        <div>
+                            <h4>Mafutaga Telehealth</h4>
+                            <p>Fa'amaoni lelei mai so'o se mea, leai se fa'afe'ese'ese</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">&#128100;</div>
+                        <div>
+                            <h4>Fa'amaoni Fa'atautaia</h4>
+                            <p>Fa'atulagaina fa'amoni sa'o mo ou mana'oga taua</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">&#128272;</div>
+                        <div>
+                            <h4>Fa'amatala & Sa'ogalemu</h4>
+                            <p>O lou le tui ma lou sa'ogalemu 'o matou tulaga maualuga tasi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-logo">Connect<span>Clinic</span></div>
+            <p>Fa'amaoni mafaufau fa'asinomaga mo matou atunuu</p>
+            <div class="footer-links">
+                <a href="#services">Auaunaga</a>
+                <a href="#about">E Uiga I</a>
+                <a href="mailto:hello@connectclinic.health">Feso'ota'iga</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Connect Clinic. Ua puipuia uma.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleLang() { document.getElementById('langDropdown').classList.toggle('active'); }
+        document.addEventListener('click', function(e) { if (!e.target.closest('.lang-selector')) { document.getElementById('langDropdown').classList.remove('active'); } });
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => { entries.forEach((entry, index) => { if (entry.isIntersecting) { setTimeout(() => { entry.target.classList.add('visible'); }, index * 100); } }); }, observerOptions);
+        document.querySelectorAll('.service-card, .feature').forEach(el => observer.observe(el));
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); });
+    </script>
+</body>
+</html>

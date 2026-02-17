@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ck">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Clinic | Telehealth Kavamani</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-primary: #000; --bg-surface: #0a0a0a; --bg-card: #111; --gold: #e8c4a0; --text-primary: #fff; --text-secondary: #a0a0a0; --border: #222; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+        nav .container { display: flex; justify-content: space-between; align-items: center; height: 72px; }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; }
+        .logo span { color: var(--gold); }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--text-primary); }
+        .lang-selector { position: relative; }
+        .lang-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); padding: 8px 16px; border-radius: 2px; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .lang-dropdown { position: absolute; top: 100%; right: 0; margin-top: 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px; min-width: 140px; display: none; }
+        .lang-dropdown.active { display: block; }
+        .lang-dropdown a { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; transition: all 0.3s; }
+        .lang-dropdown a:hover { background: var(--bg-surface); color: var(--text-primary); }
+        .lang-dropdown a.active { color: var(--gold); }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; background: radial-gradient(ellipse at center, var(--bg-surface) 0%, var(--bg-primary) 70%); }
+        .hero-content { max-width: 800px; }
+        .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 600; line-height: 1.1; margin-bottom: 24px; opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease forwards; }
+        .hero h1 span { color: var(--gold); }
+        .hero p { font-size: 1.2rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 40px; opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease 0.2s forwards; }
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease 0.4s forwards; }
+        .btn { padding: 14px 32px; border-radius: 2px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: all 0.3s; cursor: pointer; border: none; }
+        .btn-primary { background: var(--gold); color: #000; }
+        .btn-primary:hover { background: #f0d4b0; transform: translateY(-2px); }
+        .btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        .services { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; margin-bottom: 16px; }
+        .section-header p { color: var(--text-secondary); max-width: 500px; margin: 0 auto; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+        .service-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px; padding: 40px; transition: all 0.3s; opacity: 0; transform: translateY(30px); }
+        .service-card.visible { opacity: 1; transform: translateY(0); transition: all 0.6s ease; }
+        .service-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+        .service-icon { width: 56px; height: 56px; background: var(--bg-surface); border-radius: 2px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; font-size: 1.5rem; }
+        .service-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; margin-bottom: 12px; }
+        .service-card p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 24px; }
+        .service-card .btn { padding: 10px 24px; font-size: 0.85rem; display: inline-block; }
+        .about { padding: 100px 0; background: var(--bg-surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .about-text h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; margin-bottom: 24px; }
+        .about-text p { color: var(--text-secondary); margin-bottom: 20px; }
+        .about-features { display: flex; flex-direction: column; gap: 20px; }
+        .feature { display: flex; gap: 16px; align-items: flex-start; opacity: 0; transform: translateX(30px); }
+        .feature.visible { opacity: 1; transform: translateX(0); transition: all 0.6s ease; }
+        .feature-icon { width: 40px; height: 40px; background: var(--bg-card); border-radius: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .feature h4 { font-size: 1rem; margin-bottom: 4px; }
+        .feature p { color: var(--text-secondary); font-size: 0.9rem; }
+        footer { padding: 60px 0 40px; text-align: center; }
+        .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; margin-bottom: 20px; }
+        .footer-logo span { color: var(--gold); }
+        footer p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 8px; }
+        .footer-links { display: flex; gap: 24px; justify-content: center; margin: 24px 0; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--gold); }
+        .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 24px; }
+        @media (max-width: 768px) { .nav-links { display: none; } .about-content { grid-template-columns: 1fr; } .services-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">Connect<span>Clinic</span></div>
+            <div class="nav-links">
+                <a href="#services">Ratonga</a>
+                <a href="#about">E Pāpaku Ana</a>
+                <a href="#contact">Whakapā</a>
+                <div class="lang-selector">
+                    <button class="lang-btn" onclick="toggleLang()">CK &#9662;</button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <a href="index.html">English</a>
+                        <a href="index-to.html">Lea fakatonga</a>
+                        <a href="index-sm.html">Gagana Samoa</a>
+                        <a href="index-fj.html">Vosa Vakaviti</a>
+                        <a href="index-ck.html" class="active">Te reo Māori Kūki</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Tiaki <span>Oranga Hinengaro</strong> Kavamani</span></h1>
+            <p>Ratonga telehealth kavamani mo nga hapori Pasifika me te tangata whenua. Tautoko i to hauora me te whakaute.</p>
+            <div class="hero-buttons">
+                <a href="#services" class="btn btn-primary">Tirohia nga Ratonga</a>
+                <a href="#about" class="btn btn-secondary">Ako atu</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>A Ma Ratonga</h2>
+                <p>Tautoko hinengaro tohu i runga i to haerenga ahurei me to ahurea</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">&#128719;</div>
+                    <h3>Tautoko Manawapā</h3>
+                    <p>Nga rautaki e whai mātauranga ki te whakahaere i te manawapā, wehi, me te awangawanga i roto i tetahi anga haumaru ahurea.</p>
+                    <a href="forms/anxiety.html" class="btn btn-primary">Tautoko</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#128524;</div>
+                    <h3>Tiaki Pōuri</h3>
+                    <p>Tautoko aroha mo te uru atu ki te pōuri, te kore hari, me te kimi i to huarahi whakamua.</p>
+                    <a href="forms/depression.html" class="btn btn-primary">Tautoko</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#128161;</div>
+                    <h3>Aromatawai ADHD</h3>
+                    <p>Aromatawai me te tautoko mo nga raru aro, aro, me nga mahi whakahaere.</p>
+                    <a href="forms/adhd.html" class="btn btn-primary">Tautoko</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#127795;</div>
+                    <h3>Whakahaere Papaonga</h3>
+                    <p>Utauta whaihanga ki te whakahaere i nga papaonga ora, te pehi mahi, me te whakahoki i te taurite.</p>
+                    <a href="forms/stress.html" class="btn btn-primary">Tautoko</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#128330;</div>
+                    <h3>Tautoko Aroha</h3>
+                    <p>Arataki whakapono mo te ngaronga, whakanui i ou aroha i te wa e tiaki ana i a koe.</p>
+                    <a href="forms/grief.html" class="btn btn-primary">Tautoko</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#127769;</div>
+                    <h3>Hauora Moe</h3>
+                    <p>Nga huarahi whaiaro ki te whakapai i te kounga moe me te whakatakoto i nga tikanga moe hauora.</p>
+                    <a href="forms/sleep.html" class="btn btn-primary">Tautoko</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>He Aha Connect Clinic?</h2>
+                    <p>E matau ana matou me whakaae me whakaute te tautoko hinengaro i to tuakiri ahurea. Kei roto i to matou ropu nga kaiawhina whai mātauranga hohonu mo nga tikanga Pasifika.</p>
+                    <p>Ko te telehealth e korerotia ana ka taea e koe te whai whakamau atu i nga wahi katoa, i to waahi haumaru. Kaore he haere, kaore he ruma tatari—he hononga anake.</p>
+                    <a href="#services" class="btn btn-primary">Tirohia nga Ratonga</a>
+                </div>
+                <div class="about-features">
+                    <div class="feature">
+                        <div class="feature-icon">&#127760;</div>
+                        <div>
+                            <h4>Mātauranga Ahurea</h4>
+                            <p>Kaiawhina e whakaute ana me te matau ki to tuakiri</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">&#128187;</div>
+                        <div>
+                            <h4>Urunga Telehealth</h4>
+                            <p>Tiaki kounga mai i nga wahi katoa, kaore he haere</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">&#128100;</div>
+                        <div>
+                            <h4>Tiaki Whaiaro</h4>
+                            <p>Mahere whakamaimoa kia uru mai ki ou hiahia</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">&#128272;</div>
+                        <div>
+                            <h4>Muna & Haumaru</h4>
+                            <p>To muna me to whakapono ko te mea nui rawa atu</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-logo">Connect<span>Clinic</span></div>
+            <p>Tiaki hinengaro kavamani mo a matou hapori</p>
+            <div class="footer-links">
+                <a href="#services">Ratonga</a>
+                <a href="#about">E Pāpaku Ana</a>
+                <a href="mailto:hello@connectclinic.health">Whakapā</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Connect Clinic. Katoa nga tika e tiakina ana.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleLang() { document.getElementById('langDropdown').classList.toggle('active'); }
+        document.addEventListener('click', function(e) { if (!e.target.closest('.lang-selector')) { document.getElementById('langDropdown').classList.remove('active'); } });
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => { entries.forEach((entry, index) => { if (entry.isIntersecting) { setTimeout(() => { entry.target.classList.add('visible'); }, index * 100); } }); }, observerOptions);
+        document.querySelectorAll('.service-card, .feature').forEach(el => observer.observe(el));
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); });
+    </script>
+</body>
+</html>

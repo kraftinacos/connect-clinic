@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stress Management | Connect Clinic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-primary: #000; --bg-surface: #0a0a0a; --bg-card: #111; --gold: #e8c4a0; --text-primary: #fff; --text-secondary: #a0a0a0; --border: #222; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
+        .container { max-width: 640px; margin: 0 auto; padding: 0 24px; }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+        nav .container { display: flex; justify-content: space-between; align-items: center; height: 72px; }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; text-decoration: none; color: var(--text-primary); }
+        .logo span { color: var(--gold); }
+        .back-link { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; transition: color 0.3s; }
+        .back-link:hover { color: var(--gold); }
+        .form-header { padding: 120px 0 40px; text-align: center; }
+        .form-header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 600; margin-bottom: 12px; }
+        .form-header p { color: var(--text-secondary); font-size: 1rem; }
+        .progress-bar { display: flex; gap: 8px; justify-content: center; margin-top: 32px; }
+        .progress-step { width: 40px; height: 4px; background: var(--bg-card); border-radius: 2px; }
+        .progress-step.active { background: var(--gold); }
+        .form-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px; padding: 32px; margin-bottom: 24px; opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .form-section.visible { opacity: 1; transform: translateY(0); }
+        .form-section h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+        .form-section h2 .icon { width: 32px; height: 32px; background: var(--bg-surface); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+        .section-desc { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 24px; }
+        .form-group { margin-bottom: 24px; }
+        .form-group:last-child { margin-bottom: 0; }
+        label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 8px; color: var(--text-primary); }
+        label .required { color: var(--gold); margin-left: 4px; }
+        input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"], select, textarea {
+            width: 100%; padding: 12px 16px; background: var(--bg-surface); border: 1px solid var(--border);
+            border-radius: 2px; color: var(--text-primary); font-size: 0.95rem; font-family: 'Inter', sans-serif; transition: all 0.3s;
+        }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold); }
+        input::placeholder, textarea::placeholder { color: #555; }
+        textarea { min-height: 120px; resize: vertical; }
+        select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23a0a0a0' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+        .radio-group, .checkbox-group { display: flex; flex-direction: column; gap: 12px; }
+        .radio-item, .checkbox-item {
+            display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+            background: var(--bg-surface); border: 1px solid var(--border); border-radius: 2px;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .radio-item:hover, .checkbox-item:hover { border-color: var(--gold); }
+        .radio-item input, .checkbox-item input { width: 18px; height: 18px; accent-color: var(--gold); cursor: pointer; }
+        .radio-item label, .checkbox-item label { margin: 0; cursor: pointer; font-weight: 400; }
+        .conditional-field { display: none; margin-top: 16px; padding: 16px; background: rgba(232,196,160,0.05); border-left: 3px solid var(--gold); border-radius: 0 2px 2px 0; }
+        .conditional-field.show { display: block; }
+        .safety-alert { background: rgba(232,196,160,0.1); border: 1px solid var(--gold); border-radius: 2px; padding: 20px; margin-bottom: 24px; }
+        .safety-alert h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; margin-bottom: 8px; color: var(--gold); }
+        .safety-alert p { font-size: 0.9rem; color: var(--text-secondary); }
+        .safety-resources { margin-top: 16px; }
+        .safety-resource { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-surface); border-radius: 2px; margin-bottom: 8px; }
+        .safety-resource a { color: var(--gold); text-decoration: none; font-weight: 500; }
+        .safety-resource a:hover { text-decoration: underline; }
+        .form-actions { padding: 24px 0 60px; text-align: center; }
+        .btn { padding: 14px 32px; border-radius: 2px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: all 0.3s; cursor: pointer; border: none; }
+        .btn-primary { background: var(--gold); color: #000; }
+        .btn-primary:hover { background: #f0d4b0; transform: translateY(-2px); }
+        .btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border); margin-right: 12px; }
+        .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+        .submit-note { color: var(--text-secondary); font-size: 0.85rem; margin-top: 16px; }
+        footer { padding: 40px 0; text-align: center; border-top: 1px solid var(--border); }
+        footer p { color: var(--text-secondary); font-size: 0.85rem; }
+        @media (max-width: 480px) { .form-section { padding: 24px; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="../index.html" class="logo">Connect<span>Clinic</span></a>
+            <a href="../index.html" class="back-link">&#8592; Back to Home</a>
+        </div>
+    </nav>
+
+    <header class="form-header">
+        <div class="container">
+            <h1>Stress Management Assessment</h1>
+            <p>Understanding your stressors and finding your path to balance</p>
+            <div class="progress-bar">
+                <div class="progress-step active"></div>
+                <div class="progress-step"></div>
+                <div class="progress-step"></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" id="stressForm">
+                <input type="hidden" name="service" value="stress">
+                
+                <section class="form-section" data-section="1">
+                    <h2><span class="icon">&#128100;</span> About You</h2>
+                    <p class="section-desc">Basic information to help us understand your context</p>
+                    
+                    <div class="form-group">
+                        <label for="name">Full Name <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required placeholder="Your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required placeholder="your@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Your contact number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" name="age" min="16" max="100" placeholder="Your age">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Location / Timezone</label>
+                        <input type="text" id="location" name="location" placeholder="e.g., Auckland, NZ">
+                    </div>
+                </section>
+
+                <section class="form-section" data-section="2">
+                    <h2><span class="icon">&#127795;</span> Your Stress Experience</h2>
+                    <p class="section-desc">Tell us about what's causing stress in your life</p>
+                    
+                    <div class="form-group">
+                        <label>What are your main sources of stress? (Select all that apply)</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="source-1" name="stress_sources" value="Work">
+                                <label for="source-1">Work or career pressure</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="source-2" name="stress_sources" value="Financial">
+                                <label for="source-2">Financial concerns</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="source-3" name="stress_sources" value="Family">
+                                <label for="source-3">Family responsibilities</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="source-4" name="stress_sources" value="Relationships">
+                                <label for="source-4">Relationship difficulties</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="source-5" name="stress_sources" value="Health">
+                                <label for="source-5">Health concerns (yourself or family)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="source-6" name="stress_sources" value="Life changes">
+                                <label for="source-6">Major life changes</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="source-7" name="stress_sources" value="Cultural">
+                                <label for="source-7">Cultural expectations or obligations</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="source-8" name="stress_sources" value="Time">
+                                <label for="source-8">Lack of time or work-life balance</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>How long have you been experiencing significant stress? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="duration-1" name="duration" value="Recent" required>
+                                <label for="duration-1">Recently (within the last month)</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="duration-2" name="duration" value="Few months">
+                                <label for="duration-2">A few months</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="duration-3" name="duration" value="6-12 months">
+                                <label for="duration-3">6-12 months</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="duration-4" name="duration" value="Over a year">
+                                <label for="duration-4">Over a year</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="duration-5" name="duration" value="Ongoing">
+                                <label for="duration-5">Ongoing / chronic stress</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>How does stress manifest for you? (Select all that apply)</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="manifest-1" name="manifestations" value="Physical">
+                                <label for="manifest-1">Physical symptoms (headaches, muscle tension, fatigue)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="manifest-2" name="manifestations" value="Sleep">
+                                <label for="manifest-2">Sleep problems</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="manifest-3" name="manifestations" value="Mood">
+                                <label for="manifest-3">Irritability or mood changes</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="manifest-4" name="manifestations" value="Anxiety">
+                                <label for="manifest-4">Anxiety or worry</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="manifest-5" name="manifestations" value="Concentration">
+                                <label for="manifest-5">Difficulty concentrating</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="manifest-6" name="manifestations" value="Eating">
+                                <label for="manifest-6">Changes in eating habits</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="manifest-7" name="manifestations" value="Social">
+                                <label for="manifest-7">Withdrawing from social activities</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>How would you rate your current stress level? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="level-1" name="stress_level" value="Low" required>
+                                <label for="level-1">Low - Manageable, not significantly affecting life</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="level-2" name="stress_level" value="Moderate">
+                                <label for="level-2">Moderate - Some impact but coping</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="level-3" name="stress_level" value="High">
+                                <label for="level-3">High - Significant impact on daily life</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="level-4" name="stress_level" value="Severe">
+                                <label for="level-4">Severe - Feeling overwhelmed, struggling to cope</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="coping">What coping strategies have you tried?</label>
+                        <textarea id="coping" name="coping" placeholder="Exercise, meditation, talking to friends, etc. What has or hasn't worked?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="barriers">What barriers prevent you from managing stress effectively?</label>
+                        <textarea id="barriers" name="barriers" placeholder="Time constraints, resources, family obligations, etc."></textarea>
+                    </div>
+                </section>
+
+                <section class="form-section" data-section="3">
+                    <h2><span class="icon">&#128274;</span> Safety & Support Needs</h2>
+                    <p class="section-desc">Your safety is our priority</p>
+                    
+                    <div class="safety-alert">
+                        <h3>&#128712; Important Notice</h3>
+                        <p>If you're in immediate danger or crisis, please contact emergency services or crisis support lines right away.</p>
+                        <div class="safety-resources">
+                            <div class="safety-resource">
+                                <span>&#9742;</span>
+                                <a href="tel:111">Emergency Services: 111</a>
+                            </div>
+                            <div class="safety-resource">
+                                <span>&#9742;</span>
+                                <a href="tel:1737">Need to Talk: 1737</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Are you experiencing thoughts of harming yourself or others? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="safety-no" name="safety" value="No" required onclick="toggleSafety(false)">
+                                <label for="safety-no">No, I am safe</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="safety-yes" name="safety" value="Yes" onclick="toggleSafety(true)">
+                                <label for="safety-yes">Yes, I need immediate support</label>
+                            </div>
+                        </div>
+                        
+                        <div id="safety-warning" class="conditional-field">
+                            <p style="color: var(--gold); font-weight: 500; margin-bottom: 12px;">Your safety is important to us.</p>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">Please contact emergency services immediately. This form is not monitored 24/7.</p>
+                            <div class="form-group" style="margin-top: 16px;">
+                                <label>Would you still like to submit this form for follow-up care?</label>
+                                <div class="radio-group">
+                                    <div class="radio-item">
+                                        <input type="radio" id="submit-yes" name="submit_anyway" value="Yes">
+                                        <label for="submit-yes">Yes, I understand and want follow-up care</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" id="submit-no" name="submit_anyway" value="No">
+                                        <label for="submit-no">No, I'll seek immediate help first</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Do you have a support system? (Select all that apply)</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="support-1" name="support" value="Family">
+                                <label for="support-1">Supportive family members</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="support-2" name="support" value="Friends">
+                                <label for="support-2">Close friends</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="support-3" name="support" value="Community">
+                                <label for="support-3">Community or church group</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="support-4" name="support" value="Professional">
+                                <label for="support-4">Healthcare professional</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="support-5" name="support" value="None">
+                                <label for="support-5">Limited or no support currently</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Do you have any cultural preferences for your care provider?</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="culture-1" name="culture" value="Pacific">
+                                <label for="culture-1">Pacific cultural understanding</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="culture-2" name="culture" value="Māori">
+                                <label for="culture-2">Māori cultural understanding</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="culture-3" name="culture" value="Female">
+                                <label for="culture-3">Female clinician</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="culture-4" name="culture" value="Male">
+                                <label for="culture-4">Male clinician</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="culture-5" name="culture" value="Language">
+                                <label for="culture-5">Specific language needs</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goals">What would you like to achieve through stress management support?</label>
+                        <textarea id="goals" name="goals" placeholder="Better work-life balance, improved coping skills, physical health, etc."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="referral">How did you hear about Connect Clinic?</label>
+                        <select id="referral" name="referral">
+                            <option value="">Please select...</option>
+                            <option value="Family/Friend">Family or friend</option>
+                            <option value="Healthcare provider">Healthcare provider</option>
+                            <option value="Online search">Online search</option>
+                            <option value="Social media">Social media</option>
+                            <option value="Community">Community organisation</option>
+                            <option value="Work">Workplace/EAP</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </section>
+
+                <div class="form-actions">
+                    <a href="../index.html" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Submit Assessment</button>
+                    <p class="submit-note">Your information is confidential and secure. We'll respond within 48 hours.</p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Connect Clinic. Your privacy and wellbeing come first.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleSafety(show) {
+            document.getElementById('safety-warning').classList.toggle('show', show);
+        }
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, observerOptions);
+        document.querySelectorAll('.form-section').forEach(el => observer.observe(el));
+        document.getElementById('stressForm').addEventListener('submit', function(e) {
+            const safetyYes = document.getElementById('safety-yes').checked;
+            const submitAnyway = document.getElementById('submit-yes').checked;
+            if (safetyYes && !submitAnyway) {
+                e.preventDefault();
+                alert('Please seek immediate help from emergency services or crisis lines.');
+                return false;
+            }
+        });
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.form-section');
+            const steps = document.querySelectorAll('.progress-step');
+            let current = 0;
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight / 2) current = index;
+            });
+            steps.forEach((step, index) => { step.classList.toggle('active', index <= current); });
+        });
+    </script>
+</body>
+</html>
