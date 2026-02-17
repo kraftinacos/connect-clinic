@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinical Dashboard | Connect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;font-weight:300;background:#000;color:#fff;line-height:1.6;text-align:center}
+.container{display:flex;min-height:100vh}
+/* Sidebar */
+.sidebar{width:240px;background:#0a0a0a;border-right:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;position:fixed;height:100vh}
+.sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:#fff;padding:2rem 1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);text-align:left}
+.sidebar-nav{flex:1;padding:1.5rem 0}
+.sidebar-nav a{display:flex;align-items:center;gap:0.75rem;padding:0.875rem 1.5rem;color:#a0a0a0;text-decoration:none;font-size:0.9rem;transition:all 0.2s;text-align:left}
+.sidebar-nav a:hover,.sidebar-nav a.active{color:#fff;background:rgba(255,255,255,0.03)}
+.sidebar-nav a.active{border-left:2px solid #e8c4a0}
+.sidebar-footer{padding:1.5rem;border-top:1px solid rgba(255,255,255,0.08)}
+.sidebar-user{display:flex;align-items:center;gap:0.75rem;text-align:left}
+.sidebar-user-name{font-size:0.9rem;color:#fff}
+.sidebar-user-role{font-size:0.75rem;color:#666}
+/* Main Content */
+.main{flex:1;margin-left:240px;padding:2rem}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,0.08)}
+.header-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;color:#fff}
+.header-date{font-size:0.85rem;color:#a0a0a0}
+/* Dashboard Grid */
+.dashboard-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.card{background:#111;border:1px solid rgba(255,255,255,0.08);border-radius:2px;padding:1.5rem;text-align:left}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid rgba(255,255,255,0.08)}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;color:#fff}
+.card-status{font-size:0.75rem;padding:0.25rem 0.75rem;border-radius:2px;background:rgba(232,196,160,0.1);color:#e8c4a0}
+.card-status.high{background:rgba(229,115,115,0.1);color:#e57373}
+.card-status.low{background:rgba(45,212,191,0.1);color:#2dd4bf}
+/* Card Content */
+.card-row{display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.card-row:last-child{border-bottom:none}
+.card-label{font-size:0.8rem;color:#666}
+.card-value{font-size:0.9rem;color:#fff}
+.card-value.highlight{color:#e8c4a0}
+/* Medications */
+.med-item{display:flex;justify-content:space-between;align-items:center;padding:0.75rem 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.med-item:last-child{border-bottom:none}
+.med-info{text-align:left}
+.med-name{font-size:0.9rem;color:#fff}
+.med-dose{font-size:0.75rem;color:#666}
+.med-time{font-size:0.8rem;color:#a0a0a0}
+/* Notes */
+.notes-area{width:100%;min-height:120px;background:#0a0a0a;border:1px solid rgba(255,255,255,0.08);border-radius:2px;padding:1rem;color:#fff;font-family:'Inter',sans-serif;font-size:0.85rem;resize:vertical}
+.notes-area:focus{border-color:#e8c4a0;outline:none}
+/* Safety Plan */
+.safety-item{padding:0.75rem 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.safety-item:last-child{border-bottom:none}
+.safety-title{font-size:0.85rem;color:#e8c4a0;margin-bottom:0.25rem}
+.safety-text{font-size:0.8rem;color:#a0a0a0}
+/* Appointments */
+.appt-item{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.appt-item:last-child{border-bottom:none}
+.appt-time{min-width:60px;text-align:left}
+.appt-time-hour{font-size:1rem;color:#fff;font-weight:500}
+.appt-time-ampm{font-size:0.7rem;color:#666}
+.appt-info{flex:1;text-align:left}
+.appt-name{font-size:0.9rem;color:#fff}
+.appt-type{font-size:0.75rem;color:#666}
+.appt-status{font-size:0.7rem;padding:0.2rem 0.5rem;border-radius:2px;background:rgba(45,212,191,0.1);color:#2dd4bf}
+/* Responsive */
+@media(max-width:1024px){.dashboard-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.sidebar{width:100%;position:relative;height:auto}.main{margin-left:0}.container{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="container">
+<!-- Sidebar -->
+<aside class="sidebar">
+<div class="sidebar-logo">Connect</div>
+<nav class="sidebar-nav">
+<a href="#" class="active">Dashboard</a>
+<a href="#">Patients</a>
+<a href="#">Schedule</a>
+<a href="#">Notes</a>
+<a href="#">Settings</a>
+</nav>
+<div class="sidebar-footer">
+<div class="sidebar-user">
+<div>
+<div class="sidebar-user-name">Dr. Francis Katoa</div>
+<div class="sidebar-user-role">Clinical Lead</div>
+</div>
+</div>
+</div>
+</aside>
+
+<!-- Main Content -->
+<main class="main">
+<div class="header">
+<h1 class="header-title">Clinical Dashboard</h1>
+<span class="header-date">Tuesday, February 17, 2026</span>
+</div>
+
+<div class="dashboard-grid">
+<!-- Clinical Summary -->
+<div class="card">
+<div class="card-header">
+<h2 class="card-title">Clinical Summary</h2>
+<span class="card-status">Active</span>
+</div>
+<div class="card-row">
+<span class="card-label">Patient</span>
+<span class="card-value">Alex Chen, 24</span>
+</div>
+<div class="card-row">
+<span class="card-label">Primary Diagnosis</span>
+<span class="card-value highlight">Generalized Anxiety Disorder</span>
+</div>
+<div class="card-row">
+<span class="card-label">Secondary</span>
+<span class="card-value">Mild Depression</span>
+</div>
+<div class="card-row">
+<span class="card-label">Sessions Completed</span>
+<span class="card-value">4 of 6</span>
+</div>
+<div class="card-row">
+<span class="card-label">Last Session</span>
+<span class="card-value">February 10, 2026</span>
+</div>
+</div>
+
+<!-- Risk Assessment -->
+<div class="card">
+<div class="card-header">
+<h2 class="card-title">Risk Assessment</h2>
+<span class="card-status low">Low Risk</span>
+</div>
+<div class="card-row">
+<span class="card-label">Suicide Risk</span>
+<span class="card-value">None identified</span>
+</div>
+<div class="card-row">
+<span class="card-label">Self-Harm</span>
+<span class="card-value">No history</span>
+</div>
+<div class="card-row">
+<span class="card-label">Substance Use</span>
+<span class="card-value">Social alcohol use</span>
+</div>
+<div class="card-row">
+<span class="card-label">Protective Factors</span>
+<span class="card-value">Strong family support</span>
+</div>
+<div class="card-row">
+<span class="card-label">Last Assessment</span>
+<span class="card-value">February 10, 2026</span>
+</div>
+</div>
+
+<!-- Medications -->
+<div class="card">
+<div class="card-header">
+<h2 class="card-title">Medications</h2>
+<span class="card-status">Active</span>
+</div>
+<div class="med-item">
+<div class="med-info">
+<div class="med-name">Sertraline</div>
+<div class="med-dose">50mg daily</div>
+</div>
+<div class="med-time">Morning</div>
+</div>
+<div class="med-item">
+<div class="med-info">
+<div class="med-name">Propranolol</div>
+<div class="med-dose">10mg as needed</div>
+</div>
+<div class="med-time">PRN</div>
+</div>
+</div>
+
+<!-- Session Notes -->
+<div class="card">
+<div class="card-header">
+<h2 class="card-title">Session Notes</h2>
+<span class="card-status">Editable</span>
+</div>
+<p style="font-size:0.8rem;color:#666;margin-bottom:0.75rem">Last updated: Feb 10, 2026</p>
+<textarea class="notes-area" placeholder="Enter session notes here...">Patient reports improved sleep hygiene. Anxiety symptoms decreased by 30% per GAD-7. Continuing CBT techniques. Next session: exposure hierarchy work.</textarea>
+</div>
+
+<!-- Safety Planning -->
+<div class="card">
+<div class="card-header">
+<h2 class="card-title">Safety Planning</h2>
+<span class="card-status low">Complete</span>
+</div>
+<div class="safety-item">
+<div class="safety-title">Warning Signs</div>
+<div class="safety-text">Increased worry, sleep disruption, social withdrawal</div>
+</div>
+<div class="safety-item">
+<div class="safety-title">Coping Strategies</div>
+<div class="safety-text">Box breathing, grounding techniques, walking</div>
+</div>
+<div class="safety-item">
+<div class="safety-title">Support Contacts</div>
+<div class="safety-text">Mum (Jane), flatmate (Sam), GP (Dr. Smith)</div>
+</div>
+<div class="safety-item">
+<div class="safety-title">Emergency</div>
+<div class="safety-text">Crisis team: 1737 | Emergency: 111</div>
+</div>
+</div>
+
+<!-- Upcoming Appointments -->
+<div class="card">
+<div class="card-header">
+<h2 class="card-title">Upcoming Appointments</h2>
+<span class="card-status">Today</span>
+</div>
+<div class="appt-item">
+<div class="appt-time">
+<div class="appt-time-hour">10:00</div>
+<div class="appt-time-ampm">AM</div>
+</div>
+<div class="appt-info">
+<div class="appt-name">Alex Chen</div>
+<div class="appt-type">Follow-up Session</div>
+</div>
+<span class="appt-status">Confirmed</span>
+</div>
+<div class="appt-item">
+<div class="appt-time">
+<div class="appt-time-hour">2:00</div>
+<div class="appt-time-ampm">PM</div>
+</div>
+<div class="appt-info">
+<div class="appt-name">Mele Havea</div>
+<div class="appt-type">Initial Assessment</div>
+</div>
+<span class="appt-status">Confirmed</span>
+</div>
+<div class="appt-item">
+<div class="appt-time">
+<div class="appt-time-hour">4:30</div>
+<div class="appt-time-ampm">PM</div>
+</div>
+<div class="appt-info">
+<div class="appt-name">Jordan Williams</div>
+<div class="appt-type">Safety Review</div>
+</div>
+<span class="appt-status">Pending</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body>
+</html>
