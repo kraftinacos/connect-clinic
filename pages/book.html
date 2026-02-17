@@ -1,0 +1,166 @@
+<!-- Booking Page -->
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title">Book a Consultation</h1>
+        <p class="page-subtitle">Take the first step towards better mental health</p>
+    </div>
+</section>
+
+<section class="content-section">
+    <div class="container">
+        <div class="booking-form-container">
+            <form id="booking-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                
+                <div class="form-section">
+                    <h3 class="form-section-title">Which service are you interested in?</h3>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="service" value="adhd-assessment" required>
+                            <span class="radio-text">ADHD Assessment (3 sessions, $1,200)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="service" value="anxiety-support">
+                            <span class="radio-text">Anxiety Support (6 weeks, $900)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="service" value="depression-support">
+                            <span class="radio-text">Depression Support (6 weeks, $900)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="service" value="general-consult">
+                            <span class="radio-text">General Consultation ($200)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="service" value="unsure">
+                            <span class="radio-text">Not sure - help me decide</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="form-section-title">Your Details</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first-name">First Name *</label>
+                            <input type="text" id="first-name" name="first-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Last Name *</label>
+                            <input type="text" id="last-name" name="last-name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dob">Date of Birth *</label>
+                        <input type="date" id="dob" name="dob" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="form-section-title">Tell us about your situation</h3>
+                    
+                    <div class="form-group">
+                        <label for="reason">Tell us briefly what's going on *</label>
+                        <textarea id="reason" name="reason" rows="5" placeholder="Please share a brief description of what you're experiencing and what you're hoping to get help with..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Are you currently seeing a GP? *</label>
+                        <div class="radio-group inline">
+                            <label class="radio-label">
+                                <input type="radio" name="has-gp" value="yes" required>
+                                <span class="radio-text">Yes</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="has-gp" value="no">
+                                <span class="radio-text">No</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Are you under 18? *</label>
+                        <div class="radio-group inline">
+                            <label class="radio-label">
+                                <input type="radio" name="under-18" value="yes" required>
+                                <span class="radio-text">Yes</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="under-18" value="no">
+                                <span class="radio-text">No</span>
+                            </label>
+                        </div>
+                        <p class="form-note">Note: Our services are for adults 18 and over. If you're under 18, please speak with your GP or school counsellor about youth mental health services.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="referral">How did you hear about us?</label>
+                        <select id="referral" name="referral">
+                            <option value="">Please select...</option>
+                            <option value="google">Google search</option>
+                            <option value="social-media">Social media</option>
+                            <option value="gp-referral">GP referral</option>
+                            <option value="friend-family">Friend or family</option>
+                            <option value="advertisement">Advertisement</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="form-section-title">Availability</h3>
+                    <div class="form-group">
+                        <label for="availability">What days/times generally work best for you?</label>
+                        <textarea id="availability" name="availability" rows="3" placeholder="e.g., Tuesday afternoons, weekday evenings..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-lg">Submit Booking Request</button>
+                </div>
+                
+                <div class="privacy-note">
+                    <p>By submitting this form, you agree to our privacy policy. Your information will be handled confidentially and used only to process your booking request.</p>
+                </div>
+            </form>
+        </div>
+        
+        <div class="pricing-info">
+            <h3>Pricing Information</h3>
+            <div class="pricing-table">
+                <div class="pricing-row">
+                    <span class="pricing-service">General Consultation (50 min)</span>
+                    <span class="pricing-amount">$200</span>
+                </div>
+                <div class="pricing-row">
+                    <span class="pricing-service">ADHD Assessment (3 sessions)</span>
+                    <span class="pricing-amount">$1,200</span>
+                </div>
+                <div class="pricing-row">
+                    <span class="pricing-service">Anxiety Support (6 weeks)</span>
+                    <span class="pricing-amount">$900</span>
+                </div>
+                <div class="pricing-row">
+                    <span class="pricing-service">Depression Support (6 weeks)</span>
+                    <span class="pricing-amount">$900</span>
+                </div>
+            </div>
+            <div class="pricing-notes">
+                <p><strong>Payment:</strong> Payment is required at the time of booking to secure your appointment. We accept bank transfer and major credit cards.</p>
+                <p><strong>Cancellation:</strong> Cancellations made with less than 24 hours notice may incur a fee.</p>
+                <p><strong>Insurance:</strong> We do not currently bulk bill. You may be able to claim a portion back through your health insurance - please check with your provider.</p>
+            </div>
+        </div>
+    </div>
+</section>

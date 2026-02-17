@@ -1,281 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connect Clinic — Premium Mental Health Care</title>
-  <meta name="description" content="Connect Clinic — culturally grounded virtual mental health care for young Pacific and Māori adults aged 18-30 in Aotearoa New Zealand.">
-  <meta property="og:title" content="Connect Clinic — Premium Mental Health Care">
-  <meta property="og:description" content="Structured six-week, outcome-measured psychological care. No waitlist.">
-  <meta property="og:type" content="website">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#0B1D3A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="CONNECT - Pacific-led mental health care in Aotearoa. ADHD, anxiety, depression assessments and treatment.">
+    
+    <title>CONNECT</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Preload key resources -->
+    <link rel="preload" href="pages/home.html" as="fetch" crossorigin>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="#" class="logo">Connect Clinic</a>
-      <div class="nav-links">
-        <a href="#pathways">Pathways</a>
-        <a href="#outcomes">Outcomes</a>
-        <a href="#about">About</a>
-        <a href="#book" class="nav-cta">Book now</a>
-      </div>
-    </div>
-  </nav>
+    <!-- App Container -->
+    <div id="app">
+        <!-- Desktop Header Navigation -->
+        <header class="desktop-nav" role="banner">
+            <div class="nav-container">
+                <a href="/" class="logo" data-link>
+                    <span class="logo-icon">◉</span>
+                    <span class="logo-text">CONNECT</span>
+                </a>
+                <nav class="desktop-menu" role="navigation" aria-label="Main navigation">
+                    <a href="/" class="nav-link" data-link>Home</a>
+                    <a href="/adhd" class="nav-link" data-link>ADHD</a>
+                    <a href="/anxiety" class="nav-link" data-link>Anxiety</a>
+                    <a href="/depression" class="nav-link" data-link>Depression</a>
+                    <a href="/about" class="nav-link" data-link>About</a>
+                    <a href="/faq" class="nav-link" data-link>FAQ</a>
+                    <a href="/book" class="nav-link nav-cta" data-link>Book Now</a>
+                </nav>
+            </div>
+        </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-gradient"></div>
-    <div class="hero-content">
-      <h1 class="hero-title">
-        <span class="reveal-text">Our health system</span>
-        <span class="reveal-text gold">wasn't built</span>
-        <span class="reveal-text">to effectively manage your issues.</span>
-      </h1>
-      <p class="hero-subtitle reveal-fade">
-        We are. Virtual mental health for young Pasifika and Māori. Structured six-week pathways.
-        Outcome-measured. Just care that actually understands.
-      </p>
-      <div class="hero-cta reveal-fade">
-        <a href="#book" class="btn-primary">Start your journey</a>
-        <a href="#pathways" class="btn-secondary">Explore pathways</a>
-      </div>
-      <div class="hero-stats glass-card reveal-fade">
-        <div class="stat">
-          <span class="stat-number">100%</span>
-          <span class="stat-label">follow-up rate</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-number">6</span>
-          <span class="stat-label">weeks structured</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-number">172+</span>
-          <span class="stat-label">patients helped</span>
-        </div>
-      </div>
-    </div>
-  </section>
+        <!-- Main Content Area -->
+        <main id="content" role="main" aria-live="polite">
+            <!-- Content loaded dynamically via JavaScript -->
+        </main>
 
-  <!-- Pathways -->
-  <section id="pathways" class="pathways">
-    <div class="section-header">
-      <span class="section-label reveal-fade">Clinical pathways</span>
-      <h2 class="section-title reveal-fade">Structured care that works.</h2>
-      <p class="section-subtitle reveal-fade">
-        Six-week, outcome-measured interventions. Not open-ended therapy. 
-        Specific targets. Clear progress. Real results.
-      </p>
+        <!-- Mobile Bottom Tab Navigation -->
+        <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
+            <a href="/" class="tab-item" data-link aria-label="Home">
+                <span class="tab-icon">⌂</span>
+                <span class="tab-label">Home</span>
+            </a>
+            <a href="/adhd" class="tab-item" data-link aria-label="ADHD">
+                <span class="tab-icon">◎</span>
+                <span class="tab-label">ADHD</span>
+            </a>
+            <a href="/book" class="tab-item tab-cta" data-link aria-label="Book">
+                <span class="tab-icon">+</span>
+                <span class="tab-label">Book</span>
+            </a>
+            <a href="/about" class="tab-item" data-link aria-label="About">
+                <span class="tab-icon">◉</span>
+                <span class="tab-label">About</span>
+            </a>
+            <a href="/faq" class="tab-item" data-link aria-label="FAQ">
+                <span class="tab-icon">?</span>
+                <span class="tab-label">FAQ</span>
+            </a>
+        </nav>
     </div>
 
-    <div class="pathway-grid">
-      <div class="pathway-card glass-card reveal-up">
-        <div class="pathway-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-          </svg>
-        </div>
-        <h3>ADHD Assessment</h3>
-        <p class="pathway-desc">
-          We know mainstream services overlook Pacific and Māori adults. We don't.
-          Validated screening plus holistic life context review — because your story matters.
-        </p>
-        <ul class="pathway-details">
-          <li>6 sessions over 6 weeks</li>
-          <li>$180 per session</li>
-          <li>Clinical diagnosis & management plan</li>
-        </ul>
-        <a href="#book" class="pathway-cta">Book assessment →</a>
-      </div>
-
-      <div class="pathway-card glass-card reveal-up" style="transition-delay: 0.1s">
-        <div class="pathway-icon teal">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"/>
-            <circle cx="12" cy="12" r="4"/>
-          </svg>
-        </div>
-        <h3>Anxiety Support</h3>
-        <p class="pathway-desc">
-          Culturally grounded CBT-based intervention. We give you practical tools,
-          measure your progress, and deliver real outcomes — not just talk.
-        </p>
-        <ul class="pathway-details">
-          <li>6 sessions over 6 weeks</li>
-          <li>$150 per session</li>
-          <li>GAD-7 tracking every session</li>
-        </ul>
-        <a href="#book" class="pathway-cta">Book anxiety support →</a>
-      </div>
-
-      <div class="pathway-card glass-card reveal-up" style="transition-delay: 0.2s">
-        <div class="pathway-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="12" cy="12" r="5"/>
-            <line x1="12" y1="1" x2="12" y2="3"/>
-            <line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/>
-            <line x1="21" y1="12" x2="23" y2="12"/>
-          </svg>
-        </div>
-        <h3>Depression & Low Mood</h3>
-        <p class="pathway-desc">
-          We intervene early — before crisis. Brief structured psychological care
-          with outcome tracking at every session. Here when you need us.
-        </p>
-        <ul class="pathway-details">
-          <li>6 sessions over 6 weeks</li>
-          <li>$150 per session</li>
-          <li>PHQ-9 tracking every session</li>
-        </ul>
-        <a href="#book" class="pathway-cta">Book depression support →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Outcomes -->
-  <section id="outcomes" class="outcomes">
-    <div class="outcomes-gradient"></div>
-    <div class="section-header">
-      <span class="section-label reveal-fade">Proof of concept</span>
-      <h2 class="section-title reveal-fade">The pilot worked.</h2>
+    <!-- Offline Indicator -->
+    <div id="offline-indicator" class="offline-indicator" role="status" aria-live="polite">
+        <span>You're offline. Some features may be limited.</span>
     </div>
 
-    <div class="outcomes-content">
-      <div class="outcome-card glass-card reveal-up">
-        <span class="outcome-number counter" data-target="172">0</span>
-        <span class="outcome-label">Patients helped</span>
-        <span class="outcome-meta">Aotearoa wide</span>
-      </div>
-
-      <div class="outcome-card glass-card reveal-up" style="transition-delay: 0.1s">
-        <span class="outcome-number">100%</span>
-        <span class="outcome-label">Follow-up rate</span>
-        <span class="outcome-meta">Full completion</span>
-      </div>
-
-      <div class="outcome-card glass-card reveal-up" style="transition-delay: 0.2s">
-        <span class="outcome-number green">↓</span>
-        <span class="outcome-label">Clinically significant</span>
-        <span class="outcome-meta">PHQ-9, GAD-7, K10 improvement</span>
-      </div>
-    </div>
-
-    <div class="impact-stats glass-card reveal-fade">
-      <div class="impact-stat">
-        <span class="impact-number">100%</span>
-        <span class="impact-label">Remote accessible</span>
-        <span class="impact-desc">Virtual care, anywhere in Aotearoa</span>
-      </div>
-      <div class="impact-divider"></div>
-      <div class="impact-stat">
-        <span class="impact-number">6</span>
-        <span class="impact-label">Weeks</span>
-        <span class="impact-desc">Structured, outcome-measured</span>
-      </div>
-      <div class="impact-divider"></div>
-      <div class="impact-stat">
-        <span class="impact-number">100%</span>
-        <span class="impact-label">Follow-up rate</span>
-        <span class="impact-desc">Full pathway completion</span>
-      </div>
-    </div>
-
-    <div class="outcomes-quote glass-card reveal-fade">
-      <p>"Our health system leaves a gap between 15-minute GP consults and overloaded secondary services. That's exactly where young Pacific and Māori people fall through. We're here to catch them."</p>
-      <span class="quote-author">— Dr Francis Katoa, Clinical Director</span>
-    </div>
-  </section>
-
-  <!-- About -->
-  <section id="about" class="about">
-    <div class="about-content">
-      <div class="about-text">
-        <span class="section-label reveal-fade">Founded by</span>
-        <h2 class="section-title reveal-fade">Dr Francis Katoa</h2>
-        <p class="reveal-fade">
-          I'm a RNZCGP Fellow and GP. Raised in a traditional Tongan household
-          in South Auckland. I've spent my career in communities where access to mental health care
-          is hardest to find — and where the need is greatest.
-        </p>
-        <p class="reveal-fade">
-          I built Connect Clinic because I got tired of watching young Pacific and Māori people
-          fall through the cracks of a health system that wasn't built to effectively manage their issues.
-          We're changing that.
-        </p>
-        <div class="credentials reveal-fade">
-          <span>GP Fellow (RNZCGP)</span>
-          <span>Certificate in Youth & Adolescent Mental Health</span>
-          <span>Clinical Skills Tutor, University of Auckland</span>
-        </div>
-      </div>
-      <div class="about-image reveal-up">
-        <div class="image-frame glass-card">
-          <img src="images/dr-katoa.jpeg" alt="Dr Francis Katoa">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Book -->
-  <section id="book" class="book">
-    <div class="book-content">
-      <span class="section-label reveal-fade">Start today</span>
-      <h2 class="section-title reveal-fade">Ready when you are.</h2>
-      <p class="section-subtitle reveal-fade">
-        No GP referral needed for self-referral. No waitlist. 
-        Book a consultation and start your six-week pathway this week.
-      </p>
-      
-      <div class="book-options">
-        <a href="mailto:connect@pasifikarise.nz?subject=Booking%20Enquiry" class="book-card glass-card reveal-up">
-          <span class="book-icon">✉</span>
-          <h3>Email to book</h3>
-          <p>connect@pasifikarise.nz</p>
-        </a>
-        
-        <div class="book-card glass-card reveal-up" style="transition-delay: 0.1s">
-          <span class="book-icon">📞</span>
-          <h3>Call us</h3>
-          <p>Contact via email for phone consultation</p>
-        </div>
-      </div>
-
-      <div class="crisis-banner reveal-fade">
-        <span class="crisis-icon">⚠</span>
-        <p>Need immediate support? Call or text <strong>1737</strong> — free, 24/7, Aotearoa New Zealand</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-brand">
-        <span class="footer-logo">Connect Clinic</span>
-        <p>A service of Pasifika Rise Limited</p>
-      </div>
-      <div class="footer-links">
-        <a href="#pathways">Pathways</a>
-        <a href="#outcomes">Outcomes</a>
-        <a href="#about">About</a>
-        <a href="#book">Book</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>Virtual mental health care for young Pasifika and Māori in Aotearoa</p>
-      <p class="footer-pepeha">Made in Tāmaki Makaurau for our communities</p>
-    </div>
-  </footer>
-
-  <script src="js/app.js"></script>
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script>
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('SW registration failed:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>

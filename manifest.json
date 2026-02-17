@@ -1,0 +1,62 @@
+{
+  "name": "CONNECT",
+  "short_name": "CONNECT",
+  "description": "Pacific-led mental health care in Aotearoa - ADHD, anxiety, depression assessments and treatment",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F4F0",
+  "theme_color": "#0B1D3A",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["health", "medical", "wellness"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Connect Clinic Mobile View"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Connect Clinic Desktop View"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Book Appointment",
+      "short_name": "Book",
+      "description": "Book a consultation with Connect Clinic",
+      "url": "/book",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "ADHD Assessment",
+      "short_name": "ADHD",
+      "description": "Learn about ADHD assessment and treatment",
+      "url": "/adhd",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
