@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connect Clinic — Clinician Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit',sans-serif;background:#000;color:#F5F5F5;min-height:100vh;-webkit-font-smoothing:antialiased}
+.container{max-width:900px;margin:0 auto;padding:24px 20px 60px}
+h1,h2,h3{font-family:'DM Serif Display',serif}
+.auth-gate{text-align:center;padding-top:100px}
+.auth-gate h1{font-size:28px;margin-bottom:8px}
+.auth-gate p{color:rgba(255,255,255,0.3);margin-bottom:32px;font-size:14px}
+.auth-input{width:100%;max-width:300px;padding:14px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;color:#F5F5F5;font-family:'Outfit',sans-serif;font-size:15px;outline:none;text-align:center;margin-bottom:16px}
+.auth-input:focus{border-color:rgba(196,149,106,0.5)}
+.btn{padding:12px 32px;border-radius:100px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s}
+.btn-gold{background:#C4956A;color:#000}
+.btn-gold:hover{background:#d4a57a}
+.admin-header{display:flex;justify-content:space-between;align-items:center;padding:20px 0 24px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:24px}
+.admin-header h1{font-size:22px}
+.header-right{display:flex;gap:12px;align-items:center}
+.stat-pill{padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600}
+.stat-pill.patients{background:rgba(196,149,106,0.1);color:#C4956A}
+.stat-pill.flagged{background:rgba(212,114,106,0.1);color:#D4726A}
+.stat-pill.today{background:rgba(26,107,90,0.1);color:#1A6B5A}
+.tabs{display:flex;gap:4px;margin-bottom:24px;background:rgba(255,255,255,0.03);border-radius:12px;padding:4px}
+.tab{flex:1;text-align:center;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.4);cursor:pointer;transition:all 0.2s}
+.tab.active{background:rgba(196,149,106,0.1);color:#C4956A}
+.tab:hover{color:rgba(255,255,255,0.6)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.patient-row{display:flex;align-items:center;padding:16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:14px;margin-bottom:8px;cursor:pointer;transition:all 0.2s;gap:16px}
+.patient-row:hover{border-color:rgba(196,149,106,0.2);background:rgba(255,255,255,0.03)}
+.patient-row.flagged{border-left:3px solid #D4726A}
+.p-name{font-weight:600;font-size:15px;flex:1}
+.p-service{font-size:12px;color:rgba(255,255,255,0.35);padding:4px 10px;background:rgba(255,255,255,0.04);border-radius:100px}
+.p-session{font-size:12px;color:rgba(255,255,255,0.35)}
+.p-score{font-size:13px;font-weight:600;min-width:50px;text-align:center}
+.p-flag{font-size:14px;min-width:24px;text-align:center}
+.p-date{font-size:12px;color:rgba(255,255,255,0.25);min-width:80px;text-align:right}
+.detail-panel{display:none;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:24px;margin-bottom:20px}
+.detail-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.detail-name{font-family:'DM Serif Display',serif;font-size:24px}
+.detail-meta{font-size:13px;color:rgba(255,255,255,0.4);margin-top:4px}
+.detail-close{padding:8px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:100px;font-size:12px;color:rgba(255,255,255,0.3);cursor:pointer;background:none;font-family:'Outfit',sans-serif}
+.detail-section{margin-bottom:20px}
+.detail-section h4{font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.detail-item{padding:10px 14px;background:rgba(255,255,255,0.02);border-radius:10px}
+.detail-item .d-label{font-size:11px;color:rgba(255,255,255,0.25);margin-bottom:2px}
+.detail-item .d-value{font-size:14px}
+.concern-box{background:rgba(255,255,255,0.02);border-left:3px solid #C4956A;border-radius:0 12px 12px 0;padding:16px;margin-bottom:16px}
+.concern-box p{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.6;font-style:italic}
+.safety-banner{background:rgba(212,114,106,0.1);border:1px solid rgba(212,114,106,0.3);border-left:4px solid #D4726A;border-radius:12px;padding:16px;margin-bottom:16px}
+.safety-banner p{color:#D4726A;font-weight:600;font-size:14px}
+.trajectory{display:flex;gap:12px;flex-wrap:wrap}
+.traj-point{text-align:center;padding:12px 16px;background:rgba(255,255,255,0.02);border-radius:12px;min-width:80px}
+.traj-point .t-session{font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:4px}
+.traj-point .t-score{font-size:20px;font-weight:600}
+.traj-point .t-label{font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px}
+.today-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:20px;margin-bottom:12px}
+.today-time{font-size:13px;color:#C4956A;font-weight:600;margin-bottom:4px}
+.today-patient{font-size:16px;font-weight:600;margin-bottom:4px}
+.today-meta{font-size:13px;color:rgba(255,255,255,0.35)}
+.today-actions{display:flex;gap:8px;margin-top:12px}
+.today-actions .btn-sm{padding:8px 16px;border-radius:100px;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,0.08);background:none;color:rgba(255,255,255,0.5);cursor:pointer;font-family:'Outfit',sans-serif}
+.today-actions .btn-sm:hover{border-color:rgba(196,149,106,0.3);color:#C4956A}
+.today-actions .btn-sm.primary{background:rgba(196,149,106,0.1);border-color:rgba(196,149,106,0.2);color:#C4956A}
+.agg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:24px}
+.agg-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:20px;text-align:center}
+.agg-num{font-family:'DM Serif Display',serif;font-size:32px;margin-bottom:4px}
+.agg-label{font-size:12px;color:rgba(255,255,255,0.3)}
+@media(max-width:640px){ .detail-grid{grid-template-columns:1fr} .patient-row{flex-wrap:wrap;gap:8px} .agg-grid{grid-template-columns:1fr 1fr} }
+</style>
+</head>
+<body>
+<div class="container">
+<!-- AUTH GATE -->
+<div class="auth-gate" id="authGate">
+<h1>Connect Clinic</h1>
+<p>Clinician Dashboard</p>
+<div>
+<input type="password" class="auth-input" id="authPassword" placeholder="Password" onkeyup="if(event.key==='Enter')authLogin()">
+</div>
+<button class="btn btn-gold" onclick="authLogin()">Sign In</button>
+</div>
+<!-- ADMIN DASHBOARD -->
+<div id="adminDash" style="display:none">
+<div class="admin-header">
+<h1>Dashboard</h1>
+<div class="header-right">
+<span class="stat-pill today" id="statToday">0 today</span>
+<span class="stat-pill patients" id="statPatients">0 active</span>
+<span class="stat-pill flagged" id="statFlagged" style="display:none">0 flagged</span>
+</div>
+</div>
+<!-- TABS -->
+<div class="tabs">
+<div class="tab active" onclick="switchTab('today')">Today</div>
+<div class="tab" onclick="switchTab('patients')">Patients</div>
+<div class="tab" onclick="switchTab('outcomes')">Outcomes</div>
+</div>
+<!-- TAB: TODAY -->
+<div class="tab-content active" id="tabToday">
+<div id="todaySessions">
+<div class="today-card">
+<div class="today-time">9:00 AM</div>
+<div class="today-patient">Alex Chen</div>
+<div class="today-meta">Anxiety · Session 3 of 6 · PHQ-9: 12 ↓ · GAD-7: 13 ↓</div>
+<div class="today-actions">
+<button class="btn-sm primary" onclick="openBrief('alex')">Pre-Consult Brief</button>
+<button class="btn-sm" onclick="openSOAP('alex',3)">Open SOAP Note</button>
+<button class="btn-sm">Start Video</button>
+</div>
+</div>
+<div class="today-card" style="border-left:3px solid #D4726A">
+<div class="today-time">10:00 AM</div>
+<div class="today-patient">⚠️ Jordan Williams</div>
+<div class="today-meta">Depression · Session 1 of 6 · PHQ-9: 22 · Safety flagged</div>
+<div class="today-actions">
+<button class="btn-sm primary" onclick="openBrief('jordan')">Pre-Consult Brief</button>
+<button class="btn-sm" onclick="openSOAP('jordan',1)">Open SOAP Note</button>
+<button class="btn-sm">Start Video</button>
+</div>
+</div>
+<div class="today-card">
+<div class="today-time">11:00 AM</div>
+<div class="today-patient">Mele Havea</div>
+<div class="today-meta">ADHD Assessment · Session 2 of 6 · ASRS: 18 · PHQ-9: 18</div>
+<div class="today-actions">
+<button class="btn-sm primary" onclick="openBrief('mele')">Pre-Consult Brief</button>
+<button class="btn-sm" onclick="openSOAP('mele',2)">Open SOAP Note</button>
+<button class="btn-sm">Start Video</button>
+</div>
+</div>
+</div>
+</div>
+<!-- TAB: PATIENTS -->
+<div class="tab-content" id="tabPatients">
+<div class="detail-panel" id="detailPanel">
+<div class="detail-header">
+<div>
+<div class="detail-name" id="detailName">Patient Name</div>
+<div class="detail-meta" id="detailMeta">Service · Session X of 6</div>
+</div>
+<button class="detail-close" onclick="closeDetail()">Close</button>
+</div>
+<div id="detailSafety"></div>
+<div class="detail-section">
+<h4>Presenting Concern</h4>
+<div class="concern-box"><p id="detailConcern">—</p></div>
+</div>
+<div class="detail-section">
+<h4>Scores</h4>
+<div class="trajectory" id="detailTrajectory"></div>
+</div>
+<div class="detail-section">
+<h4>Details</h4>
+<div class="detail-grid" id="detailGrid"></div>
+</div>
+<div style="display:flex;gap:8px;margin-top:16px">
+<button class="btn-sm primary" id="detailBriefBtn">Pre-Consult Brief</button>
+<button class="btn-sm" id="detailSOAPBtn">Current SOAP Note</button>
+<button class="btn-sm" id="detailSummaryBtn">Send Summary</button>
+</div>
+</div>
+<div id="patientList"></div>
+</div>
+<!-- TAB: OUTCOMES -->
+<div class="tab-content" id="tabOutcomes">
+<div class="agg-grid">
+<div class="agg-card">
+<div class="agg-num" style="color:#1A6B5A" id="aggCompleted">0</div>
+<div class="agg-label">Pathways Completed</div>
+</div>
+<div class="agg-card">
+<div class="agg-num" style="color:#C4956A" id="aggActive">0</div>
+<div class="agg-label">Active Patients</div>
+</div>
+<div class="agg-card">
+<div class="agg-num" style="color:#1A6B5A" id="aggPHQ9Drop">0</div>
+<div class="agg-label">Avg PHQ-9 Drop</div>
+</div>
+<div class="agg-card">
+<div class="agg-num" style="color:#1A6B5A" id="aggGAD7Drop">0</div>
+<div class="agg-label">Avg GAD-7 Drop</div>
+</div>
+<div class="agg-card">
+<div class="agg-num" id="aggRetention">0%</div>
+<div class="agg-label">Retention Rate</div>
+</div>
+<div class="agg-card">
+<div class="agg-num" id="aggSatisfaction">—</div>
+<div class="agg-label">Satisfaction Score</div>
+</div>
+</div>
+<div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:20px">
+<div style="font-size:12px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px">Outcome Trends</div>
+<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.2);font-size:14px">
+Charts will populate once 5+ patients have completed their pathways.<br>
+This data feeds directly into funder reports for ACC and Te Whatu Ora applications.
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+const ADMIN_PASSWORD = 'connect2026';
+const PATIENTS = [
+{id:'alex',name:'Alex Chen',email:'alex@example.com', service:'Anxiety',session:3,total:6, phq9:[14,12],gad7:[16,13],asrs:[], concern:"I've been having panic attacks at work. Started about 6 months ago when my team got restructured. I can't sleep, my mind races, and I've been avoiding meetings.", dob:'1998-05-12',gender:'Male',ethnicity:'Chinese',phone:'021 555 1111', medications:'None',gp:'City Medical Centre',flagged:false, nextSession:'27 Feb 2:00 PM'},
+{id:'jordan',name:'Jordan Williams',email:'jordan@example.com', service:'Depression',session:1,total:6, phq9:[22],gad7:[14],asrs:[], concern:"Everything feels pointless. I dropped out of uni last semester. I sleep all day and can't motivate myself to do anything. I've had thoughts about not wanting to be here anymore.", dob:'2002-11-03',gender:'Non-binary',ethnicity:'NZ European',phone:'022 555 2222', medications:'Fluoxetine 20mg',gp:'None',flagged:true, nextSession:'27 Feb 10:00 AM'},
+{id:'mele',name:'Mele Havea',email:'mele@example.com', service:'ADHD Assessment',session:2,total:6, phq9:[18],gad7:[12],asrs:[18], concern:"I've always struggled to focus. Teachers said I was lazy but I don't think that's it. I lose things constantly. I got fired from my last job because I kept forgetting tasks. My cousin got diagnosed with ADHD and everything she described sounds exactly like me.", dob:'2001-07-22',gender:'Female',ethnicity:'Tongan',phone:'022 333 4567', medications:'None',gp:'None',flagged:true, nextSession:'27 Feb 11:00 AM'},
+{id:'sam',name:'Sam Patel',email:'sam@example.com', service:'Stress & Burnout',session:4,total:6, phq9:[16,13,10,8],gad7:[15,12,9,7],asrs:[], concern:"Working 60 hour weeks for the past year. My partner says I'm a different person. I can't switch off even on weekends. Started getting chest pains that my GP says are stress-related.", dob:'1995-03-28',gender:'Male',ethnicity:'Indian',phone:'021 555 3333', medications:'Propranolol 10mg PRN',gp:'Remuera Doctors',flagged:false, nextSession:'28 Feb 9:00 AM'},
+{id:'tina',name:'Tina Marsh',email:'tina@example.com', service:'Grief & Loss',session:5,total:6, phq9:[20,18,15,12,10],gad7:[11,10,8,6,5],asrs:[], concern:"My mum passed away 4 months ago. I was her carer for 2 years. Now I don't know what to do with myself. I feel guilty when I have a good day.", dob:'1990-09-14',gender:'Female',ethnicity:'NZ European',phone:'027 555 4444', medications:'None',gp:'Botany Doctors',flagged:false, nextSession:'28 Feb 2:00 PM'}
+];
+function authLogin(){ if(document.getElementById('authPassword').value===ADMIN_PASSWORD){ document.getElementById('authGate').style.display='none'; document.getElementById('adminDash').style.display='block'; loadDashboard(); }else{ document.getElementById('authPassword').style.borderColor='#D4726A'; } }
+function loadDashboard(){ var today=PATIENTS.filter(function(p){return p.nextSession.includes('27 Feb')}).length; var flagged=PATIENTS.filter(function(p){return p.flagged}).length; document.getElementById('statToday').textContent=today+' today'; document.getElementById('statPatients').textContent=PATIENTS.length+' active'; if(flagged>0){ document.getElementById('statFlagged').style.display='inline'; document.getElementById('statFlagged').textContent=flagged+' flagged'; } document.getElementById('aggActive').textContent=PATIENTS.length; document.getElementById('aggCompleted').textContent='0'; var phqDrops=PATIENTS.filter(function(p){return p.phq9.length>1}).map(function(p){return p.phq9[0]-p.phq9[p.phq9.length-1]}); var avgPhq=phqDrops.length?(phqDrops.reduce(function(a,b){return a+b},0)/phqDrops.length).toFixed(1):'—'; document.getElementById('aggPHQ9Drop').textContent=avgPhq!=='—'?'-'+avgPhq:'—'; var gadDrops=PATIENTS.filter(function(p){return p.gad7.length>1}).map(function(p){return p.gad7[0]-p.gad7[p.gad7.length-1]}); var avgGad=gadDrops.length?(gadDrops.reduce(function(a,b){return a+b},0)/gadDrops.length).toFixed(1):'—'; document.getElementById('aggGAD7Drop').textContent=avgGad!=='—'?'-'+avgGad:'—'; document.getElementById('aggRetention').textContent='100%'; document.getElementById('aggSatisfaction').textContent='—'; renderPatientList(); }
+function switchTab(tab){ document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')}); document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active')}); event.target.classList.add('active'); document.getElementById('tab'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active'); }
+function renderPatientList(){ var el=document.getElementById('patientList'); var html=''; var sorted=PATIENTS.slice().sort(function(a,b){ if(a.flagged&&!b.flagged)return -1; if(!a.flagged&&b.flagged)return 1; return 0; }); sorted.forEach(function(p){ var lastPHQ=p.phq9.length?p.phq9[p.phq9.length-1]:'—'; var phqColor=lastPHQ<=4?'#1A6B5A':lastPHQ<=14?'#C4956A':'#D4726A'; html+='<div class="patient-row'+(p.flagged?' flagged':'')+'" onclick="openDetail(\''+p.id+'\')">'; html+='<div class="p-flag">'+(p.flagged?'⚠️':'')+'</div>'; html+='<div class="p-name">'+p.name+'</div>'; html+='<div class="p-service">'+p.service+'</div>'; html+='<div class="p-session">S'+p.session+'/'+p.total+'</div>'; html+='<div class="p-score" style="color:'+(lastPHQ==='—'?'rgba(255,255,255,0.25)':phqColor)+'">PHQ '+lastPHQ+'</div>'; html+='<div class="p-date">'+p.nextSession+'</div>'; html+='</div>'; }); el.innerHTML=html; }
+function openDetail(id){ var p=PATIENTS.find(function(pt){return pt.id===id}); if(!p)return; var panel=document.getElementById('detailPanel'); panel.style.display='block'; panel.scrollIntoView({behavior:'smooth'}); document.getElementById('detailName').textContent=p.name; document.getElementById('detailMeta').textContent=p.service+' · Session '+p.session+' of '+p.total+' · Next: '+p.nextSession; document.getElementById('detailConcern').textContent=p.concern; document.getElementById('detailSafety').innerHTML=p.flagged?'<div class="safety-banner"><p>⚠️ SAFETY FLAG — Patient endorsed self-harm ideation. Prioritise contact.</p></div>':''; var trajHtml=''; p.phq9.forEach(function(score,i){ var label=i===0?'Intake':'S'+(i+1); var color=score<=4?'#1A6B5A':score<=14?'#C4956A':'#D4726A'; trajHtml+='<div class="traj-point"><div class="t-session">'+label+'</div>'; trajHtml+='<div class="t-score" style="color:'+color+'">'+score+'</div>'; trajHtml+='<div class="t-label">PHQ-9</div></div>'; }); document.getElementById('detailTrajectory').innerHTML=trajHtml; var gridHtml=''; gridHtml+=di('DOB',p.dob)+di('Gender',p.gender); gridHtml+=di('Ethnicity',p.ethnicity)+di('Phone',p.phone); gridHtml+=di('Medications',p.medications)+di('GP',p.gp||'None'); gridHtml+=di('Email',p.email); document.getElementById('detailGrid').innerHTML=gridHtml; }
+function di(label,value){ return '<div class="detail-item"><div class="d-label">'+label+'</div><div class="d-value">'+(value||'—')+'</div></div>'; }
+function closeDetail(){ document.getElementById('detailPanel').style.display='none'; }
+function openBrief(id){ alert('Opening pre-consult brief for '+id+'. In production this opens the Google Doc generated by Zapier.'); }
+function openSOAP(id,session){ alert('Opening SOAP note for '+id+', session '+session+'. In production this opens the pre-filled SOAP template.'); }
+document.addEventListener('DOMContentLoaded',function(){ document.getElementById('authPassword').addEventListener('keyup',function(e){ if(e.key==='Enter')authLogin(); }); });
+</script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connect Clinic — My Portal</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit',sans-serif;background:#000;color:#F5F5F5;min-height:100vh;-webkit-font-smoothing:antialiased}
+.container{max-width:600px;margin:0 auto;padding:24px 20px 40px}
+h1{font-family:'DM Serif Display',serif}
+h2{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:6px}
+/* Login screen */
+.login-screen{text-align:center;padding-top:80px}
+.login-screen h1{font-size:32px;margin-bottom:8px}
+.login-screen p{color:rgba(255,255,255,0.4);font-size:15px;margin-bottom:40px}
+.login-field{margin-bottom:16px}
+.login-field input{width:100%;max-width:360px;padding:14px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;color:#F5F5F5;font-family:'Outfit',sans-serif;font-size:15px;outline:none;text-align:center}
+.login-field input:focus{border-color:rgba(196,149,106,0.5)}
+.login-field input::placeholder{color:rgba(255,255,255,0.25)}
+.btn-gold{padding:14px 40px;border-radius:100px;background:#C4956A;color:#000;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;border:none;cursor:pointer;transition:background 0.2s}
+.btn-gold:hover{background:#d4a57a}
+.btn-gold:disabled{opacity:0.3;cursor:not-allowed}
+.code-input{letter-spacing:12px;font-size:24px;font-weight:600}
+.login-note{font-size:12px;color:rgba(255,255,255,0.25);margin-top:16px}
+/* Dashboard */
+.dashboard{display:none}
+.header{display:flex;justify-content:space-between;align-items:center;padding:20px 0 24px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:24px}
+.header h1{font-size:24px}
+.header .logout{font-size:13px;color:rgba(255,255,255,0.3);cursor:pointer;padding:8px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:100px}
+.header .logout:hover{border-color:rgba(255,255,255,0.15)}
+/* Pathway progress */
+.pathway-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:24px;margin-bottom:20px}
+.pathway-label{font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.pathway-name{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:16px}
+.progress-track{display:flex;gap:6px;margin-bottom:8px}
+.progress-pip{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,0.06)}
+.progress-pip.done{background:rgba(196,149,106,0.4)}
+.progress-pip.current{background:#C4956A}
+.progress-text{font-size:13px;color:rgba(255,255,255,0.4)}
+/* Next session card */
+.session-card{background:linear-gradient(135deg,rgba(196,149,106,0.08),rgba(196,149,106,0.02));border:1px solid rgba(196,149,106,0.15);border-radius:16px;padding:24px;margin-bottom:20px}
+.session-label{font-size:11px;color:#C4956A;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.session-date{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:4px}
+.session-time{font-size:15px;color:rgba(255,255,255,0.5);margin-bottom:16px}
+.btn-join{display:inline-block;padding:12px 28px;background:#C4956A;color:#000;border-radius:100px;font-weight:600;font-size:14px;text-decoration:none;transition:background 0.2s}
+.btn-join:hover{background:#d4a57a}
+.btn-join.disabled{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.3);pointer-events:none}
+/* Content cards */
+.card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:20px;margin-bottom:16px}
+.card-title{font-size:12px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px}
+.summary-item{padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.summary-item:last-child{border-bottom:none}
+.summary-item .s-session{font-size:13px;color:#C4956A;font-weight:600;margin-bottom:4px}
+.summary-item .s-date{font-size:12px;color:rgba(255,255,255,0.25);margin-bottom:6px}
+.summary-item .s-text{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.6}
+/* Measures */
+.measure-card{background:linear-gradient(135deg,rgba(26,107,90,0.08),rgba(26,107,90,0.02));border:1px solid rgba(26,107,90,0.15);border-radius:16px;padding:24px;margin-bottom:20px;text-align:center}
+.measure-card.overdue{border-color:rgba(212,114,106,0.3);background:linear-gradient(135deg,rgba(212,114,106,0.08),rgba(212,114,106,0.02))}
+.measure-label{font-size:11px;color:#1A6B5A;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.measure-card.overdue .measure-label{color:#D4726A}
+.measure-text{font-size:15px;color:rgba(255,255,255,0.6);margin-bottom:16px;line-height:1.5}
+.btn-measure{display:inline-block;padding:12px 28px;background:#1A6B5A;color:#fff;border-radius:100px;font-weight:600;font-size:14px;text-decoration:none;cursor:pointer;border:none;font-family:'Outfit',sans-serif}
+.btn-measure:hover{background:#1d7a66}
+/* Score chart */
+.score-chart{padding:16px 0}
+.chart-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.chart-label{width:80px;font-size:12px;color:rgba(255,255,255,0.3);text-align:right}
+.chart-bar-bg{flex:1;height:8px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden}
+.chart-bar-fill{height:100%;border-radius:4px;transition:width 0.5s}
+.chart-value{width:40px;font-size:13px;font-weight:600}
+/* Crisis footer */
+.crisis-footer{text-align:center;padding:24px 0;margin-top:20px;border-top:1px solid rgba(255,255,255,0.04)}
+.crisis-footer p{font-size:12px;color:rgba(255,255,255,0.2);line-height:1.6}
+.crisis-footer a{color:#D4726A;font-weight:600;text-decoration:none}
+/* Empty state */
+.empty{text-align:center;padding:32px 20px;color:rgba(255,255,255,0.3);font-size:14px}
+@media(max-width:480px){.container{padding:16px 16px 32px}}
+</style>
+</head>
+<body>
+<div class="container">
+<!-- LOGIN SCREEN -->
+<div class="login-screen" id="loginScreen">
+<h1>Connect Clinic</h1>
+<p>Your personal mental health portal</p>
+<!-- Step 1: Email -->
+<div id="loginStep1">
+<div class="login-field">
+<input type="email" id="loginEmail" placeholder="Enter your email" autocomplete="email">
+</div>
+<button class="btn-gold" onclick="sendCode()">Send Login Code</button>
+<p class="login-note">We'll send a 6-digit code to your email</p>
+</div>
+<!-- Step 2: Code -->
+<div id="loginStep2" style="display:none">
+<p style="color:rgba(255,255,255,0.5);margin-bottom:20px;font-size:14px"> Enter the code sent to <strong id="loginEmailDisplay"></strong> </p>
+<div class="login-field">
+<input type="text" id="loginCode" class="code-input" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+</div>
+<button class="btn-gold" onclick="verifyCode()">Continue</button>
+<p class="login-note">Didn't get it? <span style="color:#C4956A;cursor:pointer" onclick="sendCode()">Resend code</span> </p>
+</div>
+</div>
+<!-- DASHBOARD (shown after login) -->
+<div class="dashboard" id="dashboard">
+<div class="header">
+<div>
+<h1 id="dashGreeting">Welcome back</h1>
+<p style="font-size:13px;color:rgba(255,255,255,0.3);margin-top:2px" id="dashSubtitle"></p>
+</div>
+<div class="logout" onclick="logout()">Log out</div>
+</div>
+<!-- OUTCOME MEASURE DUE (conditional) -->
+<div class="measure-card" id="measureDue" style="display:none">
+<div class="measure-label">Outcome Measure Due</div>
+<p class="measure-text" id="measureText">Please complete your check-in before your next session.</p>
+<button class="btn-measure" onclick="openMeasure()">Complete Check-In</button>
+</div>
+<!-- NEXT SESSION -->
+<div class="session-card" id="nextSession">
+<div class="session-label">Next Session</div>
+<div class="session-date" id="nextDate">—</div>
+<div class="session-time" id="nextTime">No session booked</div>
+<a href="#" class="btn-join disabled" id="joinBtn">Join Video Call</a>
+</div>
+<!-- PATHWAY PROGRESS -->
+<div class="pathway-card" id="pathwayCard">
+<div class="pathway-label">Your Pathway</div>
+<div class="pathway-name" id="pathwayName">—</div>
+<div class="progress-track" id="progressTrack">
+<div class="progress-pip"></div>
+<div class="progress-pip"></div>
+<div class="progress-pip"></div>
+<div class="progress-pip"></div>
+<div class="progress-pip"></div>
+<div class="progress-pip"></div>
+</div>
+<div class="progress-text" id="progressText">Session 0 of 6</div>
+</div>
+<!-- SCORE HISTORY -->
+<div class="card" id="scoreCard">
+<div class="card-title">Your Progress</div>
+<div id="scoreHistory">
+<div class="empty">Scores will appear here after your sessions</div>
+</div>
+</div>
+<!-- SESSION SUMMARIES -->
+<div class="card" id="summaryCard">
+<div class="card-title">Session Summaries</div>
+<div id="summaryList">
+<div class="empty">Summaries from your sessions will appear here</div>
+</div>
+</div>
+<!-- RESOURCES -->
+<div class="card">
+<div class="card-title">Resources</div>
+<div style="padding:8px 0">
+<div style="margin-bottom:12px">
+<a href="tel:1737" style="color:#C4956A;text-decoration:none;font-weight:600;font-size:15px">📞 1737 — Free crisis helpline</a>
+<p style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:2px">Call or text, 24/7, confidential</p>
+</div>
+<div style="margin-bottom:12px">
+<a href="tel:111" style="color:#D4726A;text-decoration:none;font-weight:600;font-size:15px">🚨 111 — Emergency</a>
+<p style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:2px">If you or someone else is in immediate danger</p>
+</div>
+<div>
+<a href="https://www.health.govt.nz/your-health/conditions-and-treatments/mental-health" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:14px">🔗 Mental health resources — health.govt.nz</a>
+</div>
+</div>
+</div>
+<!-- CRISIS FOOTER -->
+<div class="crisis-footer">
+<p>Need urgent help? Call or text <a href="tel:1737">1737</a> — free, confidential, 24/7<br> Emergency: <a href="tel:111">111</a></p>
+<p style="margin-top:12px;font-size:11px;color:rgba(255,255,255,0.12)">Connect Clinic · connectclinic.co.nz</p>
+</div>
+</div><!-- end dashboard -->
+</div><!-- end container -->
+<script>
+// ============================================================
+// PATIENT DATA
+// For launch, this is a static demo. Replace with API call later.
+// ============================================================
+const DEMO_PATIENTS = {
+"demo@example.com": {
+name: "Alex",
+pathway: "Anxiety",
+currentSession: 3,
+totalSessions: 6,
+nextSession: { date: "Thursday 27 February", time: "2:00 PM NZST", videoLink: "#", canJoin: false },
+measureDue: true,
+measureType: "PHQ-9 + GAD-7",
+scores: [
+{ session: "Intake", phq9: 14, gad7: 16, date: "10 Feb" },
+{ session: "Session 2", phq9: 12, gad7: 13, date: "17 Feb" }
+],
+summaries: [
+{ session: "Session 2", date: "17 February 2026", text: "Today we worked on identifying your thinking patterns when anxiety shows up. You noticed a pattern of jumping to worst-case scenarios, especially around work. We practised reframing one of those thoughts together. Before next session: continue your thought diary, adding a column for alternative thoughts." },
+{ session: "Session 1", date: "10 February 2026", text: "We talked about what anxiety is and how it works — the fight-or-flight response and why your brain sends false alarms. We set three goals together for your pathway. Before next session: fill in the thought diary when you notice anxiety, and try the breathing technique we practised." }
+]
+}
+};
+// ============================================================
+// LOGIN
+// ============================================================
+let currentPatient = null;
+function sendCode() {
+const email = document.getElementById('loginEmail').value.trim();
+if (!email) return;
+document.getElementById('loginStep1').style.display = 'none';
+document.getElementById('loginStep2').style.display = 'block';
+document.getElementById('loginEmailDisplay').textContent = email;
+sessionStorage.setItem('loginEmail', email);
+}
+function verifyCode() {
+const code = document.getElementById('loginCode').value.trim();
+if (code.length === 6) {
+const email = sessionStorage.getItem('loginEmail');
+currentPatient = DEMO_PATIENTS[email] || DEMO_PATIENTS["demo@example.com"];
+showDashboard();
+}
+}
+function logout() {
+sessionStorage.removeItem('loginEmail');
+currentPatient = null;
+document.getElementById('loginScreen').style.display = 'block';
+document.getElementById('dashboard').style.display = 'none';
+document.getElementById('loginStep1').style.display = 'block';
+document.getElementById('loginStep2').style.display = 'none';
+document.getElementById('loginEmail').value = '';
+document.getElementById('loginCode').value = '';
+}
+// ============================================================
+// DASHBOARD
+// ============================================================
+function showDashboard() {
+document.getElementById('loginScreen').style.display = 'none';
+document.getElementById('dashboard').style.display = 'block';
+const p = currentPatient;
+const hour = new Date().getHours();
+const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+document.getElementById('dashGreeting').textContent = greeting + ', ' + p.name;
+document.getElementById('dashSubtitle').textContent = p.pathway + ' pathway · Session ' + p.currentSession + ' of ' + p.totalSessions;
+if (p.measureDue) {
+document.getElementById('measureDue').style.display = 'block';
+document.getElementById('measureText').textContent = 'Please complete your ' + p.measureType + ' check-in before your next session on ' + p.nextSession.date + '.';
+}
+document.getElementById('nextDate').textContent = p.nextSession.date;
+document.getElementById('nextTime').textContent = p.nextSession.time;
+const joinBtn = document.getElementById('joinBtn');
+if (p.nextSession.canJoin) {
+joinBtn.href = p.nextSession.videoLink;
+joinBtn.classList.remove('disabled');
+joinBtn.textContent = 'Join Video Call';
+} else {
+joinBtn.classList.add('disabled');
+joinBtn.textContent = 'Video link available on session day';
+}
+document.getElementById('pathwayName').textContent = p.pathway;
+document.getElementById('progressText').textContent = 'Session ' + p.currentSession + ' of ' + p.totalSessions;
+const pips = document.querySelectorAll('.progress-pip');
+pips.forEach((pip, i) => {
+pip.classList.remove('done', 'current');
+if (i < p.currentSession - 1) pip.classList.add('done');
+else if (i === p.currentSession - 1) pip.classList.add('current');
+});
+renderScores(p.scores);
+renderSummaries(p.summaries);
+}
+// ============================================================
+// SCORE CHART
+// ============================================================
+function renderScores(scores) {
+const el = document.getElementById('scoreHistory');
+if (!scores || scores.length === 0) {
+el.innerHTML = '<div class="empty">Scores will appear here after your sessions</div>';
+return;
+}
+let html = '<div class="score-chart">';
+html += '<div style="font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:8px;font-weight:500">PHQ-9 (Depression)</div>';
+scores.forEach(s => {
+const pct = (s.phq9 / 27 * 100);
+const color = s.phq9 <= 4 ? '#1A6B5A' : s.phq9 <= 9 ? '#C4956A' : s.phq9 <= 14 ? '#C4956A' : '#D4726A';
+html += '<div class="chart-row">';
+html += '<div class="chart-label">' + s.session + '</div>';
+html += '<div class="chart-bar-bg"><div class="chart-bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>';
+html += '<div class="chart-value" style="color:' + color + '">' + s.phq9 + '</div>';
+html += '</div>';
+});
+html += '<div style="font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:8px;margin-top:16px;font-weight:500">GAD-7 (Anxiety)</div>';
+scores.forEach(s => {
+const pct = (s.gad7 / 21 * 100);
+const color = s.gad7 <= 4 ? '#1A6B5A' : s.gad7 <= 9 ? '#C4956A' : s.gad7 <= 14 ? '#C4956A' : '#D4726A';
+html += '<div class="chart-row">';
+html += '<div class="chart-label">' + s.session + '</div>';
+html += '<div class="chart-bar-bg"><div class="chart-bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>';
+html += '<div class="chart-value" style="color:' + color + '">' + s.gad7 + '</div>';
+html += '</div>';
+});
+html += '</div>';
+el.innerHTML = html;
+}
+// ============================================================
+// SESSION SUMMARIES
+// ============================================================
+function renderSummaries(summaries) {
+const el = document.getElementById('summaryList');
+if (!summaries || summaries.length === 0) {
+el.innerHTML = '<div class="empty">Summaries from your sessions will appear here</div>';
+return;
+}
+let html = '';
+summaries.forEach(s => {
+html += '<div class="summary-item">';
+html += '<div class="s-session">' + s.session + '</div>';
+html += '<div class="s-date">' + s.date + '</div>';
+html += '<div class="s-text">' + s.text + '</div>';
+html += '</div>';
+});
+el.innerHTML = html;
+}
+// ============================================================
+// OUTCOME MEASURE
+// ============================================================
+function openMeasure() {
+const service = currentPatient.pathway.toLowerCase();
+window.location.href = '/forms/measure.html?patient=' + encodeURIComponent(sessionStorage.getItem('loginEmail'));
+}
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+const savedEmail = sessionStorage.getItem('loginEmail');
+if (savedEmail && DEMO_PATIENTS[savedEmail]) {
+currentPatient = DEMO_PATIENTS[savedEmail];
+showDashboard();
+}
+document.getElementById('loginCode').addEventListener('keyup', function(e) {
+if (e.key === 'Enter') verifyCode();
+});
+document.getElementById('loginEmail').addEventListener('keyup', function(e) {
+if (e.key === 'Enter') sendCode();
+});
+});
+</script>
+</body>
+</html>

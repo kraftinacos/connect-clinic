@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connect Clinic — Intake Form</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit',sans-serif;background:#000;color:#F5F5F5;min-height:100vh;-webkit-font-smoothing:antialiased}
+.form-container{max-width:600px;margin:0 auto;padding:24px 20px 100px}
+.logo{text-align:center;padding:32px 0 24px}
+.logo h1{font-family:'DM Serif Display',serif;font-size:28px;color:#F5F5F5}
+.logo p{font-size:14px;color:rgba(255,255,255,0.4);margin-top:4px}
+.progress{display:flex;gap:6px;margin-bottom:32px}
+.progress-dot{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,0.08);transition:background 0.3s}
+.progress-dot.active{background:#C4956A}
+.progress-dot.done{background:rgba(196,149,106,0.4)}
+.step{display:none}
+.step.active{display:block}
+.step-title{font-family:'DM Serif Display',serif;font-size:24px;margin-bottom:6px}
+.step-subtitle{font-size:14px;color:rgba(255,255,255,0.4);margin-bottom:28px}
+.field{margin-bottom:20px}
+.field label{display:block;font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:6px;font-weight:500}
+.field input,.field select,.field textarea{width:100%;padding:14px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;color:#F5F5F5;font-family:'Outfit',sans-serif;font-size:15px;outline:none;transition:border-color 0.2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:rgba(196,149,106,0.5)}
+.field textarea{min-height:100px;resize:vertical}
+.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+.field select option{background:#111;color:#F5F5F5}
+.row{display:flex;gap:12px}
+.row .field{flex:1}
+.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.service-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:20px 16px;text-align:center;cursor:pointer;transition:all 0.2s}
+.service-card:hover{border-color:rgba(196,149,106,0.3)}
+.service-card.selected{border-color:#C4956A;background:rgba(196,149,106,0.08)}
+.service-card .icon{font-size:28px;margin-bottom:8px}
+.service-card .name{font-size:14px;font-weight:600;margin-bottom:4px}
+.service-card .price{font-size:12px;color:rgba(255,255,255,0.35)}
+.screening-q{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px;margin-bottom:12px}
+.screening-q .q-text{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:10px;line-height:1.5}
+.screening-q .q-num{font-size:11px;color:rgba(255,255,255,0.25);margin-bottom:4px}
+.options{display:flex;gap:6px;flex-wrap:wrap}
+.option-btn{padding:8px 14px;border-radius:100px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(255,255,255,0.5);font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;transition:all 0.2s;flex:1;text-align:center;min-width:0}
+.option-btn:hover{border-color:rgba(196,149,106,0.3)}
+.option-btn.selected{background:rgba(196,149,106,0.15);border-color:#C4956A;color:#C4956A}
+.score-display{text-align:center;margin:16px 0;padding:16px;background:rgba(255,255,255,0.02);border-radius:12px}
+.score-display .score-num{font-family:'DM Serif Display',serif;font-size:32px}
+.score-display .score-label{font-size:13px;margin-top:4px}
+.score-bar{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:8px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:2px;transition:width 0.3s}
+.safety-alert{background:rgba(212,114,106,0.1);border:1px solid rgba(212,114,106,0.3);border-left:4px solid #D4726A;border-radius:12px;padding:20px;margin:16px 0;display:none}
+.safety-alert h4{color:#D4726A;font-size:15px;margin-bottom:8px}
+.safety-alert p{color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6}
+.safety-alert a{color:#D4726A;font-weight:600}
+.review-section{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:20px;margin-bottom:16px}
+.review-section h4{font-size:12px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
+.review-row{display:flex;justify-content:space-between;padding:6px 0;font-size:14px}
+.review-row .r-label{color:rgba(255,255,255,0.4)}
+.review-row .r-value{color:#F5F5F5;font-weight:500}
+.consent-box{display:flex;align-items:flex-start;gap:12px;margin:24px 0;padding:16px;background:rgba(255,255,255,0.02);border-radius:12px}
+.consent-box input[type="checkbox"]{width:20px;height:20px;margin-top:2px;accent-color:#C4956A}
+.consent-box label{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.5}
+.nav-buttons{position:fixed;bottom:0;left:0;right:0;padding:16px 20px;background:linear-gradient(transparent,#000 30%);display:flex;gap:12px;justify-content:center}
+.nav-buttons button{padding:14px 32px;border-radius:100px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;border:none}
+.btn-back{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5)}
+.btn-back:hover{background:rgba(255,255,255,0.1)}
+.btn-next{background:#C4956A;color:#000}
+.btn-next:hover{background:#d4a57a}
+.btn-next:disabled{opacity:0.3;cursor:not-allowed}
+.btn-submit{background:#1A6B5A;color:#fff}
+.btn-submit:hover{background:#1d7a66}
+.hidden{display:none!important}
+@media(max-width:480px){.service-grid{grid-template-columns:1fr}.row{flex-direction:column;gap:0}}
+</style>
+</head>
+<body>
+<div class="form-container">
+<div class="logo">
+<h1>Connect Clinic</h1>
+<p>Intake Form</p>
+</div>
+<div class="progress" id="progress">
+<div class="progress-dot active"></div>
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+</div>
+<form id="intakeForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+<!-- STEP 1: YOUR DETAILS -->
+<div class="step active" id="step1">
+<h2 class="step-title">Your Details</h2>
+<p class="step-subtitle">Let us know who you are</p>
+<div class="row">
+<div class="field">
+<label>First Name *</label>
+<input type="text" name="first_name" required placeholder="e.g. Sione">
+</div>
+<div class="field">
+<label>Last Name *</label><input type="text" name="last_name" required placeholder="e.g. Taufa">
+</div>
+</div>
+<div class="field">
+<label>Date of Birth *</label>
+<input type="date" name="dob" required>
+</div>
+<div class="row">
+<div class="field">
+<label>Phone *</label>
+<input type="tel" name="phone" required placeholder="021 555 1234">
+</div>
+<div class="field">
+<label>Email *</label>
+<input type="email" name="email" required placeholder="you@email.com">
+</div>
+</div>
+<div class="field">
+<label>Ethnicity</label>
+<select name="ethnicity">
+<option value="">Select...</option>
+<option value="Tongan">Tongan</option>
+<option value="Samoan">Samoan</option>
+<option value="Cook Island Māori">Cook Island Māori</option>
+<option value="Fijian">Fijian</option>
+<option value="Niuean">Niuean</option>
+<option value="Tokelauan">Tokelauan</option>
+<option value="Tuvaluan">Tuvaluan</option>
+<option value="Other Pacific">Other Pacific</option>
+<option value="Māori">Māori</option>
+<option value="NZ European">NZ European</option>
+<option value="Asian">Asian</option>
+<option value="Other">Other</option>
+</select>
+</div>
+<div class="row">
+<div class="field">
+<label>Preferred Language</label>
+<select name="preferred_language">
+<option value="English">English</option>
+<option value="Tongan">Lea faka-Tonga</option>
+<option value="Samoan">Gagana Sāmoa</option>
+<option value="Te Reo Māori">Te Reo Māori</option>
+<option value="Other">Other</option>
+</select>
+</div>
+<div class="field">
+<label>NHI Number (if known)</label>
+<input type="text" name="nhi" placeholder="e.g. ZZZ1234">
+</div>
+</div>
+</div>
+<!-- STEP 2: SERVICE SELECTION -->
+<div class="step" id="step2">
+<h2 class="step-title">What Can We Help With?</h2>
+<p class="step-subtitle">Choose the service that fits you best</p>
+<input type="hidden" name="selected_service" id="selectedService" value="">
+<div class="service-grid" id="serviceGrid">
+<div class="service-card" data-service="anxiety" onclick="selectService(this)">
+<div class="icon">🌊</div>
+<div class="name">Anxiety Support</div>
+<div class="price">$150 · 6 sessions</div>
+</div>
+<div class="service-card" data-service="depression" onclick="selectService(this)">
+<div class="icon">🌱</div>
+<div class="name">Depression Support</div>
+<div class="price">$150 · 6 sessions</div>
+</div>
+<div class="service-card" data-service="adhd" onclick="selectService(this)">
+<div class="icon">⚡</div>
+<div class="name">ADHD Assessment</div>
+<div class="price">$180 · 6 sessions</div>
+</div>
+<div class="service-card" data-service="grief" onclick="selectService(this)">
+<div class="icon">🕊️</div>
+<div class="name">Grief & Loss</div>
+<div class="price">$150 · 6 sessions</div>
+</div>
+<div class="service-card" data-service="chronic" onclick="selectService(this)">
+<div class="icon">❤️</div>
+<div class="name">Chronic Health</div>
+<div class="price">$120 · ongoing</div>
+</div>
+<div class="service-card" data-service="social" onclick="selectService(this)">
+<div class="icon">🤝</div>
+<div class="name">Social Health</div>
+<div class="price">Free / subsidised</div>
+</div>
+<div class="service-card" data-service="notsure" onclick="selectService(this)">
+<div class="icon">💬</div>
+<div class="name">Not Sure Yet</div>
+<div class="price">We'll figure it out</div>
+</div>
+</div>
+<div class="field">
+<label>In your own words, what's the main reason you're reaching out?</label>
+<textarea name="main_concern" rows="4" placeholder="There's no wrong answer here. Just tell us what's going on for you."></textarea>
+</div>
+</div>
+<!-- STEP 3: CLINICAL SCREENING -->
+<div class="step" id="step3">
+<h2 class="step-title">Quick Check-In</h2>
+<p class="step-subtitle">These questions help us understand how you've been feeling over the last 2 weeks</p>
+<!-- PHQ-9 Section -->
+<div id="phq9Section">
+<h3 style="font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:16px;font-weight:500;">Over the last 2 weeks, how often have you been bothered by:</h3>
+<div class="screening-q" data-scale="phq9" data-q="0">
+<div class="q-num">1 of 9</div>
+<div class="q-text">Little interest or pleasure in doing things</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="screening-q" data-scale="phq9" data-q="1">
+<div class="q-num">2 of 9</div>
+<div class="q-text">Feeling down, depressed, or hopeless</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="screening-q" data-scale="phq9" data-q="2">
+<div class="q-num">3 of 9</div>
+<div class="q-text">Trouble falling or staying asleep, or sleeping too much</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="screening-q" data-scale="phq9" data-q="3">
+<div class="q-num">4 of 9</div>
+<div class="q-text">Feeling tired or having little energy</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="screening-q" data-scale="phq9" data-q="4">
+<div class="q-num">5 of 9</div>
+<div class="q-text">Poor appetite or overeating</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="screening-q" data-scale="phq9" data-q="5">
+<div class="q-num">6 of 9</div>
+<div class="q-text">Feeling bad about yourself — or that you are a failure or have let yourself or your family down</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="screening-q" data-scale="phq9" data-q="6">
+<div class="q-num">7 of 9</div>
+<div class="q-text">Trouble concentrating on things, such as reading or watching TV</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="screening-q" data-scale="phq9" data-q="7">
+<div class="q-num">8 of 9</div>
+<div class="q-text">Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="screening-q" data-scale="phq9" data-q="8">
+<div class="q-num">9 of 9</div>
+<div class="q-text">Thoughts that you would be better off dead, or of hurting yourself in some way</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="score-display" id="phq9Score" style="display:none">
+<div class="score-num" id="phq9ScoreNum">0</div>
+<div class="score-label" id="phq9ScoreLabel">PHQ-9 Score</div>
+<div class="score-bar"><div class="score-bar-fill" id="phq9Bar" style="width:0%;background:#1A6B5A"></div></div>
+</div>
+<input type="hidden" name="phq9_score" id="phq9ScoreInput" value="">
+<input type="hidden" name="phq9_severity" id="phq9SeverityInput" value="">
+<input type="hidden" name="phq9_answers" id="phq9AnswersInput" value="">
+</div>
+<!-- GAD-7 Section -->
+<div id="gad7Section" style="margin-top:32px">
+<h3 style="font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:16px;font-weight:500;">Over the last 2 weeks, how often have you been bothered by:</h3>
+<div class="screening-q" data-scale="gad7" data-q="0">
+<div class="q-num">1 of 7</div>
+<div class="q-text">Feeling nervous, anxious, or on edge</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="screening-q" data-scale="gad7" data-q="1">
+<div class="q-num">2 of 7</div>
+<div class="q-text">Not being able to stop or control worrying</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="screening-q" data-scale="gad7" data-q="2">
+<div class="q-num">3 of 7</div>
+<div class="q-text">Worrying too much about different things</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="screening-q" data-scale="gad7" data-q="3">
+<div class="q-num">4 of 7</div>
+<div class="q-text">Trouble relaxing</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="screening-q" data-scale="gad7" data-q="4">
+<div class="q-num">5 of 7</div>
+<div class="q-text">Being so restless that it's hard to sit still</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="screening-q" data-scale="gad7" data-q="5">
+<div class="q-num">6 of 7</div>
+<div class="q-text">Becoming easily annoyed or irritable</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="screening-q" data-scale="gad7" data-q="6">
+<div class="q-num">7 of 7</div>
+<div class="q-text">Feeling afraid, as if something awful might happen</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Not at all</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Several days</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">More than half</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Nearly every day</button>
+</div>
+</div>
+<div class="score-display" id="gad7Score" style="display:none">
+<div class="score-num" id="gad7ScoreNum">0</div>
+<div class="score-label" id="gad7ScoreLabel">GAD-7 Score</div>
+<div class="score-bar"><div class="score-bar-fill" id="gad7Bar" style="width:0%;background:#1A6B5A"></div></div>
+</div>
+<input type="hidden" name="gad7_score" id="gad7ScoreInput" value="">
+<input type="hidden" name="gad7_severity" id="gad7SeverityInput" value="">
+<input type="hidden" name="gad7_answers" id="gad7AnswersInput" value="">
+</div>
+<!-- ASRS Section (ADHD only) -->
+<div id="asrsSection" style="margin-top:32px;display:none">
+<h3 style="font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:16px;font-weight:500;">ADHD Screening — How often do you:</h3>
+<div class="screening-q" data-scale="asrs" data-q="0">
+<div class="q-num">1 of 6</div>
+<div class="q-text">Have difficulty concentrating on what people say to you, even when they are speaking directly to you?</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Never</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Rarely</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">Sometimes</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Often</button>
+<button type="button" class="option-btn" data-val="4" onclick="scoreQ(this)">Very often</button>
+</div>
+</div>
+<div class="screening-q" data-scale="asrs" data-q="1">
+<div class="q-num">2 of 6</div>
+<div class="q-text">Have difficulty wrapping up the final details of a project, once the challenging parts have been done?</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Never</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Rarely</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">Sometimes</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Often</button>
+<button type="button" class="option-btn" data-val="4" onclick="scoreQ(this)">Very often</button>
+</div>
+</div>
+<div class="screening-q" data-scale="asrs" data-q="2">
+<div class="q-num">3 of 6</div>
+<div class="q-text">Have difficulty keeping your attention when you are doing boring or repetitive work?</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Never</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Rarely</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">Sometimes</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Often</button>
+<button type="button" class="option-btn" data-val="4" onclick="scoreQ(this)">Very often</button>
+</div>
+</div>
+<div class="screening-q" data-scale="asrs" data-q="3">
+<div class="q-num">4 of 6</div>
+<div class="q-text">Have difficulty organising things when you have a task that requires organisation?</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Never</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Rarely</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">Sometimes</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Often</button>
+<button type="button" class="option-btn" data-val="4" onclick="scoreQ(this)">Very often</button>
+</div>
+</div>
+<div class="screening-q" data-scale="asrs" data-q="4">
+<div class="q-num">5 of 6</div>
+<div class="q-text">Fidget or squirm with your hands or feet when you have to sit down for a long time?</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Never</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Rarely</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">Sometimes</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Often</button>
+<button type="button" class="option-btn" data-val="4" onclick="scoreQ(this)">Very often</button>
+</div>
+</div>
+<div class="screening-q" data-scale="asrs" data-q="5">
+<div class="q-num">6 of 6</div>
+<div class="q-text">Feel overly active and compelled to do things, like you were driven by a motor?</div>
+<div class="options">
+<button type="button" class="option-btn" data-val="0" onclick="scoreQ(this)">Never</button>
+<button type="button" class="option-btn" data-val="1" onclick="scoreQ(this)">Rarely</button>
+<button type="button" class="option-btn" data-val="2" onclick="scoreQ(this)">Sometimes</button>
+<button type="button" class="option-btn" data-val="3" onclick="scoreQ(this)">Often</button>
+<button type="button" class="option-btn" data-val="4" onclick="scoreQ(this)">Very often</button>
+</div>
+</div>
+<div class="score-display" id="asrsScore" style="display:none">
+<div class="score-num" id="asrsScoreNum">0</div>
+<div class="score-label" id="asrsScoreLabel">ASRS Score</div>
+<div class="score-bar"><div class="score-bar-fill" id="asrsBar" style="width:0%;background:#C4956A"></div></div>
+</div>
+<input type="hidden" name="asrs_score" id="asrsScoreInput" value="">
+<input type="hidden" name="asrs_answers" id="asrsAnswersInput" value="">
+</div>
+<!-- Chronic Health Section -->
+<div id="chronicSection" style="margin-top:32px;display:none">
+<h3 style="font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:16px;font-weight:500;">Your Health Conditions</h3>
+<div class="field">
+<label>Current conditions (select all that apply)</label>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">
+<button type="button" class="option-btn" onclick="toggleChk(this)" data-cond="diabetes">Diabetes</button>
+<button type="button" class="option-btn" onclick="toggleChk(this)" data-cond="hypertension">High blood pressure</button>
+<button type="button" class="option-btn" onclick="toggleChk(this)" data-cond="cvd">Heart disease</button>
+<button type="button" class="option-btn" onclick="toggleChk(this)" data-cond="respiratory">Asthma / COPD</button>
+<button type="button" class="option-btn" onclick="toggleChk(this)" data-cond="gout">Gout</button>
+<button type="button" class="option-btn" onclick="toggleChk(this)" data-cond="other">Other</button>
+</div>
+<input type="hidden" name="chronic_conditions" id="chronicConditions" value="">
+</div>
+<div class="row">
+<div class="field">
+<label>Last HbA1c (if known)</label>
+<input type="text" name="last_hba1c" placeholder="e.g. 58 mmol/mol">
+</div>
+<div class="field">
+<label>Last blood pressure</label>
+<input type="text" name="last_bp" placeholder="e.g. 140/90">
+</div>
+</div>
+<div class="field">
+<label>Current weight (kg)</label>
+<input type="text" name="last_weight" placeholder="e.g. 95">
+</div>
+</div>
+<!-- No screening message for social/notsure -->
+<div id="noScreeningMsg" style="display:none;text-align:center;padding:40px 20px">
+<div style="font-size:48px;margin-bottom:16px">✓</div>
+<p style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.6">No screening needed for this service.<br>We'll cover everything in your first session.</p>
+</div>
+</div>
+<!-- STEP 4: HEALTH CONTEXT -->
+<div class="step" id="step4">
+<h2 class="step-title">A Bit More About You</h2>
+<p class="step-subtitle">This helps us prepare for your first session</p>
+<div class="field">
+<label>Are you currently taking any medications?</label>
+<textarea name="medications" rows="2" placeholder="List any medications, or type 'None'"></textarea>
+</div>
+<div class="field">
+<label>Are you currently getting any mental health support?</label>
+<select name="current_mh_support">
+<option value="">Select...</option>
+<option value="No, this is my first time">No, this is my first time seeking support</option>
+<option value="Yes, seeing a counsellor">Yes, I'm seeing a counsellor</option>
+<option value="Yes, seeing a psychologist">Yes, I'm seeing a psychologist</option>
+<option value="Yes, through my GP">Yes, through my GP</option>
+<option value="I used to but stopped">I used to but stopped</option>
+</select>
+</div>
+<div class="field">
+<label>Do you have a regular GP?</label>
+<select name="has_regular_gp" id="hasGP" onchange="toggleGPField()">
+<option value="">Select...</option>
+<option value="yes">Yes</option>
+<option value="no">No</option>
+</select>
+</div>
+<div class="field" id="gpPracticeField" style="display:none">
+<label>GP Practice Name</label>
+<input type="text" name="gp_practice" placeholder="e.g. The Doctors Mangere">
+</div>
+<div class="row">
+<div class="field">
+<label>Emergency Contact Name *</label>
+<input type="text" name="emergency_contact_name" required placeholder="e.g. Mum — Ana Taufa">
+</div>
+<div class="field">
+<label>Emergency Contact Phone *</label>
+<input type="tel" name="emergency_contact_phone" required placeholder="021 555 5678">
+</div>
+</div>
+<div class="field">
+<label>How did you hear about Connect Clinic?</label>
+<select name="referral_source">
+<option value="">Select...</option>
+<option value="Friend or family">Friend or family</option>
+<option value="Social media">Social media (Instagram, TikTok)</option>
+<option value="GP referral">GP referral</option>
+<option value="Google search">Google search</option>
+<option value="School or university">School or university</option>
+<option value="Community organisation">Community organisation</option>
+<option value="Other">Other</option>
+</select>
+</div>
+</div>
+<!-- STEP 5: SAFETY CHECK -->
+<div class="step" id="step5">
+<h2 class="step-title">Safety Check</h2>
+<p class="step-subtitle">We ask everyone this — it helps us keep you safe</p>
+<div class="field">
+<label>In the past 2 weeks, have you had any thoughts of hurting yourself or ending your life?</label>
+<div style="display:flex;gap:12px;margin-top:8px">
+<button type="button" class="option-btn" style="flex:1;padding:14px" onclick="setSafety(this,'no')" data-safety="no">No</button>
+<button type="button" class="option-btn" style="flex:1;padding:14px" onclick="setSafety(this,'yes')" data-safety="yes">Yes</button>
+</div>
+<input type="hidden" name="self_harm_flag" id="selfHarmFlag" value="">
+</div>
+<div class="safety-alert" id="safetyAlert">
+<h4>Thank you for being honest with us</h4>
+<p>You're not alone and we want to make sure you're safe. If you're in immediate danger, please call <strong>111</strong>.<br><br> You can also call or text <a href="tel:1737">1737</a> — it's free, confidential, and available 24/7.<br><br> We'll make sure we talk about this in your first session. Your clinician will follow up within 24 hours.</p>
+</div>
+<div style="margin-top:32px;padding:20px;background:rgba(26,107,90,0.08);border:1px solid rgba(26,107,90,0.2);border-radius:12px">
+<p style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7">
+<strong style="color:#1A6B5A">Your privacy matters.</strong> Everything you share here is confidential and protected by the Health Information Privacy Code 2020. Your clinician is the only person who will see your responses.
+</p>
+</div>
+</div>
+<!-- STEP 6: REVIEW + SUBMIT -->
+<div class="step" id="step6">
+<h2 class="step-title">Review & Submit</h2>
+<p class="step-subtitle">Check everything looks right</p>
+<div class="review-section" id="reviewDetails">
+<h4>Your Details</h4>
+<div id="reviewDetailsContent"></div>
+</div>
+<div class="review-section" id="reviewService">
+<h4>Service</h4>
+<div id="reviewServiceContent"></div>
+</div>
+<div class="review-section" id="reviewScores">
+<h4>Screening Scores</h4>
+<div id="reviewScoresContent"></div>
+</div>
+<div class="review-section" id="reviewContext">
+<h4>Health Context</h4>
+<div id="reviewContextContent"></div>
+</div>
+<div class="consent-box">
+<input type="checkbox" id="consentCheck" required>
+<label for="consentCheck">I confirm that the information I've provided is accurate. I consent to Connect Clinic storing and using this information to provide my clinical care, in accordance with the Health Information Privacy Code 2020.</label>
+</div>
+</div>
+</form>
+</div>
+<!-- Navigation buttons -->
+<div class="nav-buttons">
+<button type="button" class="btn-back hidden" id="btnBack" onclick="prevStep()">Back</button>
+<button type="button" class="btn-next" id="btnNext" onclick="nextStep()">Continue</button>
+<button type="submit" form="intakeForm" class="btn-submit hidden" id="btnSubmit">Submit</button>
+</div>
+<script>
+// === STATE ===
+let currentStep = 1;
+const totalSteps = 6;
+const scores = { phq9: Array(9).fill(null), gad7: Array(7).fill(null), asrs: Array(6).fill(null) };
+let selectedService = '';
+let safetyResponse = '';
+let chronicConditions = [];
+// === URL PARAMETER: auto-select service ===
+const urlParams = new URLSearchParams(window.location.search);
+const preselect = urlParams.get('service');
+// === SERVICE SELECTION ===
+function selectService(el) {
+document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+el.classList.add('selected');
+selectedService = el.dataset.service;
+document.getElementById('selectedService').value = selectedService;
+updateScreeningSections();
+}
+function updateScreeningSections() {
+const phq9 = document.getElementById('phq9Section');
+const gad7 = document.getElementById('gad7Section');
+const asrs = document.getElementById('asrsSection');
+const chronic = document.getElementById('chronicSection');
+const noScreen = document.getElementById('noScreeningMsg');
+phq9.style.display = 'none';
+gad7.style.display = 'none';
+asrs.style.display = 'none';
+chronic.style.display = 'none';
+noScreen.style.display = 'none';
+if (['anxiety', 'depression', 'grief'].includes(selectedService)) {
+phq9.style.display = 'block';
+gad7.style.display = 'block';
+} else if (selectedService === 'adhd') {
+phq9.style.display = 'block';
+gad7.style.display = 'block';
+asrs.style.display = 'block';
+} else if (selectedService === 'chronic') {
+chronic.style.display = 'block';
+} else {
+noScreen.style.display = 'block';
+}
+}
+// === SCORING ===
+function scoreQ(btn) {
+const q = btn.closest('.screening-q');
+const scale = q.dataset.scale;
+const idx = parseInt(q.dataset.q);
+const val = parseInt(btn.dataset.val);
+q.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+btn.classList.add('selected');
+scores[scale][idx] = val;
+updateScoreDisplay(scale);
+if (scale === 'phq9' && idx === 8 && val > 0) {
+document.getElementById('selfHarmFlag').value = 'true';
+}
+}
+function updateScoreDisplay(scale) {
+const arr = scores[scale];
+const answered = arr.filter(v => v !== null);
+const total = answered.reduce((a, b) => a + b, 0);
+const max = scale === 'asrs' ? 24 : (scale === 'phq9' ? 27 : 21);
+const numQ = scale === 'asrs' ? 6 : (scale === 'phq9' ? 9 : 7);
+if (answered.length === numQ) {
+const scoreEl = document.getElementById(scale + 'Score');
+const numEl = document.getElementById(scale + 'ScoreNum');
+const labelEl = document.getElementById(scale + 'ScoreLabel');
+const barEl = document.getElementById(scale + 'Bar');
+scoreEl.style.display = 'block';
+numEl.textContent = total;
+let severity, color;
+if (scale === 'phq9') {
+if (total <= 4) { severity = 'Minimal'; color = '#1A6B5A'; }
+else if (total <= 9) { severity = 'Mild'; color = '#C4956A'; }
+else if (total <= 14) { severity = 'Moderate'; color = '#C4956A'; }
+else if (total <= 19) { severity = 'Moderately Severe'; color = '#D4726A'; }
+else { severity = 'Severe'; color = '#D4726A'; }
+labelEl.textContent = 'PHQ-9: ' + severity;
+document.getElementById('phq9ScoreInput').value = total;
+document.getElementById('phq9SeverityInput').value = severity;
+document.getElementById('phq9AnswersInput').value = JSON.stringify(arr);
+} else if (scale === 'gad7') {
+if (total <= 4) { severity = 'Minimal'; color = '#1A6B5A'; }
+else if (total <= 9) { severity = 'Mild'; color = '#C4956A'; }
+else if (total <= 14) { severity = 'Moderate'; color = '#C4956A'; }
+else { severity = 'Severe'; color = '#D4726A'; }
+labelEl.textContent = 'GAD-7: ' + severity;
+document.getElementById('gad7ScoreInput').value = total;
+document.getElementById('gad7SeverityInput').value = severity;
+document.getElementById('gad7AnswersInput').value = JSON.stringify(arr);
+} else {
+labelEl.textContent = 'ASRS: ' + total + ' / 24';
+color = '#C4956A';
+document.getElementById('asrsScoreInput').value = total;
+document.getElementById('asrsAnswersInput').value = JSON.stringify(arr);
+}
+numEl.style.color = color;
+barEl.style.width = (total / max * 100) + '%';
+barEl.style.background = color;
+}
+}
+// === CHRONIC CONDITIONS TOGGLE ===
+function toggleChk(btn) {
+btn.classList.toggle('selected');
+chronicConditions = [];
+document.querySelectorAll('[data-cond].selected').forEach(b => chronicConditions.push(b.dataset.cond));
+document.getElementById('chronicConditions').value = chronicConditions.join(',');
+}
+// === SAFETY ===
+function setSafety(btn, val) {
+document.querySelectorAll('[data-safety]').forEach(b => b.classList.remove('selected'));
+btn.classList.add('selected');
+safetyResponse = val;
+document.getElementById('selfHarmFlag').value = val === 'yes' ? 'true' : 'false';
+document.getElementById('safetyAlert').style.display = val === 'yes' ? 'block' : 'none';
+}
+// === GP FIELD TOGGLE ===
+function toggleGPField() {
+document.getElementById('gpPracticeField').style.display = document.getElementById('hasGP').value === 'yes' ? 'block' : 'none';
+}
+// === NAVIGATION ===
+function showStep(n) {
+document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+document.getElementById('step' + n).classList.add('active');
+document.querySelectorAll('.progress-dot').forEach((d, i) => {
+d.classList.remove('active', 'done');
+if (i === n - 1) d.classList.add('active');
+else if (i < n - 1) d.classList.add('done');
+});
+document.getElementById('btnBack').classList.toggle('hidden', n === 1);
+document.getElementById('btnNext').classList.toggle('hidden', n === totalSteps);
+document.getElementById('btnSubmit').classList.toggle('hidden', n !== totalSteps);
+if (n === 6) buildReview();
+window.scrollTo(0, 0);
+}
+function nextStep() {
+if (currentStep < totalSteps) {
+currentStep++;
+showStep(currentStep);
+}
+}
+function prevStep() {
+if (currentStep > 1) {
+currentStep--;
+showStep(currentStep);
+}
+}
+// === REVIEW ===
+function buildReview() {
+const f = document.getElementById('intakeForm');
+const g = (n) => { const el = f.elements[n]; return el ? el.value : ''; };
+document.getElementById('reviewDetailsContent').innerHTML = rv('Name', g('first_name') + ' ' + g('last_name')) + rv('DOB', g('dob')) + rv('Phone', g('phone')) + rv('Email', g('email')) + rv('Ethnicity', g('ethnicity')) + rv('Language', g('preferred_language'));
+document.getElementById('reviewServiceContent').innerHTML = rv('Service', selectedService) + rv('Main concern', (g('main_concern') || '').substring(0, 80) + ((g('main_concern') || '').length > 80 ? '...' : ''));
+let scoresHtml = '';
+if (g('phq9_score')) scoresHtml += rv('PHQ-9', g('phq9_score') + '/27 — ' + g('phq9_severity'));
+if (g('gad7_score')) scoresHtml += rv('GAD-7', g('gad7_score') + '/21 — ' + g('gad7_severity'));
+if (g('asrs_score')) scoresHtml += rv('ASRS', g('asrs_score') + '/24');
+if (!scoresHtml) scoresHtml = '<p style="color:rgba(255,255,255,0.3);font-size:14px">No screening for this service</p>';
+document.getElementById('reviewScoresContent').innerHTML = scoresHtml;
+document.getElementById('reviewContextContent').innerHTML = rv('Medications', g('medications') || 'None listed') + rv('MH support', g('current_mh_support')) + rv('GP', g('has_regular_gp') === 'yes' ? 'Yes — ' + g('gp_practice') : 'No') + rv('Emergency contact', g('emergency_contact_name') + ' — ' + g('emergency_contact_phone')) + rv('Safety flag', document.getElementById('selfHarmFlag').value === 'true' ? '⚠️ Yes — flagged for follow-up' : 'No');
+}
+function rv(label, value) {
+return '<div class="review-row"><span class="r-label">' + label + '</span><span class="r-value">' + (value || '—') + '</span></div>';
+}
+// === INIT ===
+document.addEventListener('DOMContentLoaded', function() {
+showStep(1);
+if (preselect) {
+const card = document.querySelector('[data-service="' + preselect + '"]');
+if (card) {
+selectService(card);
+currentStep = 2;
+showStep(2);
+}
+}
+});
+</script>
+</body>
+</html>
