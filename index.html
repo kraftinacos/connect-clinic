@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Connect Clinic — Youth Mental Health | Aotearoa New Zealand</title>
-<meta name="description" content="Structured virtual mental health care for young New Zealanders aged 16–30. No waitlist. No referral needed. Measured outcomes.">
-<meta property="og:title" content="Connect Clinic — Youth Mental Health | Aotearoa New Zealand">
-<meta property="og:description" content="Structured virtual mental health care for young New Zealanders aged 16–30. No waitlist. No referral needed. Measured outcomes.">
+<title>Connect — Virtual Mental Health | Aotearoa New Zealand</title>
+<meta name="description" content="Structured virtual mental health care for young New Zealanders aged 16–30. No waitlist. No referral needed.">
+<meta property="og:title" content="Connect — Virtual Mental Health | Aotearoa New Zealand">
+<meta property="og:description" content="Structured virtual mental health care for young New Zealanders aged 16–30. No waitlist. No referral needed.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -14,12 +14,11 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;font-weight:300;background:#000;color:#fff;line-height:1.6}
-h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:300}
-/* Layout */
 .container{max-width:1080px;margin:0 auto;padding:0 2rem}
 section{padding:8rem 0;text-align:center}
-/* Navigation */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:#000;border-bottom:1px solid rgba(255,255,255,0.08);transition:all 0.3s}
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:#000;border-bottom:1px solid transparent;transition:border-color 0.3s}
+nav.scrolled{border-bottom-color:rgba(255,255,255,0.08)}
 .nav-inner{max-width:1080px;margin:0 auto;padding:1.2rem 2rem;display:flex;justify-content:space-between;align-items:center}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#fff;font-weight:300}
 .nav-links{display:flex;gap:2.5rem;align-items:center}
@@ -30,103 +29,64 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:#000;border-bott
 .hamburger span{width:20px;height:1px;background:#fff}
 /* Hero */
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding-top:0}
-.hero-label{font-family:'Inter',sans-serif;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:#666;margin-bottom:3rem}
-.hero-stat{font-family:'Cormorant Garamond',serif;font-size:8rem;font-weight:300;color:#fff;letter-spacing:-0.04em;line-height:1}
-.hero-stat span{font-family:'Inter',sans-serif;font-size:1.2rem;font-weight:300;color:#a0a0a0;letter-spacing:0;vertical-align:baseline;margin-left:0.5rem}
-.hero-text{font-family:'Inter',sans-serif;font-size:1rem;font-weight:300;color:#a0a0a0;max-width:480px;margin:1.5rem auto 0}
-.hero-source{font-family:'Inter',sans-serif;font-size:0.72rem;color:#666;margin-top:1rem}
-.scroll-indicator{width:1px;height:40px;background:rgba(255,255,255,0.3);margin:4rem auto 0;animation:scroll 2s infinite}
-@keyframes scroll{0%,100%{transform:translateY(0);opacity:0.3}50%{transform:translateY(8px);opacity:0.6}}
-/* Sections */
-.section-label{font-family:'Inter',sans-serif;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:#666;margin-bottom:1rem}
-.section-title{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:#fff;margin-bottom:1rem}
-.section-subtitle{font-family:'Inter',sans-serif;font-size:1rem;font-weight:300;color:#a0a0a0;max-width:560px;margin:0 auto}
-.alt-bg{background:#0a0a0a}
-/* Numbers grid */
-.numbers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:4rem;max-width:900px;margin-left:auto;margin-right:auto}
-.number-card{background:#111;padding:2.5rem;text-align:center}
-.number-value{font-family:'JetBrains Mono',monospace;font-size:2.4rem;color:#fff;letter-spacing:-0.03em}
-.number-label{font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:300;color:#a0a0a0;margin-top:0.5rem}
-.number-context{font-family:'Inter',sans-serif;font-size:0.75rem;color:#666;margin-top:0.25rem}
-.numbers-source{font-family:'Inter',sans-serif;font-size:0.68rem;color:#666;margin-top:2rem}
-/* Gap bars */
-.gap-bars{max-width:720px;margin:4rem auto 0;text-align:left}
-.gap-bar{padding:1.5rem 2rem;border:1px solid rgba(255,255,255,0.08)}
-.gap-bar-label{font-family:'Inter',sans-serif;font-size:0.68rem;text-transform:uppercase;color:#666;letter-spacing:0.1em;margin-bottom:0.5rem}
-.gap-bar-text{font-family:'Inter',sans-serif;font-size:0.85rem;font-weight:300;color:#a0a0a0}
-.gap-bar.middle{background:rgba(232,196,160,0.04);border-left:2px solid #e8c4a0}
-.gap-bar.middle .gap-bar-label{color:#e8c4a0;display:flex;align-items:center;gap:0.5rem}
-.gap-bar.middle .gap-bar-text{color:#fff}
-.gap-tag{font-family:'Inter',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;background:#e8c4a0;color:#000;padding:0.15rem 0.5rem;border-radius:2px}
-.gap-bar:first-child{border-radius:2px 2px 0 0}
-.gap-bar:last-child{border-radius:0 0 2px 2px}
-.gap-quote{max-width:600px;margin:3rem auto 0;font-family:'Inter',sans-serif;font-size:0.95rem;font-weight:300;color:#a0a0a0}
-.gap-source{font-family:'Inter',sans-serif;font-size:0.72rem;color:#666;margin-top:1rem}
-/* Cards grid */
-.cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:4rem;max-width:1000px;margin-left:auto;margin-right:auto}
-.step-card{background:#111;padding:2.5rem;text-align:center}
-.step-number{font-family:'JetBrains Mono',monospace;font-size:1rem;color:#666}
-.step-divider{width:30px;height:1px;background:rgba(255,255,255,0.08);margin:1rem auto}
-.step-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#fff;margin-bottom:0.75rem}
-.step-desc{font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:300;color:#a0a0a0}
-.features-list{margin-top:3rem;font-family:'Inter',sans-serif;font-size:0.85rem;font-weight:300;color:#a0a0a0;line-height:2}
-/* Services */
-.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:4rem;max-width:900px;margin-left:auto;margin-right:auto}
-.service-card{background:#111;padding:2rem;text-align:center}
-.service-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#fff;margin-bottom:0.75rem}
-.service-desc{font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:300;color:#a0a0a0;margin-bottom:1rem}
-.service-link{font-family:'Inter',sans-serif;font-size:0.8rem;color:#e8c4a0;text-decoration:none;transition:all 0.2s}
-.service-link:hover{color:#fff}
-.service-link:hover span{transform:translateX(3px);display:inline-block}
-/* About */
-.about-text{max-width:640px;margin:2rem auto 0;font-family:'Inter',sans-serif;font-size:0.95rem;font-weight:300;color:#a0a0a0;line-height:1.7}
-.about-text strong{color:#fff;font-weight:400}
-.about-creds{margin-top:3rem;font-family:'Inter',sans-serif;font-size:0.78rem;color:#666}
-.about-creds span{color:#a0a0a0}
-/* CTA */
-.cta{padding:10rem 0}
-.cta-title{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;color:#fff}
-.cta-subtitle{font-family:'Inter',sans-serif;font-size:1rem;font-weight:300;color:#a0a0a0;max-width:420px;margin:1rem auto 0}
-.cta-buttons{display:flex;gap:1rem;justify-content:center;margin-top:2.5rem}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:6rem;font-weight:300;color:#fff;letter-spacing:-0.03em;line-height:1}
+.hero-subtitle{font-family:'Inter',sans-serif;font-size:1.1rem;font-weight:300;color:#a0a0a0;max-width:440px;margin:1.5rem auto 0}
+.hero-buttons{display:flex;gap:1rem;justify-content:center;margin-top:2.5rem}
 .btn-primary{font-family:'Inter',sans-serif;font-size:0.88rem;font-weight:500;background:#e8c4a0;color:#000;padding:0.8rem 2rem;border-radius:2px;text-decoration:none;transition:all 0.2s}
 .btn-primary:hover{background:#fff}
 .btn-secondary{font-family:'Inter',sans-serif;font-size:0.88rem;font-weight:300;border:1px solid rgba(255,255,255,0.15);color:#a0a0a0;padding:0.8rem 2rem;border-radius:2px;text-decoration:none;transition:all 0.2s}
 .btn-secondary:hover{border-color:#fff;color:#fff}
+.scroll-line{width:1px;height:40px;background:rgba(255,255,255,0.2);margin:5rem auto 0;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+/* Sections */
+.section-title{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:300;color:#fff}
+.section-subtitle{font-family:'Inter',sans-serif;font-size:0.95rem;font-weight:300;color:#a0a0a0;max-width:480px;margin:1rem auto 0}
+.alt-bg{background:#0a0a0a}
+/* Services */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:4rem;max-width:900px;margin-left:auto;margin-right:auto}
+.service-card{background:#111;padding:2.5rem;text-align:center}
+.service-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#fff;margin-bottom:0.75rem}
+.service-desc{font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:300;color:#a0a0a0;margin-bottom:1rem}
+.service-link{font-family:'Inter',sans-serif;font-size:0.8rem;color:#e8c4a0;text-decoration:none;transition:all 0.2s}
+.service-link:hover{color:#fff}
+.service-link:hover span{transform:translateX(3px);display:inline-block;transition:transform 0.2s}
+.features-list{margin-top:3rem;font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:300;color:#a0a0a0;line-height:2}
+/* About */
+.about-text{max-width:600px;margin:2rem auto 0;text-align:center}
+.about-text p{font-family:'Inter',sans-serif;font-size:0.95rem;font-weight:300;color:#a0a0a0;margin-bottom:1.5rem;line-height:1.7}
+.about-text strong{color:#fff;font-weight:400}
+.about-creds{margin-top:2.5rem;font-family:'Inter',sans-serif;font-size:0.75rem;color:#666}
+.about-creds span{color:#a0a0a0}
+.about-source{margin-top:1.5rem;font-family:'Inter',sans-serif;font-size:0.68rem;color:#666}
 /* Footer */
 footer{border-top:1px solid rgba(255,255,255,0.08);padding:3rem 0;text-align:center}
 .footer-name{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#fff;margin-bottom:0.25rem}
-.footer-sub{font-family:'Inter',sans-serif;font-size:0.75rem;color:#666}
-.footer-crisis{margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.06);font-family:'Inter',sans-serif;font-size:0.75rem;color:#666}
+.footer-sub{font-family:'Inter',sans-serif;font-size:0.72rem;color:#666;margin-bottom:0.25rem}
+.footer-email{font-family:'Inter',sans-serif;font-size:0.72rem;color:#a0a0a0;text-decoration:none}
+.footer-email:hover{color:#fff}
+.footer-crisis{margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.06);font-family:'Inter',sans-serif;font-size:0.72rem;color:#666}
 .footer-crisis span{color:#a0a0a0}
 /* Animations */
 .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.8s ease-out,transform 0.8s ease-out}
 .reveal.visible{opacity:1;transform:translateY(0)}
 /* Responsive */
-@media(max-width:1024px){
-.hero-stat{font-size:6rem}
-.numbers-grid,.services-grid{grid-template-columns:repeat(2,1fr)}
-.cards-grid{grid-template-columns:repeat(2,1fr)}
-}
 @media(max-width:768px){
 section{padding:5rem 0}
-.hero-stat{font-size:5rem}
-.hero-stat span{font-size:1rem}
+.hero-title{font-size:3.5rem}
 .nav-links{position:fixed;top:60px;left:0;right:0;background:#000;flex-direction:column;padding:2rem;display:none;border-top:1px solid rgba(255,255,255,0.08)}
 .nav-links.show{display:flex}
 .hamburger{display:flex}
-.numbers-grid,.cards-grid,.services-grid{grid-template-columns:1fr}
-.cta-buttons{flex-direction:column;align-items:center}
+.services-grid{grid-template-columns:1fr}
+.hero-buttons{flex-direction:column;align-items:center}
 }
 </style>
 </head>
 <body>
-<!-- NAVIGATION -->
+<!-- NAV -->
 <nav id="nav">
 <div class="nav-inner">
 <div class="nav-logo">Connect</div>
 <div class="nav-links" id="navLinks">
-<a href="#problem">The Problem</a>
-<a href="#how">How It Works</a>
 <a href="#services">Services</a>
 <a href="#about">About</a>
 <a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="book">Book</a>
@@ -140,184 +100,76 @@ section{padding:5rem 0}
 <!-- HERO -->
 <section class="hero">
 <div class="container">
-<div class="hero-label reveal">Connect Clinic</div>
-<div class="hero-stat reveal">36<sup>th</sup><span>out of 36</span></div>
-<p class="hero-text reveal">OECD nations ranked by youth mental health. New Zealand is last.</p>
-<p class="hero-source reveal">UNICEF Innocenti Report Card 19, 2025</p>
-<div class="scroll-indicator reveal"></div>
+<h1 class="hero-title reveal">Connect</h1>
+<p class="hero-subtitle reveal">Virtual mental health care for young New Zealanders</p>
+<div class="hero-buttons reveal">
+<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="btn-primary">Book a session →</a>
+<a href="#services" class="btn-secondary">Learn more</a>
 </div>
-</section>
-
-<!-- THE NUMBERS -->
-<section class="alt-bg" id="problem">
-<div class="container">
-<div class="section-label reveal">The Numbers</div>
-<h2 class="section-title reveal">What the data says</h2>
-<div class="numbers-grid">
-<div class="number-card reveal">
-<div class="number-value">17.1</div>
-<div class="number-label">youth suicides per 100,000</div>
-<div class="number-context">The OECD high-income average is 6.5</div>
-</div>
-<div class="number-card reveal">
-<div class="number-value">2×</div>
-<div class="number-label">Māori youth suicide rate vs non-Māori</div>
-<div class="number-context">16.3 vs 9.0 per 100,000</div>
-</div>
-<div class="number-card reveal">
-<div class="number-value">14.3%</div>
-<div class="number-label">of adults report high psychological distress</div>
-<div class="number-context">Up from 7.4% in 2019. Doubled in five years.</div>
-</div>
-<div class="number-card reveal">
-<div class="number-value">−10,000</div>
-<div class="number-label">fewer young people accessing mental health services</div>
-<div class="number-context">Over the past five years. Need rising, access falling.</div>
-</div>
-<div class="number-card reveal">
-<div class="number-value">10.5%</div>
-<div class="number-label">of adults report unmet need for mental health care</div>
-<div class="number-context">Young people report the highest unmet need of any group.</div>
-</div>
-<div class="number-card reveal">
-<div class="number-value">25</div>
-<div class="number-label">years shorter life expectancy in specialist MH services</div>
-<div class="number-context">Early intervention is not optional.</div>
-</div>
-</div>
-<p class="numbers-source reveal">NZ Health Survey 2024/25 · UNICEF 2025 · Auditor-General 2024 · Te Hiringa Mahara 2025</p>
-</div>
-</section>
-
-<!-- THE GAP -->
-<section id="gap">
-<div class="container">
-<div class="section-label reveal">The Gap</div>
-<h2 class="section-title reveal">The missing middle</h2>
-<p class="section-subtitle reveal">Too complex for a 15-minute GP consult. Not severe enough for specialist services. Unable to afford private care.</p>
-<div class="gap-bars">
-<div class="gap-bar reveal">
-<div class="gap-bar-label">Specialist</div>
-<div class="gap-bar-text">CAMHS, crisis teams, inpatient. High threshold. Long waitlists.</div>
-</div>
-<div class="gap-bar middle reveal">
-<div class="gap-bar-label">The Missing Middle <span class="gap-tag">Connect</span></div>
-<div class="gap-bar-text">Anxiety, depression, stress, ADHD, grief, sleep. Where most young people sit. Where the system has its largest gap.</div>
-</div>
-<div class="gap-bar reveal">
-<div class="gap-bar-label">Primary Care</div>
-<div class="gap-bar-text">15-minute GP consults. No structured pathways. No outcome tracking.</div>
-</div>
-</div>
-<p class="gap-quote reveal">The Auditor-General found that services for young people are fragmented, and not all have timely access to appropriate care. Connect sits in the gap — structured, virtual, outcome-measured intervention delivered before crisis.</p>
-<p class="gap-source reveal">Office of the Auditor-General, 2024</p>
-</div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="alt-bg" id="how">
-<div class="container">
-<div class="section-label reveal">How It Works</div>
-<h2 class="section-title reveal">Four steps. Six sessions. Measured outcomes.</h2>
-<div class="cards-grid">
-<div class="step-card reveal">
-<div class="step-number">01</div>
-<div class="step-divider"></div>
-<div class="step-title">Intro call</div>
-<div class="step-desc">15 minutes. Video. No cost. We assess fit and you ask questions.</div>
-</div>
-<div class="step-card reveal">
-<div class="step-number">02</div>
-<div class="step-divider"></div>
-<div class="step-title">Screening</div>
-<div class="step-desc">PHQ-9, GAD-7, or ASRS depending on presentation. Validated baseline.</div>
-</div>
-<div class="step-card reveal">
-<div class="step-number">03</div>
-<div class="step-divider"></div>
-<div class="step-title">Care plan</div>
-<div class="step-desc">Goals set together. Strategies matched to your life, your context, your whānau.</div>
-</div>
-<div class="step-card reveal">
-<div class="step-number">04</div>
-<div class="step-divider"></div>
-<div class="step-title">Six sessions</div>
-<div class="step-desc">Structured intervention. Progress measured at every session. You see the data.</div>
-</div>
-</div>
-<div class="features-list reveal">
-<div>— From your phone, wherever you are</div>
-<div>— No referral needed. Self-refer and start within the week.</div>
-<div>— Pre and post validated outcome measures on every pathway</div>
-</div>
+<div class="scroll-line reveal"></div>
 </div>
 </section>
 
 <!-- SERVICES -->
-<section id="services">
+<section class="alt-bg" id="services">
 <div class="container">
-<div class="section-label reveal">Services</div>
 <h2 class="section-title reveal">What we treat</h2>
-<p class="section-subtitle reveal">Six-session structured pathways. $120–180 per pathway.</p>
+<p class="section-subtitle reveal">Six-session structured pathways. Validated screening. Measured outcomes. $120–180.</p>
 <div class="services-grid">
 <div class="service-card reveal">
 <div class="service-name">Anxiety</div>
-<div class="service-desc">GAD, social anxiety, panic. CBT-based structured intervention.</div>
+<div class="service-desc">CBT-based intervention for GAD, social anxiety, panic, and health anxiety.</div>
 <a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book <span>→</span></a>
 </div>
 <div class="service-card reveal">
 <div class="service-name">Depression</div>
-<div class="service-desc">Low mood, withdrawal, loss of motivation. Behavioural activation and cognitive work.</div>
+<div class="service-desc">Behavioural activation and cognitive work for low mood and withdrawal.</div>
 <a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book <span>→</span></a>
 </div>
 <div class="service-card reveal">
 <div class="service-name">ADHD Assessment</div>
-<div class="service-desc">ASRS screening, clinical interview, collateral history. Medication where indicated.</div>
+<div class="service-desc">ASRS screening, clinical interview, collateral. Medication where indicated.</div>
 <a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book <span>→</span></a>
 </div>
 <div class="service-card reveal">
 <div class="service-name">Stress & Burnout</div>
-<div class="service-desc">Work and study pressure. Boundary setting and sustainable coping.</div>
+<div class="service-desc">Boundary setting and sustainable coping for work and study pressure.</div>
 <a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book <span>→</span></a>
 </div>
 <div class="service-card reveal">
 <div class="service-name">Grief & Loss</div>
-<div class="service-desc">Bereavement and life transitions. Culturally safe, whānau-inclusive support.</div>
+<div class="service-desc">Culturally safe support for bereavement and life transitions.</div>
 <a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book <span>→</span></a>
 </div>
 <div class="service-card reveal">
 <div class="service-name">Sleep</div>
-<div class="service-desc">Insomnia and disrupted sleep. CBT-I approach with structured sleep protocols.</div>
+<div class="service-desc">CBT-I protocols for insomnia and disrupted sleep.</div>
 <a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book <span>→</span></a>
 </div>
+</div>
+<div class="features-list reveal">
+<div>— From your phone, wherever you are</div>
+<div>— No referral needed</div>
+<div>— Start within the week</div>
 </div>
 </div>
 </section>
 
 <!-- ABOUT -->
-<section class="alt-bg" id="about">
+<section id="about">
 <div class="container">
-<div class="section-label reveal">About</div>
-<h2 class="section-title reveal">Built inside the system it aims to fix</h2>
+<h2 class="section-title reveal">About</h2>
 <div class="about-text reveal">
-<p>Connect Clinic is led by <strong>Dr Francis Katoa</strong> — GP, RNZCGP Fellow, seven years in high-needs primary care across Aotearoa. Trained in CBT, youth and adolescent mental health, and medicinal cannabis prescribing.</p>
-<p style="margin-top:1rem">This is not a startup. This is a clinician who has worked in the under-resourced clinics, seen young people cycle through fragmented services, and built what the system does not provide.</p>
-<p style="margin-top:1rem">Connect operates under <strong>Pasifika Rise Limited</strong>. Pacific-governed. Aotearoa-based.</p>
+<p>Connect is led by <strong>Dr Francis Katoa</strong> — GP, RNZCGP Fellow, seven years in high-needs primary care. Trained in CBT and youth mental health.</p>
+<p>Connect exists because the system has a gap. In 2025, UNICEF ranked New Zealand last out of 36 wealthy nations for youth mental health. The youth suicide rate is 17.1 per 100,000 — nearly three times the OECD average. Māori youth rates are double non-Māori. Over the past five years, 10,000 fewer young people have accessed mental health services, even as distress has risen.</p>
+<p>The Auditor-General found that services for young people are fragmented. Most sit in the missing middle — too complex for a 15-minute GP consult, not severe enough for specialist care, unable to afford private therapy. Connect provides structured, virtual, outcome-measured intervention in that gap.</p>
+<p>Connect operates under <strong>Pasifika Rise Limited</strong>. Pacific-governed. Aotearoa-based.</p>
 </div>
 <div class="about-creds reveal">
-RNZCGP Fellow <span>·</span> RNZCGP Pacific Chapter Secretary <span>·</span> University of Auckland Clinical Tutor <span>·</span> Postgraduate CBT & Youth Mental Health <span>·</span> Seven years high-needs primary care
+RNZCGP Fellow <span>·</span> Pacific Chapter Secretary <span>·</span> University of Auckland Clinical Tutor <span>·</span> Postgraduate CBT & Youth MH <span>·</span> Seven years high-needs primary care
 </div>
-</div>
-</section>
-
-<!-- CTA -->
-<section class="cta">
-<div class="container">
-<h2 class="cta-title reveal">Start</h2>
-<p class="cta-subtitle reveal">No referral. No waitlist. Book and begin within the week.</p>
-<div class="cta-buttons reveal">
-<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="btn-primary">Book →</a>
-<a href="mailto:connect@pasifikarise.nz" class="btn-secondary">connect@pasifikarise.nz</a>
+<div class="about-source reveal">
+UNICEF Innocenti 2025 · NZ Health Survey 2024/25 · Office of the Auditor-General 2024
 </div>
 </div>
 </section>
@@ -325,10 +177,11 @@ RNZCGP Fellow <span>·</span> RNZCGP Pacific Chapter Secretary <span>·</span> U
 <!-- FOOTER -->
 <footer>
 <div class="container">
-<div class="footer-name reveal">Connect Clinic</div>
-<div class="footer-sub reveal">A Pasifika Rise initiative · Aotearoa New Zealand</div>
+<div class="footer-name reveal">Connect</div>
+<div class="footer-sub reveal">Pasifika Rise Limited · Aotearoa New Zealand</div>
+<a href="mailto:connect@pasifikarise.nz" class="footer-email reveal">connect@pasifikarise.nz</a>
 <div class="footer-crisis reveal">
-If you are in crisis, call or text <span>1737</span>. Lifeline <span>0800 543 354</span>. Emergency <span>111</span>.
+In crisis — call or text <span>1737</span> · Lifeline <span>0800 543 354</span> · Emergency <span>111</span>
 </div>
 </div>
 </footer>
@@ -340,7 +193,7 @@ window.addEventListener('scroll',()=>{if(window.scrollY>10)document.getElementBy
 function toggleMenu(){document.getElementById('navLinks').classList.toggle('show')}
 document.querySelectorAll('.nav-links a').forEach(l=>l.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('show')));
 // Reveal animations
-const obs=new IntersectionObserver((e)=>{e.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*100);obs.unobserve(e.target)}})},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+const obs=new IntersectionObserver((e)=>{e.forEach((el,i)=>{if(el.isIntersecting){setTimeout(()=>el.target.classList.add('visible'),i*100);obs.unobserve(el.target)}})},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
 document.querySelectorAll('.reveal').forEach(e=>obs.observe(e));
 </script>
 </body>
