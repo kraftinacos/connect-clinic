@@ -1,105 +1,500 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="theme-color" content="#0B1D3A">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="description" content="CONNECT - Pacific-led mental health care in Aotearoa. ADHD, anxiety, depression assessments and treatment.">
-    
-    <title>CONNECT</title>
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    
-    <!-- Icons -->
-    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-    <link rel="apple-touch-icon" href="icons/icon-192.png">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/styles.css">
-    
-    <!-- Preload key resources -->
-    <link rel="preload" href="pages/home.html" as="fetch" crossorigin>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connect Clinic — Youth Mental Health | Aotearoa New Zealand</title>
+<meta name="description" content="Structured virtual mental health care for young New Zealanders. No waitlist. No referral needed. Measured outcomes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#0a0f1a;color:#e2e8f0;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Instrument Serif',serif;font-weight:400}
+/* Grain overlay */
+.grain{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* Navigation */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s}
+nav.scrolled{background:rgba(10,15,26,0.95);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,0.06)}
+.logo{display:flex;align-items:center;gap:0.75rem}
+.logo-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#2dd4bf,#14b8a6);display:flex;align-items:center;justify-content:center;font-weight:700;color:#0a0f1a;font-size:14px}
+.logo-text{font-family:'Instrument Serif',serif;font-size:1.25rem;color:#f8fafc}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{color:#94a3b8;text-decoration:none;font-size:0.9rem;transition:color 0.2s}
+.nav-links a:hover{color:#2dd4bf}
+.btn-primary{padding:0.6rem 1.5rem;background:#2dd4bf;color:#0a0f1a;border-radius:100px;font-weight:600;font-size:0.85rem;text-decoration:none;transition:all 0.2s}
+.btn-primary:hover{background:#5eead4}
+.btn-ghost{padding:0.6rem 1.5rem;border:1px solid rgba(255,255,255,0.15);color:#e2e8f0;border-radius:100px;font-weight:500;font-size:0.85rem;text-decoration:none;transition:all 0.2s}
+.btn-ghost:hover{border-color:#2dd4bf;color:#2dd4bf}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer}
+.hamburger span{width:22px;height:2px;background:#64748b;transition:all 0.3s}
+/* Hero glows */
+.glow{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none}
+.glow-teal{width:500px;height:500px;background:rgba(45,212,191,0.12);top:-100px;right:-100px}
+.glow-coral{width:400px;height:400px;background:rgba(251,113,133,0.06);bottom:-100px;left:-100px}
+/* Sections */
+section{padding:6rem 2rem;position:relative}
+.container{max-width:1200px;margin:0 auto}
+.section-intro{max-width:700px;margin-bottom:3rem}
+.section-label{color:#2dd4bf;font-size:0.8rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:0.75rem}
+.section-title{color:#f8fafc;font-size:2.8rem;line-height:1.1;margin-bottom:1rem}
+.section-subtitle{color:#94a3b8;font-size:1.1rem}
+/* Hero */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:8rem;padding-bottom:6rem}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-eyebrow{display:flex;align-items:center;gap:0.5rem;color:#2dd4bf;font-size:0.8rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:1.5rem}
+.pulse{width:8px;height:8px;background:#2dd4bf;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.hero-title{font-size:3.8rem;line-height:1.05;color:#f8fafc;margin-bottom:1.5rem}
+.hero-title em{color:#2dd4bf;font-style:italic}
+.hero-subtitle{color:#94a3b8;font-size:1.1rem;margin-bottom:2rem;max-width:480px}
+.hero-subtitle strong{color:#f8fafc;font-weight:600}
+.hero-actions{display:flex;gap:1rem}
+.stat-card{background:#111827;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:2rem;position:relative}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#2dd4bf,#fb7185);border-radius:3px 3px 0 0}
+.stat-label{color:#64748b;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem}
+.stat-big{display:flex;align-items:baseline;gap:0.5rem;margin-bottom:1rem}
+.stat-number{font-family:'Instrument Serif',serif;font-size:3.5rem;color:#fb7185}
+.stat-suffix{color:#64748b;font-size:1rem}
+.stat-desc{color:#94a3b8;font-size:0.95rem;line-height:1.6;margin-bottom:1.5rem}
+.stat-desc strong{color:#f8fafc;font-weight:600}
+.mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.06)}
+.mini-stat{text-align:center}
+.mini-number{font-size:1.25rem;font-weight:600;color:#f8fafc}
+.mini-label{font-size:0.7rem;color:#64748b;margin-top:0.25rem}
+.stat-source{text-align:right;font-size:0.65rem;color:#64748b;margin-top:1rem}
+/* Problem section */
+.problem{background:#0d1321}
+.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.problem-card{background:#111827;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.5rem;transition:all 0.2s}
+.problem-card:hover{border-color:rgba(45,212,191,0.15);transform:translateY(-2px)}
+.problem-number{font-family:'Instrument Serif',serif;font-size:2.5rem;color:#fb7185;margin-bottom:0.5rem}
+.problem-label{color:#f8fafc;font-weight:600;margin-bottom:0.5rem}
+.problem-desc{color:#94a3b8;font-size:0.9rem}
+.problem-source{color:#64748b;font-size:0.75rem;margin-top:2rem}
+/* Missing middle */
+.middle-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.quote{border-left:3px solid #2dd4bf;padding-left:1.5rem;margin-bottom:2rem}
+.quote p{font-family:'Instrument Serif',serif;font-size:1.5rem;font-style:italic;color:#f8fafc;line-height:1.4}
+.quote cite{color:#64748b;font-size:0.85rem;font-style:normal;display:block;margin-top:1rem}
+.middle-text p{color:#94a3b8;margin-bottom:1rem}
+.layers{border-radius:16px;overflow:hidden}
+.layer{padding:1.5rem}
+.layer-crisis{background:rgba(212,114,106,0.08);border:1px solid rgba(212,114,106,0.2);border-radius:16px 16px 0 0}
+.layer-connect{background:rgba(45,212,191,0.08);border:1px solid rgba(45,212,191,0.3);position:relative}
+.layer-connect::after{content:'CONNECT SITS HERE';position:absolute;top:1rem;right:1rem;background:#2dd4bf;color:#0a0f1a;font-size:0.6rem;font-weight:700;padding:0.25rem 0.5rem;border-radius:4px;text-transform:uppercase;letter-spacing:0.5px}
+.layer-gp{background:rgba(100,116,139,0.08);border:1px solid rgba(255,255,255,0.06);border-radius:0 0 16px 16px}
+.layer-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.5rem;font-weight:600}
+.layer-crisis .layer-label{color:#fb7185}
+.layer-connect .layer-label{color:#2dd4bf}
+.layer-gp .layer-label{color:#64748b}
+.layer-desc{color:#94a3b8;font-size:0.9rem}
+/* How it works */
+.how{background:#0d1321}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-bottom:4rem}
+.step{position:relative}
+.step-number{font-family:'Instrument Serif',serif;font-size:2rem;color:#2dd4bf;opacity:0.4;margin-bottom:0.5rem}
+.step-title{color:#f8fafc;font-weight:600;margin-bottom:0.5rem}
+.step-desc{color:#94a3b8;font-size:0.9rem}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.feature{display:flex;gap:1rem}
+.feature-icon{width:48px;height:48px;background:rgba(45,212,191,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0}
+.feature-title{color:#f8fafc;font-weight:600;margin-bottom:0.25rem}
+.feature-desc{color:#94a3b8;font-size:0.9rem}
+/* Services */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.service-card{background:#111827;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:1.5rem;transition:all 0.2s}
+.service-card:hover{border-color:rgba(45,212,191,0.15);transform:translateY(-2px)}
+.service-icon{width:48px;height:48px;background:rgba(45,212,191,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem}
+.service-title{font-family:'Instrument Serif',serif;font-size:1.25rem;color:#f8fafc;margin-bottom:0.5rem}
+.service-desc{color:#94a3b8;font-size:0.9rem;margin-bottom:1rem}
+.service-link{color:#2dd4bf;text-decoration:none;font-weight:600;font-size:0.9rem;display:inline-flex;align-items:center;gap:0.25rem;transition:all 0.2s}
+.service-link:hover{color:#f8fafc;transform:translateX(3px)}
+/* About */
+.about{background:#0d1321}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem}
+.about-text p{color:#94a3b8;margin-bottom:1rem}
+.about-text strong{color:#f8fafc}
+.credential-card{background:#111827;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.25rem;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.75rem}
+.credential-dot{width:8px;height:8px;background:#2dd4bf;border-radius:50%;flex-shrink:0}
+.credential-text{color:#e2e8f0;font-size:0.9rem}
+/* CTA */
+.cta{text-align:center;padding:8rem 2rem;position:relative;overflow:hidden}
+.cta-glow{position:absolute;width:600px;height:600px;background:rgba(45,212,191,0.06);border-radius:50%;filter:blur(150px);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.cta-title{font-family:'Instrument Serif',serif;font-size:3rem;color:#f8fafc;margin-bottom:1rem}
+.cta-subtitle{color:#94a3b8;max-width:500px;margin:0 auto 2rem}
+.cta-actions{display:flex;gap:1rem;justify-content:center}
+/* Footer */
+footer{border-top:1px solid rgba(255,255,255,0.06);padding:3rem 2rem}
+.footer-grid{display:flex;justify-content:space-between;align-items:center}
+.footer-logo{font-family:'Instrument Serif',serif;font-size:1.25rem;color:#f8fafc;margin-bottom:0.25rem}
+.footer-sub{color:#64748b;font-size:0.85rem}
+.footer-links{display:flex;gap:2rem}
+.footer-links a{color:#94a3b8;text-decoration:none;font-size:0.9rem;transition:color 0.2s}
+.footer-links a:hover{color:#2dd4bf}
+.crisis-line{text-align:center;padding-top:2rem;margin-top:2rem;border-top:1px solid rgba(255,255,255,0.06);color:#64748b;font-size:0.85rem}
+.crisis-line strong{color:#94a3b8}
+/* Reveal animations */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s cubic-bezier(0.16,1,0.3,1),transform 0.6s cubic-bezier(0.16,1,0.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+/* Responsive */
+@media(max-width:1024px){
+.hero-grid{grid-template-columns:1fr}
+.problem-grid{grid-template-columns:repeat(2,1fr)}
+.steps-grid{grid-template-columns:repeat(2,1fr)}
+.middle-grid{grid-template-columns:1fr}
+.about-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+.nav-links{position:absolute;top:100%;left:0;right:0;background:rgba(10,15,26,0.98);backdrop-filter:blur(24px);flex-direction:column;padding:2rem;display:none;border-top:1px solid rgba(255,255,255,0.06)}
+.nav-links.show{display:flex}
+.hamburger{display:flex}
+.hero{padding-top:6rem}
+.hero-title{font-size:2.5rem}
+.section-title{font-size:2rem}
+.problem-grid,.steps-grid,.features-grid,.services-grid{grid-template-columns:1fr}
+.cta-title{font-size:2rem}
+.footer-grid{flex-direction:column;gap:2rem;text-align:center}
+.hero-actions,.cta-actions{flex-direction:column}
+}
+</style>
 </head>
 <body>
-    <!-- App Container -->
-    <div id="app">
-        <!-- Desktop Header Navigation -->
-        <header class="desktop-nav" role="banner">
-            <div class="nav-container">
-                <a href="/" class="logo" data-link>
-                    <span class="logo-icon">◉</span>
-                    <span class="logo-text">CONNECT</span>
-                </a>
-                <nav class="desktop-menu" role="navigation" aria-label="Main navigation">
-                    <a href="/" class="nav-link" data-link>Home</a>
-                    <a href="/adhd" class="nav-link" data-link>ADHD</a>
-                    <a href="/anxiety" class="nav-link" data-link>Anxiety</a>
-                    <a href="/depression" class="nav-link" data-link>Depression</a>
-                    <a href="/about" class="nav-link" data-link>About</a>
-                    <a href="/faq" class="nav-link" data-link>FAQ</a>
-                    <a href="/book" class="nav-link nav-cta" data-link>Book Now</a>
-                </nav>
-            </div>
-        </header>
+<div class="grain"></div>
+<div class="glow glow-teal"></div>
+<div class="glow glow-coral"></div>
 
-        <!-- Main Content Area -->
-        <main id="content" role="main" aria-live="polite">
-            <!-- Content loaded dynamically via JavaScript -->
-        </main>
+<!-- NAVIGATION -->
+<nav id="nav">
+<div class="logo">
+<div class="logo-mark">C</div>
+<div class="logo-text">Connect Clinic</div>
+</div>
+<div class="nav-links" id="navLinks">
+<a href="#problem">The Problem</a>
+<a href="#how">How It Works</a>
+<a href="#services">Services</a>
+<a href="#about">About</a>
+<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="btn-primary">Book Now</a>
+</div>
+<button class="hamburger" id="hamburger" onclick="toggleMenu()">
+<span></span><span></span><span></span>
+</button>
+</nav>
 
-        <!-- Mobile Bottom Tab Navigation -->
-        <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
-            <a href="/" class="tab-item" data-link aria-label="Home">
-                <span class="tab-icon">⌂</span>
-                <span class="tab-label">Home</span>
-            </a>
-            <a href="/adhd" class="tab-item" data-link aria-label="ADHD">
-                <span class="tab-icon">◎</span>
-                <span class="tab-label">ADHD</span>
-            </a>
-            <a href="/book" class="tab-item tab-cta" data-link aria-label="Book">
-                <span class="tab-icon">+</span>
-                <span class="tab-label">Book</span>
-            </a>
-            <a href="/about" class="tab-item" data-link aria-label="About">
-                <span class="tab-icon">◉</span>
-                <span class="tab-label">About</span>
-            </a>
-            <a href="/faq" class="tab-item" data-link aria-label="FAQ">
-                <span class="tab-icon">?</span>
-                <span class="tab-label">FAQ</span>
-            </a>
-        </nav>
-    </div>
+<!-- HERO -->
+<section class="hero">
+<div class="container">
+<div class="hero-grid">
+<div class="hero-content">
+<div class="hero-eyebrow reveal"><span class="pulse"></span>Virtual Mental Health Care</div>
+<h1 class="hero-title reveal">The system isn't built for <em>you.</em></h1>
+<p class="hero-subtitle reveal">Structured virtual mental health care for young New Zealanders aged 16–30. No waitlist. No referral needed. A plan made <strong>with</strong> you, not for you.</p>
+<div class="hero-actions reveal">
+<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="btn-primary">Book Now →</a>
+<a href="#how" class="btn-ghost">See How It Works</a>
+</div>
+</div>
+<div class="stat-card reveal">
+<div class="stat-label">UNICEF Report Card 19 · May 2025</div>
+<div class="stat-big">
+<span class="stat-number">36th</span>
+<span class="stat-suffix">out of 36</span>
+</div>
+<p class="stat-desc">New Zealand ranked <strong>dead last</strong> among wealthy nations for youth mental health. Our youth suicide rate is the <strong>highest in the OECD</strong> — nearly 3× the high-income average.</p>
+<div class="mini-stats">
+<div class="mini-stat">
+<div class="mini-number">17.1</div>
+<div class="mini-label">per 100k youth suicide</div>
+</div>
+<div class="mini-stat">
+<div class="mini-number">2×</div>
+<div class="mini-label">higher for Māori youth</div>
+</div>
+<div class="mini-stat">
+<div class="mini-number">10k</div>
+<div class="mini-label">fewer accessing services</div>
+</div>
+<div class="mini-stat">
+<div class="mini-number">5%</div>
+<div class="mini-label">of GDP lost to MH</div>
+</div>
+</div>
+<div class="stat-source">Sources: UNICEF Innocenti 2025, Te Whatu Ora, OAG 2024</div>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- Offline Indicator -->
-    <div id="offline-indicator" class="offline-indicator" role="status" aria-live="polite">
-        <span>You're offline. Some features may be limited.</span>
-    </div>
+<!-- THE PROBLEM -->
+<section class="problem" id="problem">
+<div class="container">
+<div class="section-intro reveal">
+<div class="section-label">The Problem</div>
+<h2 class="section-title">Our system was never designed for this</h2>
+<p class="section-subtitle">Young New Zealanders report the highest unmet need for mental health care of any age group. The services available are fragmented, underfunded, and not built for how young people actually live.</p>
+</div>
+<div class="problem-grid">
+<div class="problem-card reveal">
+<div class="problem-number">36th</div>
+<div class="problem-label">out of 36 OECD nations</div>
+<p class="problem-desc">UNICEF's 2025 Report Card ranked New Zealand dead last among wealthy countries. Not close to the bottom. Last.</p>
+</div>
+<div class="problem-card reveal">
+<div class="problem-number">17.1</div>
+<div class="problem-label">youth suicides per 100,000</div>
+<p class="problem-desc">Highest in the OECD. Nearly three times the high-income average of 6.5. Māori youth rates are double non-Māori.</p>
+</div>
+<div class="problem-card reveal">
+<div class="problem-number">14.3%</div>
+<div class="problem-label">with high psychological distress</div>
+<p class="problem-desc">Up from 7.4% in 2019/20 — nearly doubled in five years. Only 13.7% consult a GP about their mental health.</p>
+</div>
+<div class="problem-card reveal">
+<div class="problem-number">−10k</div>
+<div class="problem-label">fewer accessing services</div>
+<p class="problem-desc">Despite worsening outcomes, 10,000 fewer young people are accessing specialist mental health services than five years ago.</p>
+</div>
+<div class="problem-card reveal">
+<div class="problem-number">10.5%</div>
+<div class="problem-label">report unmet need</div>
+<p class="problem-desc">1 in 10 adults couldn't access the mental health care they needed. Young people report the highest rates of unmet need.</p>
+</div>
+<div class="problem-card reveal">
+<div class="problem-number">25 yrs</div>
+<div class="problem-label">shorter life expectancy</div>
+<p class="problem-desc">People in contact with specialist mental health services die on average 25 years earlier. Early intervention is survival.</p>
+</div>
+</div>
+<p class="problem-source reveal">Sources: UNICEF Innocenti Report Card 19 (2025), NZ Health Survey 2024/25, Office of the Auditor-General (2024), Te Hiringa Mahara (2025)</p>
+</div>
+</section>
+<!-- THE MISSING MIDDLE -->
+<section id="missing">
+<div class="container">
+<div class="section-intro reveal">
+<div class="section-label">The Missing Middle</div>
+<h2 class="section-title">Too unwell for a GP. Not unwell enough for a specialist.</h2>
+</div>
+<div class="middle-grid">
+<div class="reveal">
+<div class="quote">
+<p>"Mental health services and support currently available to young people is fragmented, and not all young people have timely and barrier-free access to appropriate mental health care."</p>
+<cite>— Auditor-General of New Zealand, 2024</cite>
+</div>
+<div class="middle-text">
+<p>I've worked in the clinics. I've seen how the system fails. A young person presents to their GP with anxiety or depression. The GP has 15 minutes and a prescription pad. There's no structured pathway, no outcome tracking, no follow-up that actually works.</p>
+<p>Specialist services have 8-week waitlists and strict thresholds. Private therapy costs \$150–200 a session. And the Access and Choice programme — despite \$455 million in funding — still doesn't reach most of the people who need it.</p>
+<p>This is the missing middle. Too complex for a 15-minute GP consult. Not in crisis enough for a CMHT. Too broke for a psychologist. Too disengaged for a system that expects them to show up, sit still, and fit the criteria.</p>
+</div>
+</div>
+<div class="layers reveal">
+<div class="layer layer-crisis">
+<div class="layer-label">Crisis / Specialist Services</div>
+<p class="layer-desc">CAMHS, CMHTs, acute inpatient. High threshold. Long waitlists. You need to be very unwell to qualify.</p>
+</div>
+<div class="layer layer-connect">
+<div class="layer-label">The Missing Middle</div>
+<p class="layer-desc">Mild to moderate anxiety, depression, stress, ADHD, grief, sleep. Too complex for 15 min with a GP. Not severe enough for secondary care. This is where most young people sit — and where the system has the biggest gap.</p>
+</div>
+<div class="layer layer-gp">
+<div class="layer-label">General Practice / Primary Care</div>
+<p class="layer-desc">15-minute consults. Limited mental health training. No structured pathways. No outcome measurement. Prescriptions and referrals, mostly.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- Scripts -->
-    <script src="js/app.js"></script>
-    <script>
-        // Register Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('SW registered:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.log('SW registration failed:', error);
-                    });
-            });
-        }
-    </script>
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+<div class="container">
+<div class="section-intro reveal">
+<div class="section-label">How It Works</div>
+<h2 class="section-title">Structured care that actually fits your life</h2>
+<p class="section-subtitle">Six sessions. Outcome-measured. Virtual. Designed around how young people actually access care — from your phone, on your time.</p>
+</div>
+<div class="steps-grid">
+<div class="step reveal">
+<div class="step-number">01</div>
+<div class="step-title">Free intro call</div>
+<p class="step-desc">15-minute video call to understand what you're dealing with, what you need, and whether Connect is the right fit. No commitment.</p>
+</div>
+<div class="step reveal">
+<div class="step-number">02</div>
+<div class="step-title">Intake & screening</div>
+<p class="step-desc">Validated tools (PHQ-9, GAD-7, ASRS) to establish a baseline. This is how we measure whether you're actually getting better.</p>
+</div>
+<div class="step reveal">
+<div class="step-number">03</div>
+<div class="step-title">Your plan, together</div>
+<p class="step-desc">A care plan built with you. Goals you set. Strategies that make sense for your life, your whānau, your context. Not a template off a shelf.</p>
+</div>
+<div class="step reveal">
+<div class="step-number">04</div>
+<div class="step-title">Sessions & outcomes</div>
+<p class="step-desc">Six structured sessions with a qualified clinician. Progress tracked with validated measures at every step. You see the numbers.</p>
+</div>
+</div>
+<div class="features-grid">
+<div class="feature reveal">
+<div class="feature-icon">📱</div>
+<div>
+<div class="feature-title">From your phone</div>
+<p class="feature-desc">Video consults from home, the car, wherever works. No waiting rooms. No buses across town.</p>
+</div>
+</div>
+<div class="feature reveal">
+<div class="feature-icon">📊</div>
+<div>
+<div class="feature-title">Measured outcomes</div>
+<p class="feature-desc">Pre and post validated screening. You can see your progress. So can we. So can funders.</p>
+</div>
+</div>
+<div class="feature reveal">
+<div class="feature-icon">🔓</div>
+<div>
+<div class="feature-title">No referral needed</div>
+<p class="feature-desc">Self-refer directly. No GP letter. No waitlist. Book and start within the week.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+<div class="container">
+<div class="section-intro reveal">
+<div class="section-label">Services</div>
+<h2 class="section-title">What we treat</h2>
+<p class="section-subtitle">Six-session structured pathways. Each includes intake screening, goal-setting, therapeutic sessions, and outcome measurement. \$120–180 per pathway.</p>
+</div>
+<div class="services-grid">
+<div class="service-card reveal">
+<div class="service-icon">⚡</div>
+<h3 class="service-title">Anxiety</h3>
+<p class="service-desc">GAD, social anxiety, panic, health anxiety. CBT-based structured intervention with exposure planning and cognitive restructuring.</p>
+<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book →</a>
+</div>
+<div class="service-card reveal">
+<div class="service-icon">🌊</div>
+<h3 class="service-title">Depression</h3>
+<p class="service-desc">Low mood, loss of motivation, withdrawal. Behavioural activation, cognitive work, and safety planning where needed.</p>
+<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book →</a>
+</div>
+<div class="service-card reveal">
+<div class="service-icon">🧠</div>
+<h3 class="service-title">ADHD Assessment</h3>
+<p class="service-desc">Screening, history, collateral, and structured assessment using ASRS and clinical interview. Medication initiation where indicated.</p>
+<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book →</a>
+</div>
+<div class="service-card reveal">
+<div class="service-icon">🔥</div>
+<h3 class="service-title">Stress & Burnout</h3>
+<p class="service-desc">Work stress, study pressure, burnout. Identifying patterns, setting boundaries, and building sustainable coping strategies.</p>
+<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book →</a>
+</div>
+<div class="service-card reveal">
+<div class="service-icon">🕊️</div>
+<h3 class="service-title">Grief & Loss</h3>
+<p class="service-desc">Bereavement, relationship loss, life transitions. Culturally safe support that respects your process and your whānau context.</p>
+<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book →</a>
+</div>
+<div class="service-card reveal">
+<div class="service-icon">🌙</div>
+<h3 class="service-title">Sleep Problems</h3>
+<p class="service-desc">Insomnia, disrupted sleep, fatigue. CBT-I based approach with sleep hygiene, stimulus control, and relaxation techniques.</p>
+<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="service-link">Book →</a>
+</div>
+</div>
+</div>
+</section>
+<!-- ABOUT -->
+<section class="about" id="about">
+<div class="container">
+<div class="section-intro reveal">
+<div class="section-label">About</div>
+<h2 class="section-title">Built by a clinician who's been in the room</h2>
+</div>
+<div class="about-grid">
+<div class="about-text reveal">
+<p>Connect Clinic is led by <strong>Dr Francis Katoa</strong>, a New Zealand GP and RNZCGP Fellow with seven years in high-needs primary care. Trained in CBT, youth mental health, and medicinal cannabis prescribing.</p>
+<p>This isn't a startup that read a report and built an app. This is a clinician who has sat across from young people in under-resourced clinics, watched them fall through the cracks, and decided to build what the system won't.</p>
+<p>Connect operates under <strong>Pasifika Rise Limited</strong>. Pacific-governed, Aotearoa-based, and accountable to the communities it serves.</p>
+</div>
+<div class="reveal">
+<div class="credential-card">
+<div class="credential-dot"></div>
+<div class="credential-text">Fellow of the Royal New Zealand College of General Practitioners</div>
+</div>
+<div class="credential-card">
+<div class="credential-dot"></div>
+<div class="credential-text">Secretary, RNZCGP Pacific Chapter</div>
+</div>
+<div class="credential-card">
+<div class="credential-dot"></div>
+<div class="credential-text">Clinical Skills Tutor, University of Auckland</div>
+</div>
+<div class="credential-card">
+<div class="credential-dot"></div>
+<div class="credential-text">Postgraduate training in CBT and youth mental health</div>
+</div>
+<div class="credential-card">
+<div class="credential-dot"></div>
+<div class="credential-text">7 years in high-needs primary care across Aotearoa</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+<div class="cta-glow"></div>
+<div class="container">
+<h2 class="cta-title reveal">Ready to start?</h2>
+<p class="cta-subtitle reveal">No referral. No waitlist. Book a free 15-minute intro call and we'll figure out the right path together.</p>
+<div class="cta-actions reveal">
+<a href="https://buy.stripe.com/14AeVc45jcME2LWcdw6c000" class="btn-primary">Book Now →</a>
+<a href="mailto:connect@pasifikarise.nz" class="btn-ghost">Email Us</a>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<div class="container">
+<div class="footer-grid">
+<div>
+<div class="footer-logo">Connect Clinic</div>
+<div class="footer-sub">A Pasifika Rise initiative · Aotearoa New Zealand</div>
+</div>
+<div class="footer-links">
+<a href="#problem">The Problem</a>
+<a href="#how">How It Works</a>
+<a href="#services">Services</a>
+<a href="#about">About</a>
+<a href="mailto:connect@pasifikarise.nz">Contact</a>
+</div>
+</div>
+<div class="crisis-line">
+<strong>In crisis?</strong> Call or text <strong>1737</strong> anytime. Lifeline: <strong>0800 543 354</strong>. Suicide Crisis: <strong>0508 828 865</strong>. Emergency: <strong>111</strong>.
+</div>
+</div>
+</footer>
+
+<script>
+// Nav scroll effect
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50)});
+// Mobile menu
+function toggleMenu(){document.getElementById('navLinks').classList.toggle('show')}
+document.querySelectorAll('.nav-links a').forEach(l=>l.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('show')));
+// Reveal animations
+const obs=new IntersectionObserver((e)=>{e.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target)}})},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(e=>obs.observe(e));
+</script>
 </body>
 </html>
