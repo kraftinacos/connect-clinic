@@ -505,18 +505,28 @@ a:hover {
     align-items: flex-start;
 }
 
+.step {
+    position: relative;
+    overflow: hidden;
+}
+
+.step-card {
+    position: relative;
+    overflow: hidden;
+}
+
 .step-number {
-    width: 48px;
-    height: 48px;
-    background: var(--teal);
-    color: var(--text-white);
-    border-radius: var(--radius-full);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.25rem;
-    flex-shrink: 0;
+    position: absolute;
+    top: -0.15em;
+    left: -0.05em;
+    font-size: 6rem;
+    font-weight: 800;
+    color: #fff;
+    opacity: 0.15;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
 }
 
 .step-content h3 {
