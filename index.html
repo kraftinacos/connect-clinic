@@ -111,14 +111,15 @@
         .service-card {
             background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px;
             padding: 40px; transition: all 0.3s; opacity: 0; transform: translateY(30px);
+            text-align: center;
         }
         .service-card.visible { opacity: 1; transform: translateY(0); transition: all 0.6s ease; }
         .service-card:hover { border-color: var(--gold); transform: translateY(-4px); }
         .service-icon {
-            width: 56px; height: 56px; background: var(--bg-surface); border-radius: 2px;
-            display: flex; align-items: center; justify-content: center; margin-bottom: 24px;
-            font-size: 1.5rem;
+            width: 56px; height: 56px; background: var(--bg-surface); border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;
         }
+        .service-icon svg { width: 28px; height: 28px; stroke: var(--gold); stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
         .service-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; margin-bottom: 12px; }
         .service-card p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 24px; }
         .service-card .btn { padding: 10px 24px; font-size: 0.85rem; display: inline-block; }
@@ -202,40 +203,40 @@
             </div>
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon">&#128719;</div>
+                    <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v4M12 16h.01"/></svg></div>
                     <h3>Anxiety Support</h3>
                     <p>Evidence-based strategies to manage anxiety, panic, and worry within a culturally safe framework.</p>
-                    <a href="forms/anxiety.html" class="btn btn-primary">Get Support</a>
+                    <a href="forms/anxiety.html" class="btn btn-primary">Book Consultation</a>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">&#128524;</div>
+                    <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg></div>
                     <h3>Depression Care</h3>
                     <p>Compassionate support for navigating depression, low mood, and finding your path forward.</p>
-                    <a href="forms/depression.html" class="btn btn-primary">Get Support</a>
+                    <a href="forms/depression.html" class="btn btn-primary">Book Consultation</a>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">&#128161;</div>
+                    <div class="service-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
                     <h3>ADHD Assessment</h3>
                     <p>Comprehensive assessment and support for attention, focus, and executive function challenges.</p>
-                    <a href="forms/adhd.html" class="btn btn-primary">Get Support</a>
+                    <a href="forms/adhd.html" class="btn btn-primary">Book Assessment</a>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">&#127795;</div>
+                    <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
                     <h3>Stress Management</h3>
                     <p>Practical tools to manage life stressors, work pressure, and restore balance to your life.</p>
-                    <a href="forms/stress.html" class="btn btn-primary">Get Support</a>
+                    <a href="forms/stress.html" class="btn btn-primary">Book Consultation</a>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">&#128330;</div>
+                    <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
                     <h3>Grief Support</h3>
                     <p>Understanding guidance through loss, honouring your loved ones while caring for yourself.</p>
-                    <a href="forms/grief.html" class="btn btn-primary">Get Support</a>
+                    <a href="forms/grief.html" class="btn btn-primary">Book Consultation</a>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">&#127769;</div>
+                    <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/><line x1="23" y1="22" x2="1" y2="22"/></svg></div>
                     <h3>Sleep Wellness</h3>
                     <p>Personalised approaches to improve sleep quality and establish healthy rest patterns.</p>
-                    <a href="forms/sleep.html" class="btn btn-primary">Get Support</a>
+                    <a href="forms/sleep.html" class="btn btn-primary">Book Consultation</a>
                 </div>
             </div>
         </div>
