@@ -55,7 +55,7 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 <div class="form-container">
 <div class="form-header"><a href="../index.html">Connect</a></div>
 <h1 class="form-title">Sleep</h1>
-<p class="form-intro">Sleep problems affect everything — mood, energy, focus, and health. Whether you can't fall asleep, wake too early, or never feel rested, this form helps us understand your sleep so we can work on it together.</p>
+<p class="form-intro">Poor sleep affects your mood, your thinking, your energy, and your health. Whether you can't fall asleep, can't stay asleep, or wake up feeling like you haven't rested — this form helps us understand what's going on.</p>
 
 <form action="https://formspree.io/f/FORM_ID" method="POST">
 <input type="hidden" name="_service" value="sleep">
@@ -66,13 +66,12 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 <div class="question-block">
 <label class="question-label required">What's the main problem with your sleep?</label>
 <div class="option-group">
-<label class="option-item"><input type="checkbox" name="sleep_problem" value="falling"><span>Trouble falling asleep</span></label>
-<label class="option-item"><input type="checkbox" name="sleep_problem" value="staying"><span>Trouble staying asleep (waking during the night)</span></label>
-<label class="option-item"><input type="checkbox" name="sleep_problem" value="early"><span>Waking too early and can't get back to sleep</span></label>
-<label class="option-item"><input type="checkbox" name="sleep_problem" value="unrefreshing"><span>Sleep feels unrefreshing</span></label>
-<label class="option-item"><input type="checkbox" name="sleep_problem" value="nightmares"><span>Nightmares or disturbing dreams</span></label>
-<label class="option-item"><input type="checkbox" name="sleep_problem" value="schedule"><span>My sleep schedule is out of sync (late to bed, late to rise)</span></label>
-<label class="option-item"><input type="checkbox" name="sleep_problem" value="snoring"><span>Snoring or breathing problems during sleep</span></label>
+<label class="option-item"><input type="checkbox" name="sleep_problem" value="falling"><span>Takes a long time to fall asleep</span></label>
+<label class="option-item"><input type="checkbox" name="sleep_problem" value="waking"><span>Wake up during the night and can't get back to sleep</span></label>
+<label class="option-item"><input type="checkbox" name="sleep_problem" value="early"><span>Wake up too early</span></label>
+<label class="option-item"><input type="checkbox" name="sleep_problem" value="unrested"><span>Don't feel rested even after a full night</span></label>
+<label class="option-item"><input type="checkbox" name="sleep_problem" value="toomuch"><span>Sleeping too much but still tired</span></label>
+<label class="option-item"><input type="checkbox" name="sleep_problem" value="nightmares"><span>Nightmares or vivid disturbing dreams</span></label>
 <label class="option-item"><input type="checkbox" name="sleep_problem" value="other" data-other="sleep-other"><span>Other</span></label>
 </div>
 <div class="conditional" id="sleep-other" style="margin-left:0;margin-top:0.5rem;">
@@ -87,57 +86,54 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 <option value="less1month">Less than 1 month</option>
 <option value="1-3months">1–3 months</option>
 <option value="3-6months">3–6 months</option>
-<option value="6-12months">6–12 months</option>
-<option value="more1year">More than 1 year</option>
-<option value="longtime">As long as I can remember</option>
+<option value="more6months">More than 6 months</option>
+<option value="years">Years</option>
 </select>
 </div>
 
 <div class="question-block">
-<label class="question-label required">How long does it usually take you to fall asleep?</label>
-<select name="fall_asleep_time" required>
+<label class="question-label">On a typical night, how long does it take you to fall asleep?</label>
+<select name="fall_asleep_time">
 <option value="">Select...</option>
-<option value="lessthan15">Less than 15 minutes</option>
+<option value="under15">Under 15 minutes</option>
 <option value="15-30">15–30 minutes</option>
 <option value="30-60">30–60 minutes</option>
 <option value="1-2hours">1–2 hours</option>
 <option value="more2hours">More than 2 hours</option>
-<option value="varies">It varies a lot</option>
 </select>
 </div>
 
 <div class="question-block">
-<label class="question-label">What time do you usually go to bed?</label>
-<input type="text" name="bedtime" placeholder="e.g. 11:00 PM">
+<label class="question-label">What time do you usually try to go to sleep?</label>
+<p class="helper-text">Roughly. e.g. 11:30pm</p>
+<input type="text" name="bedtime">
 </div>
 
 <div class="question-block">
 <label class="question-label">What time do you usually wake up?</label>
-<input type="text" name="waketime" placeholder="e.g. 7:00 AM">
+<input type="text" name="waketime">
 </div>
 
 <div class="question-block">
-<label class="question-label required">How many hours of sleep do you typically get?</label>
-<select name="sleep_hours" required>
+<label class="question-label">How many hours of actual sleep do you get on an average night?</label>
+<select name="sleep_hours">
 <option value="">Select...</option>
-<option value="lessthan4">Less than 4 hours</option>
-<option value="4-5">4–5 hours</option>
-<option value="5-6">5–6 hours</option>
-<option value="6-7">6–7 hours</option>
-<option value="7-8">7–8 hours</option>
-<option value="8-9">8–9 hours</option>
-<option value="more9">More than 9 hours</option>
+<option value="less4">Less than 4</option>
+<option value="4-5">4–5</option>
+<option value="5-6">5–6</option>
+<option value="6-7">6–7</option>
+<option value="7-8">7–8</option>
+<option value="more8">More than 8</option>
 </select>
 </div>
 
 <div class="question-block">
-<label class="question-label required">How would you rate your sleep quality?</label>
+<label class="question-label">How would you rate your overall sleep quality?</label>
 <div class="option-group">
-<label class="option-item"><input type="radio" name="sleep_quality" value="verypoor" required><span>Very poor</span></label>
-<label class="option-item"><input type="radio" name="sleep_quality" value="poor"><span>Poor</span></label>
-<label class="option-item"><input type="radio" name="sleep_quality" value="fair"><span>Fair</span></label>
-<label class="option-item"><input type="radio" name="sleep_quality" value="good"><span>Good</span></label>
-<label class="option-item"><input type="radio" name="sleep_quality" value="verygood"><span>Very good</span></label>
+<label class="option-item"><input type="radio" name="quality" value="good"><span>Good</span></label>
+<label class="option-item"><input type="radio" name="quality" value="fair"><span>Fair</span></label>
+<label class="option-item"><input type="radio" name="quality" value="poor"><span>Poor</span></label>
+<label class="option-item"><input type="radio" name="quality" value="verypoor"><span>Very poor</span></label>
 </div>
 </div>
 </div>
@@ -146,41 +142,32 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 <h2>What affects your sleep</h2>
 
 <div class="question-block">
-<label class="question-label">What do you typically do in the hour before bed? (Select all that apply)</label>
+<label class="question-label">What do you typically do in the hour before bed?</label>
 <div class="option-group">
-<label class="option-item"><input type="checkbox" name="before_bed" value="screens"><span>Use phone, TV, or computer</span></label>
-<label class="option-item"><input type="checkbox" name="before_bed" value="work"><span>Work or study</span></label>
-<label class="option-item"><input type="checkbox" name="before_bed" value="exercise"><span>Exercise</span></label>
-<label class="option-item"><input type="checkbox" name="before_bed" value="eat"><span>Eat a meal or snack</span></label>
-<label class="option-item"><input type="checkbox" name="before_bed" value="alcohol"><span>Drink alcohol</span></label>
-<label class="option-item"><input type="checkbox" name="before_bed" value="caffeine"><span>Drink caffeine (tea, coffee, energy drinks)</span></label>
-<label class="option-item"><input type="checkbox" name="before_bed" value="read"><span>Read</span></label>
-<label class="option-item"><input type="checkbox" name="before_bed" value="relax"><span>Relaxation or breathing exercises</span></label>
-<label class="option-item"><input type="checkbox" name="before_bed" value="shower"><span>Shower or bath</span></label>
-<label class="option-item"><input type="checkbox" name="before_bed" value="other" data-other="beforebed-other"><span>Other</span></label>
-</div>
-<div class="conditional" id="beforebed-other" style="margin-left:0;margin-top:0.5rem;">
-<input type="text" name="before_bed_other" placeholder="Please specify">
+<label class="option-item"><input type="checkbox" name="before_bed" value="phone"><span>Scrolling on phone</span></label>
+<label class="option-item"><input type="checkbox" name="before_bed" value="tv"><span>Watching TV or streaming</span></label>
+<label class="option-item"><input type="checkbox" name="before_bed" value="read"><span>Reading</span></label>
+<label class="option-item"><input type="checkbox" name="before_bed" value="exercise"><span>Exercising</span></label>
+<label class="option-item"><input type="checkbox" name="before_bed" value="eat"><span>Eating</span></label>
+<label class="option-item"><input type="checkbox" name="before_bed" value="caffeine"><span>Drinking caffeine</span></label>
+<label class="option-item"><input type="checkbox" name="before_bed" value="alcohol"><span>Drinking alcohol</span></label>
+<label class="option-item"><input type="checkbox" name="before_bed" value="worry"><span>Lying in bed worrying or overthinking</span></label>
+<label class="option-item"><input type="checkbox" name="before_bed" value="work"><span>Working or studying</span></label>
 </div>
 </div>
 
 <div class="question-block">
-<label class="question-label">What disrupts your sleep most? (Select all that apply)</label>
+<label class="question-label">Which of these disrupt your sleep?</label>
 <div class="option-group">
-<label class="option-item"><input type="checkbox" name="disruptors" value="thoughts"><span>Racing thoughts or worry</span></label>
-<label class="option-item"><input type="checkbox" name="disruptors" value="stress"><span>Stress or anxiety</span></label>
-<label class="option-item"><input type="checkbox" name="disruptors" value="pain"><span>Physical pain or discomfort</span></label>
-<label class="option-item"><input type="checkbox" name="disruptors" value="noise"><span>Noise</span></label>
-<label class="option-item"><input type="checkbox" name="disruptors" value="light"><span>Light</span></label>
-<label class="option-item"><input type="checkbox" name="disruptors" value="temperature"><span>Too hot or cold</span></label>
-<label class="option-item"><input type="checkbox" name="disruptors" value="partner"><span>Partner's sleep habits</span></label>
-<label class="option-item"><input type="checkbox" name="disruptors" value="children"><span>Children waking</span></label>
-<label class="option-item"><input type="checkbox" name="disruptors" value="pets"><span>Pets</span></label>
-<label class="option-item"><input type="checkbox" name="disruptors" value="bathroom"><span>Needing to use the bathroom</span></label>
-<label class="option-item"><input type="checkbox" name="disruptors" value="other" data-other="disruptors-other"><span>Other</span></label>
-</div>
-<div class="conditional" id="disruptors-other" style="margin-left:0;margin-top:0.5rem;">
-<input type="text" name="disruptors_other" placeholder="Please specify">
+<label class="option-item"><input type="checkbox" name="disruptors" value="stress"><span>Stress or worry</span></label>
+<label class="option-item"><input type="checkbox" name="disruptors" value="pain"><span>Physical pain</span></label>
+<label class="option-item"><input type="checkbox" name="disruptors" value="noise"><span>Noise or light</span></label>
+<label class="option-item"><input type="checkbox" name="disruptors" value="partner"><span>Partner, children, or flatmates</span></label>
+<label class="option-item"><input type="checkbox" name="disruptors" value="shiftwork"><span>Shift work or irregular schedule</span></label>
+<label class="option-item"><input type="checkbox" name="disruptors" value="caffeine"><span>Caffeine</span></label>
+<label class="option-item"><input type="checkbox" name="disruptors" value="substances"><span>Alcohol or drugs</span></label>
+<label class="option-item"><input type="checkbox" name="disruptors" value="medication"><span>Medication side effects</span></label>
+<label class="option-item"><input type="checkbox" name="disruptors" value="none"><span>None of these</span></label>
 </div>
 </div>
 
@@ -188,10 +175,11 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 <label class="question-label">Do you nap during the day?</label>
 <div class="option-group">
 <label class="option-item"><input type="radio" name="naps" value="no"><span>No</span></label>
-<label class="option-item"><input type="radio" name="naps" value="yes" data-shows="naps-details"><span>Yes</span></label>
+<label class="option-item"><input type="radio" name="naps" value="occasionally"><span>Occasionally</span></label>
+<label class="option-item"><input type="radio" name="naps" value="mostdays" data-shows="naps-details"><span>Most days — how long?</span></label>
 </div>
 <div class="conditional" id="naps-details">
-<input type="text" name="naps_details" placeholder="How long and at what time?">
+<input type="text" name="naps_duration" placeholder="e.g. 30 minutes, 1 hour">
 </div>
 </div>
 </div>
@@ -200,35 +188,35 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 <h2>Background</h2>
 
 <div class="question-block">
-<label class="question-label">Have you tried anything to improve your sleep before?</label>
+<label class="question-label">Have you tried anything for your sleep before? (GP, medication, sleep apps, supplements)</label>
 <div class="option-group">
-<label class="option-item"><input type="radio" name="previous_attempts" value="no"><span>No</span></label>
-<label class="option-item"><input type="radio" name="previous_attempts" value="yes" data-shows="attempts-details"><span>Yes</span></label>
+<label class="option-item"><input type="radio" name="previous" value="no"><span>No</span></label>
+<label class="option-item"><input type="radio" name="previous" value="yes" data-shows="previous-details"><span>Yes</span></label>
 </div>
-<div class="conditional" id="attempts-details">
-<textarea name="attempts_details" placeholder="What did you try? What helped or didn't help?"></textarea>
+<div class="conditional" id="previous-details">
+<textarea name="previous_details" placeholder="What have you tried? Did anything help?"></textarea>
 </div>
 </div>
 
 <div class="question-block">
-<label class="question-label">Are you taking any medication that affects sleep?</label>
+<label class="question-label">Are you currently taking any medication — for anything?</label>
 <div class="option-group">
-<label class="option-item"><input type="radio" name="sleep_medication" value="no"><span>No</span></label>
-<label class="option-item"><input type="radio" name="sleep_medication" value="yes" data-shows="sleepmed-details"><span>Yes</span></label>
+<label class="option-item"><input type="radio" name="medication" value="no"><span>No</span></label>
+<label class="option-item"><input type="radio" name="medication" value="yes" data-shows="med-details"><span>Yes</span></label>
 </div>
-<div class="conditional" id="sleepmed-details">
-<input type="text" name="sleep_medication_details" placeholder="What medication? (prescription or over-the-counter)">
+<div class="conditional" id="med-details">
+<input type="text" name="medication_details" placeholder="What and dose?">
 </div>
 </div>
 
 <div class="question-block">
-<label class="question-label">Do you have any diagnosed mental health conditions? (anxiety, depression, PTSD, etc.)</label>
+<label class="question-label">Have you been diagnosed with any mental health conditions?</label>
 <div class="option-group">
-<label class="option-item"><input type="radio" name="mh_conditions" value="no"><span>No</span></label>
-<label class="option-item"><input type="radio" name="mh_conditions" value="yes" data-shows="mh-details"><span>Yes</span></label>
+<label class="option-item"><input type="radio" name="mh" value="no"><span>No</span></label>
+<label class="option-item"><input type="radio" name="mh" value="yes" data-shows="mh-details"><span>Yes</span></label>
 </div>
 <div class="conditional" id="mh-details">
-<input type="text" name="mh_conditions_details" placeholder="What conditions?">
+<input type="text" name="mh_conditions" placeholder="What conditions?">
 </div>
 </div>
 </div>
@@ -242,7 +230,7 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 </div>
 
 <div class="question-block">
-<label class="question-label">Is there anything about your background, culture, or daily life that affects your sleep that would be helpful for us to know?</label>
+<label class="question-label">Is there anything about your background, culture, faith, or family that would be helpful for us to know?</label>
 <textarea name="cultural"></textarea>
 </div>
 </div>
