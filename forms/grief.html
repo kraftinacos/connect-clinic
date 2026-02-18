@@ -2,75 +2,87 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Connect Clinic">
-<meta name="msapplication-TileColor" content="#000000">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Grief & Loss — Intake | Connect</title>
-<meta name="description" content="Grief and loss intake form for Connect Clinic.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;font-weight:300;background:#000;color:#fff;line-height:1.6;text-align:center}
-.form-container{max-width:640px;margin:0 auto;padding:3rem 1.5rem 5rem;text-align:center}
-.form-header a{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#fff;text-decoration:none}
-.form-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;margin-top:2rem}
-.form-intro{font-size:0.92rem;color:#a0a0a0;line-height:1.7;margin-top:1rem;max-width:540px;margin-left:auto;margin-right:auto}
-.form-section{margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08)}
-.form-section h2{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;margin-bottom:1.5rem}
-label{display:block;font-size:0.85rem;color:#a0a0a0;margin-bottom:0.4rem}
-label.question{font-size:0.9rem;color:#fff;margin-bottom:0.6rem;margin-top:1.5rem}
-.required::after{content:' *';color:#e8c4a0}
-input[type="text"],input[type="email"],input[type="tel"],input[type="date"],select,textarea{width:100%;background:#111;border:1px solid rgba(255,255,255,0.12);color:#fff;padding:0.8rem 1rem;border-radius:2px;font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:300;margin-bottom:0.3rem}
-input:focus,select:focus,textarea:focus{border-color:#e8c4a0;outline:none;box-shadow:0 0 0 1px rgba(232,196,160,0.3)}
-textarea{min-height:100px;resize:vertical}
-.helper{font-size:0.75rem;color:#666;margin-top:0.2rem}
-.option-group{margin-top:0.5rem}
-.option-group label{display:flex;align-items:center;justify-content:center;gap:0.6rem;padding:0.5rem 0;color:#fff;font-size:0.88rem;cursor:pointer}
-.option-group input[type="radio"],.option-group input[type="checkbox"]{accent-color:#e8c4a0;width:16px;height:16px}
-.conditional{display:none;margin-top:1rem;padding:1.2rem;background:rgba(255,255,255,0.02);border-left:2px solid #e8c4a0}
-.crisis-box{display:none;margin-top:1rem;padding:1.2rem;background:rgba(229,115,115,0.05);border-left:2px solid #e57373}
-.crisis-box p{font-size:0.88rem;color:#e57373;line-height:1.6}
-.submit-btn{width:100%;background:#e8c4a0;color:#000;border:none;padding:1rem;font-family:'Inter',sans-serif;font-weight:500;font-size:0.9rem;border-radius:2px;cursor:pointer;margin-top:2rem}
-.submit-btn:hover{background:#fff}
-.after-submit{font-size:0.82rem;color:#666;text-align:center;margin-top:1rem}
-.thank-you{display:none;text-align:center;padding:4rem 2rem}
-.thank-you h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#fff;margin-bottom:1rem}
-.thank-you p{font-size:0.95rem;color:#a0a0a0}
-@media(max-width:768px){.form-container{padding:2rem 1.5rem 4rem}}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-weight: 300; font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+.form-container { max-width: 640px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+@media (max-width: 768px) { .form-container { padding: 2.5rem 1rem 4rem; } }
+.form-header { margin-bottom: 2.5rem; }
+.form-header a { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: #fff; }
+.form-title { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 300; color: #fff; margin-top: 2.5rem; }
+@media (max-width: 768px) { .form-title { font-size: 1.8rem; } }
+.form-intro { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 0.92rem; color: #a0a0a0; line-height: 1.75; max-width: 540px; margin-top: 1rem; }
+.form-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); }
+.form-section h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; color: #fff; margin: 0 0 0.5rem 0; }
+.question-block { margin-top: 2rem; }
+.question-label { display: block; font-family: 'Inter', sans-serif; font-weight: 400; font-size: 0.9rem; color: #fff; margin-bottom: 0.6rem; line-height: 1.5; }
+.question-label .required { color: #e8c4a0; }
+input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"], select, textarea { width: 100%; box-sizing: border-box; background: #111; border: 1px solid rgba(255,255,255,0.12); border-radius: 2px; color: #fff; font-family: 'Inter', sans-serif; font-weight: 300; font-size: 0.9rem; padding: 0.85rem 1rem; transition: border-color 0.2s ease, box-shadow 0.2s ease; -webkit-appearance: none; appearance: none; }
+input:focus, select:focus, textarea:focus { border-color: #e8c4a0; box-shadow: 0 0 0 1px rgba(232,196,160,0.3); outline: none; }
+textarea { min-height: 110px; resize: vertical; line-height: 1.6; }
+select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%23a0a0a0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+.helper-text { font-size: 0.75rem; color: #666; margin-top: 0.35rem; line-height: 1.4; }
+.option-group { margin-top: 0.5rem; }
+.option-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.55rem 0; cursor: pointer; }
+.option-item input[type="radio"], .option-item input[type="checkbox"] { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; min-width: 18px; border: 1px solid rgba(255,255,255,0.2); background: #111; margin: 0; cursor: pointer; position: relative; top: 1px; }
+.option-item input[type="radio"] { border-radius: 50%; }
+.option-item input[type="checkbox"] { border-radius: 2px; }
+.option-item input[type="radio"]:checked { border-color: #e8c4a0; background: radial-gradient(circle, #e8c4a0 40%, #111 41%); }
+.option-item input[type="checkbox"]:checked { border-color: #e8c4a0; background: #e8c4a0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='10' fill='none'%3E%3Cpath d='M1 5l3.5 3.5L11 1' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; }
+.option-item span { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 0.88rem; color: #fff; line-height: 1.4; }
+.conditional { display: none; margin-top: 0.75rem; margin-left: 2rem; padding: 1rem 1.2rem; border-left: 2px solid #e8c4a0; background: rgba(232,196,160,0.03); }
+.conditional.visible { display: block; }
+.safety-reassurance { display: none; margin-top: 1rem; padding: 1.2rem 1.5rem; border-left: 2px solid #e8c4a0; background: rgba(232,196,160,0.03); }
+.safety-reassurance.visible { display: block; }
+.safety-reassurance p { font-size: 0.88rem; color: #a0a0a0; line-height: 1.6; }
+.crisis-box { display: none; margin-top: 1rem; padding: 1.2rem 1.5rem; border-left: 2px solid #e57373; background: rgba(229,115,115,0.05); }
+.crisis-box.visible { display: block; }
+.crisis-box p { font-size: 0.88rem; color: #e57373; line-height: 1.6; font-weight: 400; }
+.submit-btn { display: block; width: 100%; background: #e8c4a0; color: #000; border: none; padding: 1rem; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 0.92rem; border-radius: 2px; cursor: pointer; margin-top: 3rem; transition: background 0.2s ease; }
+.submit-btn:hover { background: #fff; }
+.after-submit { font-size: 0.82rem; color: #666; text-align: center; margin-top: 1rem; line-height: 1.5; }
 </style>
 </head>
 <body>
 <div class="form-container">
 <div class="form-header"><a href="../index.html">Connect</a></div>
 <h1 class="form-title">Grief & Loss</h1>
-<p class="form-intro">Grief doesn't follow a timeline. Whether you've lost someone, gone through a breakup, or experienced a big life change — this form helps us understand what you're carrying.</p>
+<p class="form-intro">Grief doesn't follow a schedule and it doesn't always look the way people expect. Whether you've lost someone, gone through a breakup, or experienced a major life change — this form helps us understand what you're carrying so we can support you properly.</p>
 
-<form id="intakeForm" action="https://formspree.io/f/FORM_ID" method="POST">
-<input type="hidden" name="service" value="grief">
+<form action="https://formspree.io/f/FORM_ID" method="POST">
+<input type="hidden" name="_service" value="grief">
 
 <div class="form-section">
-<h2>What happened</h2>
+<h2>What you're dealing with</h2>
 
-<label class="question">What kind of loss are you dealing with?</label>
+<div class="question-block">
+<label class="question-label required">What kind of loss are you going through?</label>
 <div class="option-group">
-<label><input type="checkbox" name="loss_type" value="death"> Death of someone close</label>
-<label><input type="checkbox" name="loss_type" value="breakup"> Relationship breakdown</label>
-<label><input type="checkbox" name="loss_type" value="job"> Loss of a job or career</label>
-<label><input type="checkbox" name="loss_type" value="health"> Health diagnosis</label>
-<label><input type="checkbox" name="loss_type" value="family"> Family separation</label>
-<label><input type="checkbox" name="loss_type" value="cultural"> Cultural or identity loss</label>
-<label><input type="checkbox" name="loss_type" value="miscarriage"> Miscarriage or pregnancy loss</label>
-<label><input type="checkbox" name="loss_type" value="other" id="lossOtherCheck"> Other</label>
+<label class="option-item"><input type="checkbox" name="loss_type" value="death"><span>Death of someone close</span></label>
+<label class="option-item"><input type="checkbox" name="loss_type" value="breakup"><span>End of a relationship</span></label>
+<label class="option-item"><input type="checkbox" name="loss_type" value="job"><span>Loss of a job or career direction</span></label>
+<label class="option-item"><input type="checkbox" name="loss_type" value="health"><span>Serious health diagnosis (yours or someone close)</span></label>
+<label class="option-item"><input type="checkbox" name="loss_type" value="family"><span>Family breakdown or estrangement</span></label>
+<label class="option-item"><input type="checkbox" name="loss_type" value="miscarriage"><span>Miscarriage or pregnancy loss</span></label>
+<label class="option-item"><input type="checkbox" name="loss_type" value="cultural"><span>Cultural disconnection or identity loss</span></label>
+<label class="option-item"><input type="checkbox" name="loss_type" value="pet"><span>Loss of a pet</span></label>
+<label class="option-item"><input type="checkbox" name="loss_type" value="other" data-other="loss-other"><span>Other</span></label>
 </div>
-<div class="conditional" id="lossOtherText"><input type="text" name="loss_other" placeholder="Please specify"></div>
+<div class="conditional" id="loss-other" style="margin-left:0;margin-top:0.5rem;">
+<input type="text" name="loss_other" placeholder="Please specify">
+</div>
+</div>
 
-<label class="question required">When did this happen?</label>
+<div class="question-block">
+<label class="question-label required">When did this happen?</label>
 <select name="when" required>
 <option value="">Select...</option>
 <option value="lastmonth">In the last month</option>
@@ -78,190 +90,519 @@ textarea{min-height:100px;resize:vertical}
 <option value="3-6months">3–6 months ago</option>
 <option value="6-12months">6–12 months ago</option>
 <option value="moreyear">More than a year ago</option>
+<option value="ongoing">It's ongoing</option>
 </select>
-
-<label class="question">How are you feeling right now?</label>
-<div class="option-group">
-<label><input type="checkbox" name="feelings" value="sadness"> Sadness</label>
-<label><input type="checkbox" name="feelings" value="numbness"> Numbness</label>
-<label><input type="checkbox" name="feelings" value="anger"> Anger</label>
-<label><input type="checkbox" name="feelings" value="guilt"> Guilt</label>
-<label><input type="checkbox" name="feelings" value="loneliness"> Loneliness</label>
-<label><input type="checkbox" name="feelings" value="accepting"> Difficulty accepting what happened</label>
-<label><input type="checkbox" name="feelings" value="relief"> Relief (and guilt about feeling relief)</label>
-<label><input type="checkbox" name="feelings" value="struggling"> Struggling to get through the day</label>
-<label><input type="checkbox" name="feelings" value="other" id="feelingsOtherCheck"> Other</label>
 </div>
-<div class="conditional" id="feelingsOtherText"><input type="text" name="feelings_other" placeholder="Please specify"></div>
 
-<label class="question required">How much is this affecting your daily life?</label>
+<div class="question-block">
+<label class="question-label">What are you feeling most right now?</label>
 <div class="option-group">
-<label><input type="radio" name="impact" value="notmuch" required> Not much</label>
-<label><input type="radio" name="impact" value="somewhat"> Somewhat</label>
-<label><input type="radio" name="impact" value="alot"> A lot</label>
-<label><input type="radio" name="impact" value="severely"> Severely</label>
+<label class="option-item"><input type="checkbox" name="feelings" value="sadness"><span>Deep sadness</span></label>
+<label class="option-item"><input type="checkbox" name="feelings" value="numbness"><span>Numbness or emptiness</span></label>
+<label class="option-item"><input type="checkbox" name="feelings" value="anger"><span>Anger</span></label>
+<label class="option-item"><input type="checkbox" name="feelings" value="guilt"><span>Guilt or regret</span></label>
+<label class="option-item"><input type="checkbox" name="feelings" value="loneliness"><span>Loneliness</span></label>
+<label class="option-item"><input type="checkbox" name="feelings" value="accepting"><span>Difficulty accepting what happened</span></label>
+<label class="option-item"><input type="checkbox" name="feelings" value="relief"><span>Relief — and guilt about feeling relief</span></label>
+<label class="option-item"><input type="checkbox" name="feelings" value="struggling"><span>Struggling to get through daily life</span></label>
+<label class="option-item"><input type="checkbox" name="feelings" value="stuck"><span>Feeling stuck</span></label>
+<label class="option-item"><input type="checkbox" name="feelings" value="other" data-other="feelings-other"><span>Other</span></label>
+</div>
+<div class="conditional" id="feelings-other" style="margin-left:0;margin-top:0.5rem;">
+<input type="text" name="feelings_other" placeholder="Please specify">
+</div>
+</div>
+
+<div class="question-block">
+<label class="question-label required">How much is this affecting your daily life?</label>
+<div class="option-group">
+<label class="option-item"><input type="radio" name="impact" value="mild" required><span>Mild — I'm getting by</span></label>
+<label class="option-item"><input type="radio" name="impact" value="moderate"><span>Moderate — some days are very hard</span></label>
+<label class="option-item"><input type="radio" name="impact" value="severe"><span>Severe — it's affecting most of my life</span></label>
+<label class="option-item"><input type="radio" name="impact" value="verysevere"><span>Very severe — I don't know how to keep going</span></label>
+</div>
 </div>
 </div>
 
 <div class="form-section">
-<h2>Support</h2>
+<h2>Support around you</h2>
 
-<label class="question">Do you have people around you who understand what you're going through?</label>
+<div class="question-block">
+<label class="question-label">Do you have people in your life who understand what you're going through?</label>
 <div class="option-group">
-<label><input type="radio" name="support" value="yes"> Yes</label>
-<label><input type="radio" name="support" value="somewhat"> Somewhat</label>
-<label><input type="radio" name="support" value="notreally"> Not really</label>
-<label><input type="radio" name="support" value="no"> No</label>
+<label class="option-item"><input type="radio" name="support" value="yes"><span>Yes</span></label>
+<label class="option-item"><input type="radio" name="support" value="somewhat"><span>Somewhat</span></label>
+<label class="option-item"><input type="radio" name="support" value="notreally"><span>Not really</span></label>
+<label class="option-item"><input type="radio" name="support" value="no"><span>No</span></label>
+</div>
 </div>
 
-<label class="question">Have you spoken to anyone about this before (GP, counsellor, pastor, elder)?</label>
+<div class="question-block">
+<label class="question-label">Have you spoken to anyone about this? (GP, counsellor, pastor, elder, healer)</label>
 <div class="option-group">
-<label><input type="radio" name="spoken_before" value="no"> No</label>
-<label><input type="radio" name="spoken_before" value="yes" id="spokenBeforeYes"> Yes</label>
+<label class="option-item"><input type="radio" name="spoken" value="no"><span>No</span></label>
+<label class="option-item"><input type="radio" name="spoken" value="yes" data-shows="spoken-details"><span>Yes</span></label>
 </div>
-<div class="conditional" id="spokenDetails"><textarea name="spoken_details" placeholder="What happened?"></textarea></div>
+<div class="conditional" id="spoken-details">
+<textarea name="spoken_details" placeholder="Who and what happened?"></textarea>
+</div>
+</div>
 
-<label class="question">Are you currently taking any medication?</label>
+<div class="question-block">
+<label class="question-label">Are you currently taking any medication?</label>
 <div class="option-group">
-<label><input type="radio" name="medication" value="no"> No</label>
-<label><input type="radio" name="medication" value="yes" id="medYes"> Yes</label>
+<label class="option-item"><input type="radio" name="medication" value="no"><span>No</span></label>
+<label class="option-item"><input type="radio" name="medication" value="yes" data-shows="med-details"><span>Yes</span></label>
 </div>
-<div class="conditional" id="medDetails"><input type="text" name="medication_details" placeholder="What medication?"></div>
+<div class="conditional" id="med-details">
+<input type="text" name="medication_details" placeholder="What medication?">
+</div>
+</div>
 </div>
 
 <div class="form-section">
-<h2>What you want</h2>
+<h2>Your goals</h2>
 
-<label class="question required">What would be most helpful for you right now?</label>
+<div class="question-block">
+<label class="question-label required">What would be most helpful for you right now?</label>
 <textarea name="helpful" required></textarea>
+</div>
 
-<label class="question">Is there anything about your culture, faith, or whānau that's important for us to know?</label>
-<p class="helper">For example, cultural practices around grief, family expectations, spiritual beliefs.</p>
+<div class="question-block">
+<label class="question-label">Is there anything about how your family or culture approaches grief that would be helpful for us to understand?</label>
+<p class="helper-text">For example: funeral practices, mourning periods, spiritual beliefs, expectations from family.</p>
 <textarea name="cultural"></textarea>
+</div>
 </div>
 
 <div class="form-section">
 <h2>Safety</h2>
 
-<label class="question required">In the past two weeks, have you had thoughts of hurting yourself or ending your life?</label>
+<div class="question-block">
+<label class="question-label required">Over the past two weeks, have you had any thoughts of hurting yourself or ending your life?</label>
 <div class="option-group">
-<label><input type="radio" name="selfharm" value="no" required> No</label>
-<label><input type="radio" name="selfharm" value="sometimes" id="selfharmSometimes"> Yes — sometimes</label>
-<label><input type="radio" name="selfharm" value="often" id="selfharmOften"> Yes — often</label>
+<label class="option-item"><input type="radio" name="self_harm" value="no" required><span>No</span></label>
+<label class="option-item"><input type="radio" name="self_harm" value="yes_sometimes"><span>Yes — occasionally</span></label>
+<label class="option-item"><input type="radio" name="self_harm" value="yes_often"><span>Yes — frequently</span></label>
 </div>
 
-<div class="conditional" id="selfharmFollowup">
-<p style="font-size:0.88rem;color:#a0a0a0;margin-bottom:1rem;">Thank you for telling us. You're not in trouble. This helps us make sure you get the right support.</p>
-<label class="question">Do you have a plan to hurt yourself right now?</label>
-<div class="option-group">
-<label><input type="radio" name="plan" value="no"> No</label>
-<label><input type="radio" name="plan" value="yes" id="planYes"> Yes</label>
+<div class="safety-reassurance" id="safety-reassurance">
+<p>Thank you for being honest with us. You're not in trouble and this won't be held against you. It helps us make sure you get the right level of support.</p>
 </div>
-<div class="crisis-box" id="crisisBox">
-<p><strong>If you are in immediate danger, please call 111 or go to your nearest emergency department.</strong></p>
-<p style="margin-top:0.5rem;">You can also call or text <strong>1737</strong> to talk to someone right now. We will review your form as a priority.</p>
+
+<div class="conditional" id="plan-group">
+<label class="question-label">Right now, do you have a specific plan to hurt yourself?</label>
+<div class="option-group">
+<label class="option-item"><input type="radio" name="has_plan" value="no"><span>No</span></label>
+<label class="option-item"><input type="radio" name="has_plan" value="yes"><span>Yes</span></label>
 </div>
 </div>
 
-<label class="question">Is there anything else about your safety you'd like us to know?</label>
+<div class="crisis-box" id="crisis-box">
+<p>If you are in immediate danger, please call 111 now. You can also call or text 1737 any time to talk to someone. If you submit this form, we will treat it as urgent and contact you as soon as possible.</p>
+</div>
+</div>
+
+<div class="question-block">
+<label class="question-label">Is there anything else about your safety you'd like us to know?</label>
 <textarea name="safety_other"></textarea>
+</div>
 </div>
 
 <div class="form-section">
 <h2>Your details</h2>
 
-<label class="question required">Full name</label>
+<div class="question-block">
+<label class="question-label required">Full name</label>
 <input type="text" name="fullname" required>
+</div>
 
-<label class="question">Preferred name</label>
+<div class="question-block">
+<label class="question-label">Preferred name</label>
 <input type="text" name="preferred_name">
+</div>
 
-<label class="question required">Date of birth</label>
+<div class="question-block">
+<label class="question-label required">Date of birth</label>
 <input type="date" name="dob" required>
+</div>
 
-<label class="question required">Gender</label>
+<div class="question-block">
+<label class="question-label required">Age</label>
+<input type="number" name="age" min="16" max="100" required>
+<p class="helper-text">Must be 16 or older.</p>
+</div>
+
+<div class="question-block">
+<label class="question-label required">Gender</label>
 <select name="gender" required>
 <option value="">Select...</option>
 <option value="man">Man</option>
 <option value="woman">Woman</option>
 <option value="nonbinary">Non-binary</option>
-<option value="prefer-not">Prefer not to say</option>
+<option value="genderdiverse">Gender diverse</option>
+<option value="prefernot">Prefer not to say</option>
 <option value="other">Other</option>
 </select>
-<div class="conditional" id="genderOtherText"><input type="text" name="gender_other" placeholder="Please specify"></div>
-
-<label class="question required">Ethnicity (select all that apply)</label>
-<div class="option-group">
-<label><input type="checkbox" name="ethnicity" value="nzeuropean"> NZ European/Pākehā</label>
-<label><input type="checkbox" name="ethnicity" value="maori"> Māori</label>
-<label><input type="checkbox" name="ethnicity" value="samoan"> Samoan</label>
-<label><input type="checkbox" name="ethnicity" value="tongan"> Tongan</label>
-<label><input type="checkbox" name="ethnicity" value="cookisland"> Cook Island Māori</label>
-<label><input type="checkbox" name="ethnicity" value="fijian"> Fijian</label>
-<label><input type="checkbox" name="ethnicity" value="niuean"> Niuean</label>
-<label><input type="checkbox" name="ethnicity" value="indian"> Indian</label>
-<label><input type="checkbox" name="ethnicity" value="chinese"> Chinese</label>
-<label><input type="checkbox" name="ethnicity" value="other" id="ethnicityOtherCheck"> Other</label>
 </div>
-<div class="conditional" id="ethnicityOtherText"><input type="text" name="ethnicity_other" placeholder="Please specify"></div>
 
-<label class="question required">Phone number</label>
+<div class="question-block">
+<label class="question-label required">Ethnicity (select all that apply)</label>
+<div class="option-group">
+<label class="option-item"><input type="checkbox" name="ethnicity" value="nzeuropean"><span>NZ European/Pākehā</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="maori"><span>Māori</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="samoan"><span>Samoan</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="tongan"><span>Tongan</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="cookisland"><span>Cook Island Māori</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="fijian"><span>Fijian</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="niuean"><span>Niuean</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="tokelauan"><span>Tokelauan</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="indian"><span>Indian</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="chinese"><span>Chinese</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="southeastasian"><span>Southeast Asian</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="other" data-other="ethnicity-other"><span>Other</span></label>
+</div>
+<div class="conditional" id="ethnicity-other" style="margin-left:0;margin-top:0.5rem;">
+<input type="text" name="ethnicity_other" placeholder="Please specify">
+</div>
+</div>
+
+<div class="question-block">
+<label class="question-label required">Phone number</label>
 <input type="tel" name="phone" required>
+</div>
 
-<label class="question required">Email</label>
+<div class="question-block">
+<label class="question-label required">Email address</label>
 <input type="email" name="email" required>
+</div>
 
-<label class="question">City or town</label>
+<div class="question-block">
+<label class="question-label">City or town you live in</label>
 <input type="text" name="city">
+</div>
 
-<label class="question">How did you hear about Connect?</label>
+<div class="question-block">
+<label class="question-label required">Emergency contact name and number</label>
+<input type="text" name="emergency_contact" required>
+<p class="helper-text">Someone we can contact if we're concerned about your safety.</p>
+</div>
+
+<div class="question-block">
+<label class="question-label">How did you hear about Connect?</label>
 <select name="referral">
 <option value="">Select...</option>
-<option value="google">Google</option>
+<option value="google">Google search</option>
 <option value="social">Social media</option>
-<option value="friend">Friend or family</option>
-<option value="gp">GP or doctor</option>
-<option value="school">School or university</option>
-<option value="community">Community organisation</option>
+<option value="friend">Friend or family member</option>
+<option value="gp">GP or other doctor</option>
+<option value="school">School, university, or polytech</option>
+<option value="community">Community or church organisation</option>
 <option value="other">Other</option>
 </select>
+</div>
 
-<label class="question required" style="margin-top:1.5rem;">
-<input type="checkbox" name="consent_confidential" required style="width:auto;margin-right:0.5rem;">
-I understand that my information is confidential and will only be seen by the Connect clinical team.
-</label>
-
-<label class="question required">
-<input type="checkbox" name="consent_age" required style="width:auto;margin-right:0.5rem;">
-I confirm I am 16 years or older.
+<div class="question-block" style="margin-top:2rem;">
+<label class="option-item" style="padding:0;">
+<input type="checkbox" name="consent_confidential" required style="margin-right:0.75rem;">
+<span>I understand my information is confidential and will only be seen by the Connect Clinic clinical team.</span>
 </label>
 </div>
 
-<button type="submit" class="submit-btn">Submit intake form</button>
-<p class="after-submit">We'll review your answers and get back to you within 48 hours by email or phone.</p>
+<div class="question-block">
+<label class="option-item" style="padding:0;">
+<input type="checkbox" name="consent_age" required style="margin-right:0.75rem;">
+<span>I confirm I am 16 years of age or older.</span>
+</label>
+</div>
+</div>
+
+<button type="submit" class="submit-btn">Submit</button>
+<p class="after-submit">We'll review your form and be in touch within 48 hours by email or phone.</p>
 </form>
-
-<div class="thank-you" id="thankYou">
-<h2>Thank you</h2>
-<p>We've received your form and will be in touch within 48 hours.</p>
-</div>
 </div>
 
 <script>
-document.getElementById('lossOtherCheck').addEventListener('change',function(){document.getElementById('lossOtherText').style.display=this.checked?'block':'none';});
-document.getElementById('feelingsOtherCheck').addEventListener('change',function(){document.getElementById('feelingsOtherText').style.display=this.checked?'block':'none';});
-document.getElementById('spokenBeforeYes').addEventListener('change',function(){document.getElementById('spokenDetails').style.display=this.checked?'block':'none';});
-document.querySelectorAll('input[name="spoken_before"]').forEach(r=>{if(r.value==='no')r.addEventListener('change',function(){document.getElementById('spokenDetails').style.display='none';});});
-document.getElementById('medYes').addEventListener('change',function(){document.getElementById('medDetails').style.display=this.checked?'block':'none';});
-document.querySelectorAll('input[name="medication"]').forEach(r=>{if(r.value==='no')r.addEventListener('change',function(){document.getElementById('medDetails').style.display='none';});});
-document.getElementById('selfharmSometimes').addEventListener('change',function(){document.getElementById('selfharmFollowup').style.display='block';});
-document.getElementById('selfharmOften').addEventListener('change',function(){document.getElementById('selfharmFollowup').style.display='block';});
-document.querySelectorAll('input[name="selfharm"]').forEach(r=>{if(r.value==='no')r.addEventListener('change',function(){document.getElementById('selfharmFollowup').style.display='none';document.getElementById('crisisBox').style.display='none';});});
-document.getElementById('planYes').addEventListener('change',function(){document.getElementById('crisisBox').style.display='block';});
-document.querySelectorAll('input[name="plan"]').forEach(r=>{if(r.value==='no')r.addEventListener('change',function(){document.getElementById('crisisBox').style.display='none';});});
-document.querySelector('select[name="gender"]').addEventListener('change',function(){document.getElementById('genderOtherText').style.display=this.value==='other'?'block':'none';});
-document.getElementById('ethnicityOtherCheck').addEventListener('change',function(){document.getElementById('ethnicityOtherText').style.display=this.checked?'block':'none';});
-document.getElementById('intakeForm').addEventListener('submit',function(e){e.preventDefault();document.getElementById('intakeForm').style.display='none';document.getElementById('thankYou').style.display='block';});
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('[data-shows]').forEach(function(input) {
+    input.addEventListener('change', function() {
+      var target = document.getElementById(this.dataset.shows);
+      if (!target) return;
+      var group = this.closest('.option-group');
+      var allInputs = group.querySelectorAll('input[name="' + this.name + '"]');
+      allInputs.forEach(function(inp) {
+        if (inp.dataset.shows && inp.dataset.shows !== input.dataset.shows) {
+          var other = document.getElementById(inp.dataset.shows);
+          if (other) other.classList.remove('visible');
+        }
+      });
+      if (this.checked) { target.classList.add('visible'); }
+      else { target.classList.remove('visible'); }
+    });
+  });
+
+  var safetyRadios = document.querySelectorAll('input[name="self_harm"]');
+  var reassurance = document.getElementById('safety-reassurance');
+  var planGroup = document.getElementById('plan-group');
+  safetyRadios.forEach(function(r) {
+    r.addEventListener('change', function() {
+      if (this.value === 'yes_sometimes' || this.value === 'yes_often') {
+        reassurance.classList.add('visible');
+        planGroup.classList.add('visible');
+      } else {
+        reassurance.classList.remove('visible');
+        planGroup.classList.remove('visible');
+        document.getElementById('crisis-box').classList.remove('visible');
+      }
+    });
+  });
+
+  var planRadios = document.querySelectorAll('input[name="has_plan"]');
+  var crisisBox = document.getElementById('crisis-box');
+  planRadios.forEach(function(r) {
+    r.addEventListener('change', function() {
+      if (this.value === 'yes') { crisisBox.classList.add('visible'); }
+      else { crisisBox.classList.remove('visible'); }
+    });
+  });
+
+  document.querySelectorAll('input[data-other]').forEach(function(cb) {
+    cb.addEventListener('change', function() {
+      var target = document.getElementById(this.dataset.other);
+      if (target) target.style.display = this.checked ? 'block' : 'none';
+    });
+  });
+
+  document.querySelector('form').addEventListener('submit', function(e) {
+    var first = null;
+    this.querySelectorAll('[required]').forEach(function(field) {
+      var isEmpty = !field.value || (field.type === 'checkbox' && !field.checked);
+      if (isEmpty) {
+        field.style.borderColor = '#e57373';
+        if (!first) first = field;
+      } else {
+        field.style.borderColor = '';
+      }
+    });
+    if (first) { e.preventDefault(); first.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  });
+});
+</script>
+</body>
+</html>
+
+<div class="form-section">
+<h2>Safety</h2>
+
+<div class="question-block">
+<label class="question-label required">Over the past two weeks, have you had any thoughts of hurting yourself or ending your life?</label>
+<div class="option-group">
+<label class="option-item"><input type="radio" name="self_harm" value="no" required><span>No</span></label>
+<label class="option-item"><input type="radio" name="self_harm" value="yes_sometimes"><span>Yes — occasionally</span></label>
+<label class="option-item"><input type="radio" name="self_harm" value="yes_often"><span>Yes — frequently</span></label>
+</div>
+
+<div class="safety-reassurance" id="safety-reassurance">
+<p>Thank you for being honest with us. You're not in trouble and this won't be held against you. It helps us make sure you get the right level of support.</p>
+</div>
+
+<div class="conditional" id="plan-group">
+<label class="question-label">Right now, do you have a specific plan to hurt yourself?</label>
+<div class="option-group">
+<label class="option-item"><input type="radio" name="has_plan" value="no"><span>No</span></label>
+<label class="option-item"><input type="radio" name="has_plan" value="yes"><span>Yes</span></label>
+</div>
+</div>
+
+<div class="crisis-box" id="crisis-box">
+<p>If you are in immediate danger, please call 111 now. You can also call or text 1737 any time to talk to someone. If you submit this form, we will treat it as urgent and contact you as soon as possible.</p>
+</div>
+</div>
+
+<div class="question-block">
+<label class="question-label">Is there anything else about your safety you'd like us to know?</label>
+<textarea name="safety_other"></textarea>
+</div>
+</div>
+
+<div class="form-section">
+<h2>Your details</h2>
+
+<div class="question-block">
+<label class="question-label required">Full name</label>
+<input type="text" name="fullname" required>
+</div>
+
+<div class="question-block">
+<label class="question-label">Preferred name</label>
+<input type="text" name="preferred_name">
+</div>
+
+<div class="question-block">
+<label class="question-label required">Date of birth</label>
+<input type="date" name="dob" required>
+</div>
+
+<div class="question-block">
+<label class="question-label required">Age</label>
+<input type="number" name="age" min="16" max="100" required>
+<p class="helper-text">Must be 16 or older.</p>
+</div>
+
+<div class="question-block">
+<label class="question-label required">Gender</label>
+<select name="gender" required>
+<option value="">Select...</option>
+<option value="man">Man</option>
+<option value="woman">Woman</option>
+<option value="nonbinary">Non-binary</option>
+<option value="genderdiverse">Gender diverse</option>
+<option value="prefernot">Prefer not to say</option>
+<option value="other">Other</option>
+</select>
+</div>
+
+<div class="question-block">
+<label class="question-label required">Ethnicity (select all that apply)</label>
+<div class="option-group">
+<label class="option-item"><input type="checkbox" name="ethnicity" value="nzeuropean"><span>NZ European/Pākehā</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="maori"><span>Māori</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="samoan"><span>Samoan</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="tongan"><span>Tongan</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="cookisland"><span>Cook Island Māori</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="fijian"><span>Fijian</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="niuean"><span>Niuean</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="tokelauan"><span>Tokelauan</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="indian"><span>Indian</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="chinese"><span>Chinese</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="southeastasian"><span>Southeast Asian</span></label>
+<label class="option-item"><input type="checkbox" name="ethnicity" value="other" data-other="ethnicity-other"><span>Other</span></label>
+</div>
+<div class="conditional" id="ethnicity-other" style="margin-left:0;margin-top:0.5rem;">
+<input type="text" name="ethnicity_other" placeholder="Please specify">
+</div>
+</div>
+
+<div class="question-block">
+<label class="question-label required">Phone number</label>
+<input type="tel" name="phone" required>
+</div>
+
+<div class="question-block">
+<label class="question-label required">Email address</label>
+<input type="email" name="email" required>
+</div>
+
+<div class="question-block">
+<label class="question-label">City or town you live in</label>
+<input type="text" name="city">
+</div>
+
+<div class="question-block">
+<label class="question-label required">Emergency contact name and number</label>
+<input type="text" name="emergency_contact" required>
+<p class="helper-text">Someone we can contact if we're concerned about your safety.</p>
+</div>
+
+<div class="question-block">
+<label class="question-label">How did you hear about Connect?</label>
+<select name="referral">
+<option value="">Select...</option>
+<option value="google">Google search</option>
+<option value="social">Social media</option>
+<option value="friend">Friend or family member</option>
+<option value="gp">GP or other doctor</option>
+<option value="school">School, university, or polytech</option>
+<option value="community">Community or church organisation</option>
+<option value="other">Other</option>
+</select>
+</div>
+
+<div class="question-block" style="margin-top:2rem;">
+<label class="option-item" style="padding:0;">
+<input type="checkbox" name="consent_confidential" required style="margin-right:0.75rem;">
+<span>I understand my information is confidential and will only be seen by the Connect Clinic clinical team.</span>
+</label>
+</div>
+
+<div class="question-block">
+<label class="option-item" style="padding:0;">
+<input type="checkbox" name="consent_age" required style="margin-right:0.75rem;">
+<span>I confirm I am 16 years of age or older.</span>
+</label>
+</div>
+</div>
+
+<button type="submit" class="submit-btn">Submit</button>
+<p class="after-submit">We'll review your form and be in touch within 48 hours by email or phone.</p>
+</form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('[data-shows]').forEach(function(input) {
+    input.addEventListener('change', function() {
+      var target = document.getElementById(this.dataset.shows);
+      if (!target) return;
+      var group = this.closest('.option-group');
+      var allInputs = group.querySelectorAll('input[name="' + this.name + '"]');
+      allInputs.forEach(function(inp) {
+        if (inp.dataset.shows && inp.dataset.shows !== input.dataset.shows) {
+          var other = document.getElementById(inp.dataset.shows);
+          if (other) other.classList.remove('visible');
+        }
+      });
+      if (this.checked) { target.classList.add('visible'); }
+      else { target.classList.remove('visible'); }
+    });
+  });
+
+  var safetyRadios = document.querySelectorAll('input[name="self_harm"]');
+  var reassurance = document.getElementById('safety-reassurance');
+  var planGroup = document.getElementById('plan-group');
+  safetyRadios.forEach(function(r) {
+    r.addEventListener('change', function() {
+      if (this.value === 'yes_sometimes' || this.value === 'yes_often') {
+        reassurance.classList.add('visible');
+        planGroup.classList.add('visible');
+      } else {
+        reassurance.classList.remove('visible');
+        planGroup.classList.remove('visible');
+        document.getElementById('crisis-box').classList.remove('visible');
+      }
+    });
+  });
+
+  var planRadios = document.querySelectorAll('input[name="has_plan"]');
+  var crisisBox = document.getElementById('crisis-box');
+  planRadios.forEach(function(r) {
+    r.addEventListener('change', function() {
+      if (this.value === 'yes') { crisisBox.classList.add('visible'); }
+      else { crisisBox.classList.remove('visible'); }
+    });
+  });
+
+  document.querySelectorAll('input[data-other]').forEach(function(cb) {
+    cb.addEventListener('change', function() {
+      var target = document.getElementById(this.dataset.other);
+      if (target) target.style.display = this.checked ? 'block' : 'none';
+    });
+  });
+
+  document.querySelector('form').addEventListener('submit', function(e) {
+    var first = null;
+    this.querySelectorAll('[required]').forEach(function(field) {
+      var isEmpty = !field.value || (field.type === 'checkbox' && !field.checked);
+      if (isEmpty) {
+        field.style.borderColor = '#e57373';
+        if (!first) first = field;
+      } else {
+        field.style.borderColor = '';
+      }
+    });
+    if (first) { e.preventDefault(); first.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  });
+});
 </script>
 </body>
 </html>
