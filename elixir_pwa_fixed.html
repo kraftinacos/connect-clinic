@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Elixir">
+    <meta name="theme-color" content="#0F172A">
+    <title>Elixir</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { -webkit-tap-highlight-color: transparent; touch-action: manipulation; box-sizing: border-box; }
+        html, body { max-width: 100vw; overflow-x: hidden; margin: 0; padding: 0; background: #0F172A; color: white; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+        .safe-top { padding-top: env(safe-area-inset-top); }
+        .safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 100px); }
+        .btn-huge { min-height: 72px; border-radius: 24px; font-size: 24px; font-weight: 700; }
+        .btn-profile { min-height: 72px; min-width: 72px; border-radius: 24px; font-size: 16px; font-weight: 700; padding: 8px 12px; flex: 1; }
+        .btn-zoom { min-height: 72px; border-radius: 24px; font-size: 20px; font-weight: 700; background: #14B8A6; color: white; box-shadow: 0 4px 20px rgba(20,184,166,0.4); }
+        .btn-zoom:active { transform: scale(0.98); background: #0D9488; }
+        .btn-primary { background: #14B8A6; color: white; box-shadow: 0 4px 20px rgba(20,184,166,0.4); }
+        .btn-primary:active { transform: scale(0.98); background: #0D9488; }
+        .btn-secondary { background: #1E2937; color: white; border: 3px solid #334155; }
+        .btn-secondary:active { transform: scale(0.98); background: #0F172A; }
+        .btn-active { background: #14B8A6; color: white; border-color: #14B8A6; box-shadow: 0 4px 20px rgba(20,184,166,0.4); }
+        .card { background: #1E2937; border-radius: 28px; padding: 28px; }
+        .patient-card { background: #1E2937; border-radius: 28px; padding: 24px; margin-bottom: 16px; }
+        .tab-active { color: #14B8A6; }
+        .tab-inactive { color: #64748B; }
+        .time-slot { min-height: 72px; border-radius: 20px; background: #1E2937; border: 3px solid #334155; font-size: 22px; font-weight: 600; }
+        .time-slot.selected { background: #14B8A6; border-color: #14B8A6; color: white; }
+        .day-pill { min-width: 64px; min-height: 88px; border-radius: 20px; font-size: 18px; }
+        .day-pill.today { background: #14B8A6; color: white; box-shadow: 0 4px 20px rgba(20,184,166,0.4); }
+        .day-pill.other { background: #1E2937; color: #94A3B8; border: 3px solid #334155; }
+        #install-banner { position: fixed; bottom: 120px; left: 20px; right: 20px; background: #14B8A6; border-radius: 28px; padding: 28px; z-index: 1000; display: none; }
+        #install-banner.show { display: block; animation: slideUp 0.3s ease; }
+        #offline-banner { position: fixed; top: 0; left: 0; right: 0; background: #EF4444; color: white; padding: 12px; z-index: 9999; display: none; font-weight: 600; text-align: center; }
+        #offline-banner.show { display: block; }
+        #toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: #1E2937; color: white; padding: 16px 24px; border-radius: 16px; z-index: 10000; display: none; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        #toast.show { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hidden { display: none !important; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal.show { display: flex; }
+        .modal-content { background: #1E2937; border-radius: 32px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px; }
+        input, select, textarea { background: #0F172A; border: 3px solid #334155; border-radius: 20px; color: white; min-height: 72px; padding: 0 24px; font-size: 22px; width: 100%; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #14B8A6; }
+        .stat-num { font-size: 44px; font-weight: 800; }
+        .profile-bar { height: 80px; background: #0F172A; border-bottom: 3px solid #1E2937; padding: 8px 12px; }
+        .notes-area { min-height: 200px; resize: vertical; padding: 16px; font-size: 18px; }
+        .platform-link { display: block; padding: 16px; background: #1E2937; border-radius: 16px; margin-bottom: 12px; text-decoration: none; color: white; }
+        .platform-link:active { background: #0F172A; }
+        .task-input-row { display: flex; gap: 12px; margin-bottom: 16px; }
+        .task-input { flex: 1; }
+        .recall-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: #1E2937; border-radius: 16px; margin-bottom: 12px; }
+    </style>
+</head>
+<body class="safe-top safe-bottom">
+    <!-- Offline Banner -->
+    <div id="offline-banner">📡 No internet connection - Offline mode</div>
+    
+    <!-- Toast Notification -->
+    <div id="toast"></div>
+
+    <!-- Install Banner -->
+    <div id="install-banner">
+        <div class="flex items-center justify-between text-white">
+            <div>
+                <p class="font-bold text-2xl">Add to Home Screen</p>
+                <p class="text-lg opacity-90 mt-2">Launch Elixir as native app</p>
+            </div>
+            <button onclick="addToHomeScreen()" class="bg-white text-slate-900 px-8 py-5 rounded-3xl font-bold text-xl">ADD</button>
+        </div>
+    </div>
+
+    <!-- Profile Switcher Bar -->
+    <div class="profile-bar flex items-center gap-2 sticky top-0 z-50">
+        <button onclick="switchProfile('dr-francis')" class="btn-profile btn-active" id="btn-dr-francis">Dr<br>Francis</button>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-slate-900 px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 bg-teal-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">E</div>
+            <div>
+                <span class="font-bold text-2xl">Elixir</span>
+                <div class="text-teal-400 text-sm" id="current-user">Dr Francis Katoa</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Week Range -->
+    <div class="px-6 py-3 text-center">
+        <span class="text-slate-400 text-lg" id="week-range">Mon 16 Feb - Sun 22 Feb 2026</span>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="px-6 py-3 grid grid-cols-3 gap-3">
+        <div class="card text-center py-4">
+            <div class="stat-num text-teal-400" id="stat-today">0</div>
+            <div class="text-base text-slate-400 mt-1">Today</div>
+        </div>
+        <div class="card text-center py-4">
+            <div class="stat-num text-teal-400" id="stat-tasks">0</div>
+            <div class="text-base text-slate-400 mt-1">Tasks</div>
+        </div>
+        <div class="card text-center py-4">
+            <div class="stat-num text-teal-400" id="stat-recalls">0</div>
+            <div class="text-base text-slate-400 mt-1">Recalls</div>
+        </div>
+    </div>
+
+    <!-- Week Selector -->
+    <div class="px-6 py-3 overflow-x-auto">
+        <div class="flex gap-2 min-w-max" id="week-selector">
+            <!-- Generated dynamically -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="px-6 pb-40">
+        <!-- Schedule View -->
+        <div id="view-schedule" class="view-section">
+            <button onclick="openBookingModal()" class="btn-huge btn-primary w-full mb-4 flex items-center justify-center gap-2">
+                <span class="text-3xl">+</span> Book
+            </button>
+            
+            <div class="card text-center py-8" id="empty-state">
+                <div class="text-7xl mb-4">📅</div>
+                <h3 class="font-bold text-2xl mb-2">No appointments</h3>
+                <p class="text-slate-400 text-lg" id="selected-date-display">Select a date to view</p>
+            </div>
+
+            <div id="appointments-list" class="space-y-3 hidden">
+                <!-- Appointments injected here -->
+            </div>
+        </div>
+
+        <!-- Day List View -->
+        <div id="view-daylist" class="view-section hidden">
+            <div class="card text-center py-10">
+                <div class="text-7xl mb-4">📋</div>
+                <h3 class="font-bold text-2xl mb-2">Day List</h3>
+                <p class="text-slate-400 text-lg">Queue appears here</p>
+            </div>
+        </div>
+
+        <!-- Patients View -->
+        <div id="view-patients" class="view-section hidden">
+            <button onclick="openAddPatientModal()" class="btn-huge btn-primary w-full mb-4 flex items-center justify-center gap-2" style="background: #22C55E;">
+                <span class="text-3xl">+</span> Add Patient
+            </button>
+            <input type="text" id="patient-search" placeholder="🔍 Search patients" class="mb-4" oninput="searchPatients(this.value)">
+            <div id="patients-list" class="space-y-4">
+                <!-- Patients injected here -->
+            </div>
+        </div>
+
+        <!-- Office View -->
+        <div id="view-office" class="view-section hidden">
+            <!-- Today's Summary -->
+            <div class="card mb-4">
+                <h3 class="font-bold text-xl mb-4">📊 Today's Summary</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="text-center p-4 bg-slate-800 rounded-2xl">
+                        <div class="text-3xl font-bold text-teal-400" id="office-bookings">0</div>
+                        <div class="text-sm text-slate-400">Bookings</div>
+                    </div>
+                    <div class="text-center p-4 bg-slate-800 rounded-2xl">
+                        <div class="text-3xl font-bold text-teal-400" id="office-patients">0</div>
+                        <div class="text-sm text-slate-400">Patients</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Links -->
+            <div class="card mb-4">
+                <h3 class="font-bold text-xl mb-4">🔗 Quick Links</h3>
+                <a href="https://alternaleaf.com.au" target="_blank" class="platform-link">🌿 Alternaleaf</a>
+                <a href="https://calyx.health" target="_blank" class="platform-link">💊 Calyx</a>
+                <a href="https://getmosh.com.au" target="_blank" class="platform-link">⚡ Mosh</a>
+                <a href="https://groclinics.co.nz" target="_blank" class="platform-link">💇 Gro Clinics</a>
+            </div>
+            
+            <!-- Recalls Management -->
+            <div class="card mb-4">
+                <h3 class="font-bold text-xl mb-4">🔄 Recalls</h3>
+                <div id="recalls-list" class="mb-4">
+                    <!-- Recalls injected here -->
+                </div>
+                <button onclick="addRecall()" class="btn-huge btn-primary w-full">+ Add Recall</button>
+            </div>
+            
+            <!-- Notes -->
+            <div class="card">
+                <h3 class="font-bold text-xl mb-4">📝 Notes</h3>
+                <textarea id="office-notes" class="notes-area" placeholder="Type your notes here..."></textarea>
+                <button onclick="saveNotes()" class="btn-huge btn-primary w-full mt-4">Save Notes</button>
+            </div>
+        </div>
+
+        <!-- Tasks View -->
+        <div id="view-tasks" class="view-section hidden">
+            <!-- Inline Task Input -->
+            <div class="task-input-row">
+                <input type="text" id="new-task-input" class="task-input" placeholder="Enter new task...">
+                <button onclick="addTaskInline()" class="btn-huge btn-primary" style="min-width: 80px;">+</button>
+            </div>
+            <div id="tasks-list" class="space-y-3">
+                <!-- Tasks injected here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="modal">
+        <div class="modal-content">
+            <h2 class="font-bold text-3xl mb-6">New Booking</h2>
+            
+            <label class="block text-slate-400 mb-2 text-lg">Patient</label>
+            <input type="text" id="booking-patient" list="patient-suggestions" placeholder="Patient name" class="mb-4" autocomplete="off">
+            <datalist id="patient-suggestions"></datalist>
+            
+            <label class="block text-slate-400 mb-2 text-lg">Date</label>
+            <input type="date" id="booking-date" class="mb-4">
+            
+            <label class="block text-slate-400 mb-2 text-lg">Time</label>
+            <div class="grid grid-cols-2 gap-3 mb-6">
+                <button class="time-slot flex items-center justify-center" onclick="selectTime(this, '08:00')">8:00</button>
+                <button class="time-slot flex items-center justify-center" onclick="selectTime(this, '09:00')">9:00</button>
+                <button class="time-slot flex items-center justify-center" onclick="selectTime(this, '10:00')">10:00</button>
+                <button class="time-slot flex items-center justify-center" onclick="selectTime(this, '11:00')">11:00</button>
+                <button class="time-slot flex items-center justify-center" onclick="selectTime(this, '14:00')">14:00</button>
+                <button class="time-slot flex items-center justify-center" onclick="selectTime(this, '15:00')">15:00</button>
+                <button class="time-slot flex items-center justify-center" onclick="selectTime(this, '16:00')">16:00</button>
+            </div>
+            
+            <div class="flex gap-3">
+                <button onclick="closeBookingModal()" class="btn-huge btn-secondary flex-1">Cancel</button>
+                <button onclick="saveAppointment()" class="btn-huge btn-primary flex-1">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content text-center">
+            <div class="text-7xl mb-4">✅</div>
+            <h2 class="font-bold text-3xl mb-3">Saved!</h2>
+            <p class="text-slate-400 text-xl mb-6" id="success-message">Appointment booked</p>
+            <button onclick="closeSuccessModal()" class="btn-huge btn-primary w-full">Done</button>
+        </div>
+    </div>
+
+    <!-- Patient Modal -->
+    <div id="patient-modal" class="modal">
+        <div class="modal-content">
+            <h2 class="font-bold text-3xl mb-4" id="patient-name">Patient</h2>
+            <p class="text-slate-400 text-lg mb-6" id="patient-phone"></p>
+            <div class="space-y-3">
+                <button onclick="callPatientZoom()" class="btn-zoom w-full flex items-center justify-center gap-3">
+                    <span class="text-3xl">📞</span> Call in Zoom
+                </button>
+                <button class="btn-huge btn-primary w-full">📋 Records</button>
+                <button class="btn-huge btn-primary w-full">💊 Prescribe</button>
+                <button class="btn-huge btn-secondary w-full" onclick="closePatientModal()">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Patient Modal -->
+    <div id="add-patient-modal" class="modal">
+        <div class="modal-content">
+            <h2 class="font-bold text-3xl mb-6">Add Patient</h2>
+            
+            <label class="block text-slate-400 mb-2 text-lg">Name</label>
+            <input type="text" id="new-patient-name" placeholder="Patient name" class="mb-4">
+            
+            <label class="block text-slate-400 mb-2 text-lg">Phone</label>
+            <input type="tel" id="new-patient-phone" placeholder="+64 21 123 4567" class="mb-6">
+            
+            <div class="flex gap-3">
+                <button onclick="closeAddPatientModal()" class="btn-huge btn-secondary flex-1">Cancel</button>
+                <button onclick="saveNewPatient()" class="btn-huge btn-primary flex-1" style="background: #22C55E;">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-slate-900 border-t-4 border-slate-800 px-2 py-3 safe-bottom z-50">
+        <div class="flex justify-around items-center">
+            <button onclick="switchTab('schedule')" class="tab-btn flex flex-col items-center gap-1 p-2 tab-active" data-tab="schedule">
+                <span class="text-3xl">📅</span>
+                <span class="text-sm font-bold">Book</span>
+            </button>
+            <button onclick="switchTab('daylist')" class="tab-btn flex flex-col items-center gap-1 p-2 tab-inactive" data-tab="daylist">
+                <span class="text-3xl">📋</span>
+                <span class="text-sm font-bold">List</span>
+            </button>
+            <button onclick="switchTab('patients')" class="tab-btn flex flex-col items-center gap-1 p-2 tab-inactive" data-tab="patients">
+                <span class="text-3xl">👤</span>
+                <span class="text-sm font-bold">Patients</span>
+            </button>
+            <button onclick="switchTab('office')" class="tab-btn flex flex-col items-center gap-1 p-2 tab-inactive" data-tab="office">
+                <span class="text-3xl">🏢</span>
+                <span class="text-sm font-bold">Office</span>
+            </button>
+            <button onclick="switchTab('tasks')" class="tab-btn flex flex-col items-center gap-1 p-2 tab-inactive" data-tab="tasks">
+                <span class="text-3xl">✓</span>
+                <span class="text-sm font-bold">Tasks</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>        // State
+        let selectedTime = null;
+        let currentProfile = localStorage.getItem('elixir_current_profile') || 'dr-francis';
+        let currentPatientPhone = null;
+        let isOnline = navigator.onLine;
+        let selectedDate = new Date().toISOString().split('T')[0];
+        let deferredPrompt = null;
+        
+        const profileNames = {
+            'dr-francis': 'Dr Francis Katoa'
+        };
+        
+        // Default patients (seed data)
+        const defaultPatients = [
+            { name: 'John Smith', phone: '+64 21 123 4567' },
+            { name: 'Sarah Lee', phone: '+64 22 234 5678' },
+            { name: 'Mike Chen', phone: '+64 27 345 6789' },
+            { name: 'Emma Wilson', phone: '+64 21 456 7890' },
+            { name: 'David Park', phone: '+64 22 567 8901' },
+            { name: 'Lisa Wong', phone: '+64 27 678 9012' }
+        ];
+        
+        let patientsData = [];
+        let recallsData = [];
+        
+        // API Configuration
+        const API_BASE = 'https://secure.elixirapp.nz';
+        const REFRESH_TOKEN = 'UXNWauurXZHef-8bEiU9dS-9Le4LA@Hf6w1-em@wvA!';
+        const ENCRYPTION_KEY = 'Mxf7/.1rorc:NBlc';
+        
+        // Cache API
+        const CACHE_NAME = 'elixir-pwa-v1';
+        const DATA_CACHE_NAME = 'elixir-data-v1';
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Generate week selector with correct dates
+            generateWeekSelector();
+            
+            updateProfileButtons();
+            loadAppointments();
+            loadTasks();
+            loadPatients();
+            loadRecalls();
+            loadNotes();
+            updateStats();
+            updateOfficeStats();
+            renderPatientsList(patientsData);
+            populatePatientSuggestions();
+            
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('booking-date').value = today;
+            
+            // Check online status
+            updateOnlineStatus();
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            
+            // Handle beforeinstallprompt for Add to Home Screen
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+            });
+            
+            // Show install banner if not standalone
+            if (!window.navigator.standalone && !window.matchMedia('(display-mode: standalone)').matches) {
+                setTimeout(() => {
+                    document.getElementById('install-banner').classList.add('show');
+                }, 2000);
+            }
+            
+            // Try to fetch from API if online
+            if (isOnline) {
+                await syncWithAPI();
+            }
+        });
+        
+        // Generate week selector with proper ISO dates
+        function generateWeekSelector() {
+            const container = document.getElementById('week-selector');
+            const today = new Date();
+            const weekStart = new Date(today);
+            weekStart.setDate(today.getDate() - today.getDay() + 1); // Monday
+            
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            
+            container.innerHTML = days.map((day, index) => {
+                const date = new Date(weekStart);
+                date.setDate(weekStart.getDate() + index);
+                const dateStr = date.toISOString().split('T')[0];
+                const dayNum = date.getDate();
+                const isToday = dateStr === today.toISOString().split('T')[0];
+                
+                return `
+                    <button class="day-pill ${isToday ? 'today' : 'other'} flex flex-col items-center justify-center" 
+                            onclick="selectDay('${day}', '${dateStr}')">
+                        <span class="text-sm">${day}</span>
+                        <span class="font-bold text-xl">${dayNum}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+        
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Online/Offline handling
+        function updateOnlineStatus() {
+            isOnline = navigator.onLine;
+            const banner = document.getElementById('offline-banner');
+            if (isOnline) {
+                banner.classList.remove('show');
+                syncWithAPI();
+            } else {
+                banner.classList.add('show');
+            }
+        }
+        
+        // Cache API functions
+        async function cacheData(key, data) {
+            try {
+                const cache = await caches.open(DATA_CACHE_NAME);
+                const response = new Response(JSON.stringify(data));
+                await cache.put(key, response);
+            } catch (e) {
+                console.error('Cache error:', e);
+            }
+        }
+        
+        async function getCachedData(key) {
+            try {
+                const cache = await caches.open(DATA_CACHE_NAME);
+                const response = await cache.match(key);
+                if (response) {
+                    return await response.json();
+                }
+            } catch (e) {
+                console.error('Cache read error:', e);
+            }
+            return null;
+        }
+        
+        // API Sync with console warning
+        async function syncWithAPI() {
+            try {
+                console.warn('Attempting API sync...');
+                
+                // Ensure default data is loaded first
+                if (patientsData.length === 0) {
+                    patientsData = [...defaultPatients];
+                    renderPatientsList(patientsData);
+                }
+                
+                // Try to fetch from Elixir API
+                const response = await fetch(`${API_BASE}/api/patients`, {
+                    headers: {
+                        'Authorization': `Bearer ${REFRESH_TOKEN}`,
+                        'X-Encryption-Key': ENCRYPTION_KEY
+                    }
+                });
+                
+                if (response.ok) {
+                    const apiPatients = await response.json();
+                    if (apiPatients && apiPatients.length > 0) {
+                        apiPatients.forEach(p => {
+                            if (!patientsData.find(existing => existing.name === p.name)) {
+                                patientsData.push({
+                                    name: p.name,
+                                    phone: p.phone || '+64 21 000 0000'
+                                });
+                            }
+                        });
+                        await cacheData('patients', patientsData);
+                        localStorage.setItem(getStorageKey('patients'), JSON.stringify(patientsData));
+                        renderPatientsList(patientsData);
+                        populatePatientSuggestions();
+                        console.log('API sync successful');
+                    }
+                } else {
+                    console.warn(`API sync failed with status: ${response.status}. Using cached/default data.`);
+                }
+            } catch (e) {
+                console.warn('API sync failed:', e.message, '- Using cached/default data');
+                const cached = await getCachedData('patients');
+                if (cached && cached.length > 0) {
+                    patientsData = cached;
+                } else if (patientsData.length === 0) {
+                    patientsData = [...defaultPatients];
+                }
+                renderPatientsList(patientsData);
+                populatePatientSuggestions();
+            }
+        }
+        
+        // Profile Functions
+        function switchProfile(profileId) {
+            currentProfile = profileId;
+            localStorage.setItem('elixir_current_profile', profileId);
+            document.getElementById('current-user').textContent = profileNames[profileId];
+            updateProfileButtons();
+            loadAppointments();
+            loadTasks();
+            loadPatients();
+            loadRecalls();
+            loadNotes();
+            updateStats();
+            updateOfficeStats();
+            renderPatientsList(patientsData);
+            populatePatientSuggestions();
+        }
+        
+        function updateProfileButtons() {
+            document.querySelectorAll('.btn-profile').forEach(btn => {
+                btn.classList.remove('btn-active');
+                btn.classList.add('btn-secondary');
+            });
+            const activeBtn = document.getElementById('btn-' + currentProfile);
+            if (activeBtn) {
+                activeBtn.classList.remove('btn-secondary');
+                activeBtn.classList.add('btn-active');
+            }
+            document.getElementById('current-user').textContent = profileNames[currentProfile];
+        }
+        
+        function getStorageKey(key) {
+            return `elixir_${currentProfile}_${key}`;
+        }
+        
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById('view-' + tabName).classList.remove('hidden');
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.dataset.tab === tabName) {
+                    btn.classList.remove('tab-inactive');
+                    btn.classList.add('tab-active');
+                } else {
+                    btn.classList.remove('tab-active');
+                    btn.classList.add('tab-inactive');
+                }
+            });
+            
+            // Update office stats when viewing office tab
+            if (tabName === 'office') {
+                updateOfficeStats();
+            }
+        }
+        
+        // Day Selection - Fixed to use selectedDate
+        function selectDay(day, date) {
+            selectedDate = date;
+            document.querySelectorAll('.day-pill').forEach(pill => {
+                pill.classList.remove('today');
+                pill.classList.add('other');
+            });
+            event.currentTarget.classList.remove('other');
+            event.currentTarget.classList.add('today');
+            
+            // Update display
+            const dateObj = new Date(date);
+            document.getElementById('selected-date-display').textContent = 
+                dateObj.toLocaleDateString('en-NZ', { weekday: 'long', day: 'numeric', month: 'short' });
+            
+            loadAppointments();
+        }
+        
+        // Booking
+        function openBookingModal() {
+            document.getElementById('booking-modal').classList.add('show');
+        }
+        
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.remove('show');
+            selectedTime = null;
+            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            document.getElementById('booking-patient').value = '';
+        }
+        
+        function selectTime(element, time) {
+            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedTime = time;
+        }
+        
+        // Populate patient suggestions datalist
+        function populatePatientSuggestions() {
+            const dl = document.getElementById('patient-suggestions');
+            dl.innerHTML = patientsData.map(p => `<option value="${p.name}">`).join('');
+        }
+        
+        async function saveAppointment() {
+            const patient = document.getElementById('booking-patient').value;
+            const date = document.getElementById('booking-date').value;
+            
+            if (!patient || !selectedTime) {
+                alert('Enter name and time');
+                return;
+            }
+            
+            const appointment = {
+                id: Date.now(),
+                patient: patient,
+                date: date,
+                time: selectedTime,
+                created: new Date().toISOString()
+            };
+            
+            let appointments = JSON.parse(localStorage.getItem(getStorageKey('appointments')) || '[]');
+            appointments.push(appointment);
+            localStorage.setItem(getStorageKey('appointments'), JSON.stringify(appointments));
+            await cacheData('appointments', appointments);
+            
+            closeBookingModal();
+            document.getElementById('success-message').textContent = `Booked ${patient} at ${selectedTime}`;
+            document.getElementById('success-modal').classList.add('show');
+            loadAppointments();
+            updateStats();
+            updateOfficeStats();
+            
+            if (isOnline) {
+                try {
+                    await fetch(`${API_BASE}/api/appointments`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${REFRESH_TOKEN}`
+                        },
+                        body: JSON.stringify(appointment)
+                    });
+                } catch (e) {
+                    console.warn('API sync failed, saved locally');
+                }
+            }
+        }
+        
+        function closeSuccessModal() {
+            document.getElementById('success-modal').classList.remove('show');
+        }
+        
+        // Appointments - Fixed to use selectedDate
+        async function loadAppointments() {
+            const cached = await getCachedData('appointments');
+            let appointments = cached || JSON.parse(localStorage.getItem(getStorageKey('appointments')) || '[]');
+            
+            const list = document.getElementById('appointments-list');
+            const emptyState = document.getElementById('empty-state');
+            const dayAppointments = appointments.filter(a => a.date === selectedDate);
+            
+            if (dayAppointments.length === 0) {
+                list.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            
+            list.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            
+            list.innerHTML = dayAppointments.map(a => `
+                <div class="card flex items-center justify-between">
+                    <div>
+                        <div class="font-bold text-2xl">${a.patient}</div>
+                        <div class="text-teal-400 text-xl mt-1">${a.time}</div>
+                    </div>
+                    <button onclick="deleteAppointment(${a.id})" class="text-red-400 p-3 text-3xl">🗑</button>
+                </div>
+            `).join('');
+        }
+        
+        async function deleteAppointment(id) {
+            if (!confirm('Delete?')) return;
+            let appointments = JSON.parse(localStorage.getItem(getStorageKey('appointments')) || '[]');
+            appointments = appointments.filter(a => a.id !== id);
+            localStorage.setItem(getStorageKey('appointments'), JSON.stringify(appointments));
+            await cacheData('appointments', appointments);
+            loadAppointments();
+            updateStats();
+            updateOfficeStats();
+        }
+        
+        // Tasks - Fixed with inline input instead of prompt
+        async function addTaskInline() {
+            const input = document.getElementById('new-task-input');
+            const task = input.value.trim();
+            if (!task) return;
+            
+            let tasks = JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            tasks.push({ id: Date.now(), text: task, done: false });
+            localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasks));
+            await cacheData('tasks', tasks);
+            
+            input.value = '';
+            loadTasks();
+            updateStats();
+        }
+        
+        async function loadTasks() {
+            const cached = await getCachedData('tasks');
+            const tasks = cached || JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            const list = document.getElementById('tasks-list');
+            
+            if (tasks.length === 0) {
+                list.innerHTML = '<div class="text-center text-slate-500 py-6 text-xl">No tasks</div>';
+                return;
+            }
+            
+            list.innerHTML = tasks.map(t => `
+                <div class="card flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <button onclick="toggleTask(${t.id})" class="text-3xl">${t.done ? '✅' : '⭕'}</button>
+                        <span class="text-xl ${t.done ? 'line-through text-slate-500' : ''}">${t.text}</span>
+                    </div>
+                    <button onclick="deleteTask(${t.id})" class="text-red-400 p-3 text-2xl">🗑</button>
+                </div>
+            `).join('');
+        }
+        
+        async function toggleTask(id) {
+            let tasks = JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            tasks = tasks.map(t => t.id === id ? {...t, done: !t.done} : t);
+            localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasks));
+            await cacheData('tasks', tasks);
+            loadTasks();
+            updateStats();
+        }
+        
+        async function deleteTask(id) {
+            let tasks = JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            tasks = tasks.filter(t => t.id !== id);
+            localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasks));
+            await cacheData('tasks', tasks);
+            loadTasks();
+            updateStats();
+        }
+        
+        // Patients with Zoom Call
+        function renderPatientsList(patients) {
+            const list = document.getElementById('patients-list');
+            list.innerHTML = patients.map(p => `
+                <div class="patient-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="font-bold text-2xl">${p.name}</div>
+                        <button onclick="selectPatient('${p.name}', '${p.phone}')" class="text-teal-400 text-xl">📋</button>
+                    </div>
+                    <button onclick="callZoom('${p.phone}')" class="btn-zoom w-full flex items-center justify-center gap-3">
+                        <span class="text-2xl">📞</span> Call in Zoom
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function searchPatients(query) {
+            const filtered = patientsData.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
+            renderPatientsList(filtered);
+        }
+        
+        function selectPatient(name, phone) {
+            document.getElementById('patient-name').textContent = name;
+            document.getElementById('patient-phone').textContent = phone;
+            currentPatientPhone = phone;
+            document.getElementById('patient-modal').classList.add('show');
+        }
+        
+        function closePatientModal() {
+            document.getElementById('patient-modal').classList.remove('show');
+            currentPatientPhone = null;
+        }
+        
+        function callPatientZoom() {
+            if (currentPatientPhone) {
+                callZoom(currentPatientPhone);
+            }
+        }
+        
+        // Zoom call with toast instead of alert
+        function callZoom(phoneNumber) {
+            const cleanNumber = phoneNumber.replace(/[^\d+]/g, '');
+            const zoomUrl = `zoomphonecall:${cleanNumber}`;
+            window.location.href = zoomUrl;
+            setTimeout(() => {
+                showToast('Open Zoom Workplace app to call');
+            }, 500);
+        }
+        
+        // Add Patient Functions
+        function openAddPatientModal() {
+            document.getElementById('add-patient-modal').classList.add('show');
+        }
+        
+        function closeAddPatientModal() {
+            document.getElementById('add-patient-modal').classList.remove('show');
+            document.getElementById('new-patient-name').value = '';
+            document.getElementById('new-patient-phone').value = '';
+        }
+        
+        async function saveNewPatient() {
+            const name = document.getElementById('new-patient-name').value.trim();
+            const phone = document.getElementById('new-patient-phone').value.trim();
+            
+            if (!name || !phone) {
+                alert('Enter name and phone');
+                return;
+            }
+            
+            patientsData.push({ name: name, phone: phone });
+            localStorage.setItem(getStorageKey('patients'), JSON.stringify(patientsData));
+            await cacheData('patients', patientsData);
+            
+            closeAddPatientModal();
+            renderPatientsList(patientsData);
+            populatePatientSuggestions();
+            
+            document.getElementById('success-message').textContent = `Added ${name}`;
+            document.getElementById('success-modal').classList.add('show');
+            
+            if (isOnline) {
+                try {
+                    await fetch(`${API_BASE}/api/patients`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${REFRESH_TOKEN}`
+                        },
+                        body: JSON.stringify({ name, phone })
+                    });
+                } catch (e) {
+                    console.warn('API sync failed, saved locally');
+                }
+            }
+        }
+        
+        // Load saved patients from localStorage
+        async function loadPatients() {
+            patientsData = [...defaultPatients];
+            
+            const saved = localStorage.getItem(getStorageKey('patients'));
+            if (saved) {
+                const savedPatients = JSON.parse(saved);
+                savedPatients.forEach(p => {
+                    if (!patientsData.find(existing => existing.name === p.name)) {
+                        patientsData.push(p);
+                    }
+                });
+            }
+            
+            const cached = await getCachedData('patients');
+            if (cached) {
+                cached.forEach(p => {
+                    if (!patientsData.find(existing => existing.name === p.name)) {
+                        patientsData.push(p);
+                    }
+                });
+            }
+        }
+        
+        // Recalls Management
+        function loadRecalls() {
+            const saved = localStorage.getItem(getStorageKey('recalls'));
+            if (saved) {
+                recallsData = JSON.parse(saved);
+            }
+            renderRecalls();
+            updateRecallsCount();
+        }
+        
+        function renderRecalls() {
+            const list = document.getElementById('recalls-list');
+            if (recallsData.length === 0) {
+                list.innerHTML = '<div class="text-center text-slate-500 py-4">No recalls pending</div>';
+                return;
+            }
+            
+            list.innerHTML = recallsData.map((r, index) => `
+                <div class="recall-item">
+                    <div>
+                        <div class="font-bold">${r.name}</div>
+                        <div class="text-sm text-slate-400">${r.reason}</div>
+                    </div>
+                    <button onclick="deleteRecall(${index})" class="text-red-400 text-xl">🗑</button>
+                </div>
+            `).join('');
+        }
+        
+        function addRecall() {
+            const name = prompt('Patient name:');
+            if (!name) return;
+            const reason = prompt('Recall reason:');
+            if (!reason) return;
+            
+            recallsData.push({ name, reason, date: new Date().toISOString() });
+            localStorage.setItem(getStorageKey('recalls'), JSON.stringify(recallsData));
+            renderRecalls();
+            updateRecallsCount();
+        }
+        
+        function deleteRecall(index) {
+            recallsData.splice(index, 1);
+            localStorage.setItem(getStorageKey('recalls'), JSON.stringify(recallsData));
+            renderRecalls();
+            updateRecallsCount();
+        }
+        
+        function updateRecallsCount() {
+            document.getElementById('stat-recalls').textContent = recallsData.length;
+        }
+        
+        // Office Notes
+        function loadNotes() {
+            const notes = localStorage.getItem(getStorageKey('notes')) || '';
+            document.getElementById('office-notes').value = notes;
+        }
+        
+        function saveNotes() {
+            const notes = document.getElementById('office-notes').value;
+            localStorage.setItem(getStorageKey('notes'), notes);
+            showToast('Notes saved');
+        }
+        
+        // Office Stats
+        function updateOfficeStats() {
+            const today = new Date().toISOString().split('T')[0];
+            const appointments = JSON.parse(localStorage.getItem(getStorageKey('appointments')) || '[]');
+            const todayCount = appointments.filter(a => a.date === today).length;
+            
+            document.getElementById('office-bookings').textContent = todayCount;
+            document.getElementById('office-patients').textContent = patientsData.length;
+        }
+        
+        // Stats
+        function updateStats() {
+            const today = new Date().toISOString().split('T')[0];
+            const appointments = JSON.parse(localStorage.getItem(getStorageKey('appointments')) || '[]');
+            const tasks = JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            
+            document.getElementById('stat-today').textContent = appointments.filter(a => a.date === today).length;
+            document.getElementById('stat-tasks').textContent = tasks.filter(t => !t.done).length;
+            updateRecallsCount();
+        }
+        
+        // Add to Home Screen with beforeinstallprompt
+        function addToHomeScreen() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                        document.getElementById('install-banner').classList.remove('show');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                showToast('Tap Share → Add to Home Screen');
+            }
+        }
+        
+        // Service Worker Registration - separate file
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/connect-clinic/elixir-sw.js')
+                .then(registration => {
+                    console.log('Service Worker registered:', registration);
+                })
+                .catch(error => {
+                    console.log('Service Worker registration failed:', error);
+                });
+        }
+    </script>
+</body>
+</html>
