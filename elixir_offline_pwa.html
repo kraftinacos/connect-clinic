@@ -803,4 +803,582 @@
         }
     </script>
 </body>
+</html>        // State
+        let selectedTime = null;
+        let currentProfile = localStorage.getItem('elixir_current_profile') || 'dr-francis';
+        let currentPatientPhone = null;
+        let isOnline = navigator.onLine;
+        
+        const profileNames = {
+            'dr-francis': 'Dr Francis Katoa'
+        };
+        
+        // Default patients (seed data)
+        const defaultPatients = [
+            { name: 'John Smith', phone: '+64 21 123 4567' },
+            { name: 'Sarah Lee', phone: '+64 22 234 5678' },
+            { name: 'Mike Chen', phone: '+64 27 345 6789' },
+            { name: 'Emma Wilson', phone: '+64 21 456 7890' },
+            { name: 'David Park', phone: '+64 22 567 8901' },
+            { name: 'Lisa Wong', phone: '+64 27 678 9012' }
+        ];
+        
+        let patientsData = [];
+        
+        // API Configuration
+        const API_BASE = 'https://secure.elixirapp.nz';
+        const REFRESH_TOKEN = 'UXNWauurXZHef-8bEiU9dS-9Le4LA@Hf6w1-em@wvA!';
+        const ENCRYPTION_KEY = 'Mxf7/.1rorc:NBlc';
+        
+        // Cache API
+        const CACHE_NAME = 'elixir-pwa-v1';
+        const DATA_CACHE_NAME = 'elixir-data-v1';
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async function() {
+            updateProfileButtons();
+            loadAppointments();
+            loadTasks();
+            loadPatients();
+            updateStats();
+            renderPatientsList(patientsData);
+            
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('booking-date').value = today;
+            
+            // Check online status
+            updateOnlineStatus();
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            
+            // Show install banner if not standalone
+            if (!window.navigator.standalone && !window.matchMedia('(display-mode: standalone)').matches) {
+                setTimeout(() => {
+                    document.getElementById('install-banner').classList.add('show');
+                }, 2000);
+            }
+            
+            // Try to fetch from API if online
+            if (isOnline) {
+                await syncWithAPI();
+            }
+        });
+        
+        // Online/Offline handling
+        function updateOnlineStatus() {
+            isOnline = navigator.onLine;
+            const banner = document.getElementById('offline-banner');
+            if (isOnline) {
+                banner.classList.remove('show');
+                syncWithAPI();
+            } else {
+                banner.classList.add('show');
+            }
+        }
+        
+        // Cache API functions
+        async function cacheData(key, data) {
+            try {
+                const cache = await caches.open(DATA_CACHE_NAME);
+                const response = new Response(JSON.stringify(data));
+                await cache.put(key, response);
+            } catch (e) {
+                console.error('Cache error:', e);
+            }
+        }
+        
+        async function getCachedData(key) {
+            try {
+                const cache = await caches.open(DATA_CACHE_NAME);
+                const response = await cache.match(key);
+                if (response) {
+                    return await response.json();
+                }
+            } catch (e) {
+                console.error('Cache read error:', e);
+            }
+            return null;
+        }
+        
+        // API Sync
+        async function syncWithAPI() {
+            try {
+                // Fetch patients from Elixir API
+                const response = await fetch(`${API_BASE}/api/patients`, {
+                    headers: {
+                        'Authorization': `Bearer ${REFRESH_TOKEN}`,
+                        'X-Encryption-Key': ENCRYPTION_KEY
+                    }
+                });
+                
+                if (response.ok) {
+                    const apiPatients = await response.json();
+                    if (apiPatients && apiPatients.length > 0) {
+                        // Merge with existing patients
+                        apiPatients.forEach(p => {
+                            if (!patientsData.find(existing => existing.name === p.name)) {
+                                patientsData.push({
+                                    name: p.name,
+                                    phone: p.phone || '+64 21 000 0000'
+                                });
+                            }
+                        });
+                        
+                        // Cache the data
+                        await cacheData('patients', patientsData);
+                        
+                        // Save to localStorage
+                        localStorage.setItem(getStorageKey('patients'), JSON.stringify(patientsData));
+                        
+                        // Re-render
+                        renderPatientsList(patientsData);
+                    }
+                }
+            } catch (e) {
+                console.log('API sync failed, using cached data');
+                // Try to load from cache
+                const cached = await getCachedData('patients');
+                if (cached) {
+                    patientsData = cached;
+                    renderPatientsList(patientsData);
+                }
+            }
+        }
+        
+        // Profile Functions
+        function switchProfile(profileId) {
+            currentProfile = profileId;
+            localStorage.setItem('elixir_current_profile', profileId);
+            document.getElementById('current-user').textContent = profileNames[profileId];
+            updateProfileButtons();
+            loadAppointments();
+            loadTasks();
+            loadPatients();
+            updateStats();
+            renderPatientsList(patientsData);
+        }
+        
+        function updateProfileButtons() {
+            document.querySelectorAll('.btn-profile').forEach(btn => {
+                btn.classList.remove('btn-active');
+                btn.classList.add('btn-secondary');
+            });
+            const activeBtn = document.getElementById('btn-' + currentProfile);
+            if (activeBtn) {
+                activeBtn.classList.remove('btn-secondary');
+                activeBtn.classList.add('btn-active');
+            }
+            document.getElementById('current-user').textContent = profileNames[currentProfile];
+        }
+        
+        function getStorageKey(key) {
+            return `elixir_${currentProfile}_${key}`;
+        }
+        
+        // Tab Switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById('view-' + tabName).classList.remove('hidden');
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.dataset.tab === tabName) {
+                    btn.classList.remove('tab-inactive');
+                    btn.classList.add('tab-active');
+                } else {
+                    btn.classList.remove('tab-active');
+                    btn.classList.add('tab-inactive');
+                }
+            });
+        }
+        
+        function selectDay(day, date) {
+            document.querySelectorAll('.day-pill').forEach(pill => {
+                pill.classList.remove('today');
+                pill.classList.add('other');
+            });
+            event.currentTarget.classList.remove('other');
+            event.currentTarget.classList.add('today');
+            loadAppointments();
+        }
+        
+        // Booking
+        function openBookingModal() {
+            document.getElementById('booking-modal').classList.add('show');
+        }
+        
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.remove('show');
+            selectedTime = null;
+            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            document.getElementById('booking-patient').value = '';
+        }
+        
+        function selectTime(element, time) {
+            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedTime = time;
+        }
+        
+        async function saveAppointment() {
+            const patient = document.getElementById('booking-patient').value;
+            const date = document.getElementById('booking-date').value;
+            
+            if (!patient || !selectedTime) {
+                alert('Enter name and time');
+                return;
+            }
+            
+            const appointment = {
+                id: Date.now(),
+                patient: patient,
+                date: date,
+                time: selectedTime,
+                created: new Date().toISOString()
+            };
+            
+            let appointments = JSON.parse(localStorage.getItem(getStorageKey('appointments')) || '[]');
+            appointments.push(appointment);
+            localStorage.setItem(getStorageKey('appointments'), JSON.stringify(appointments));
+            
+            // Cache appointment data
+            await cacheData('appointments', appointments);
+            
+            closeBookingModal();
+            document.getElementById('success-message').textContent = `Booked ${patient} at ${selectedTime}`;
+            document.getElementById('success-modal').classList.add('show');
+            loadAppointments();
+            updateStats();
+            
+            // Try to sync with API if online
+            if (isOnline) {
+                try {
+                    await fetch(`${API_BASE}/api/appointments`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${REFRESH_TOKEN}`
+                        },
+                        body: JSON.stringify(appointment)
+                    });
+                } catch (e) {
+                    console.log('API sync failed, saved locally');
+                }
+            }
+        }
+        
+        function closeSuccessModal() {
+            document.getElementById('success-modal').classList.remove('show');
+        }
+        
+        // Appointments
+        async function loadAppointments() {
+            // Try cache first
+            const cached = await getCachedData('appointments');
+            let appointments = cached || JSON.parse(localStorage.getItem(getStorageKey('appointments')) || '[]');
+            
+            const list = document.getElementById('appointments-list');
+            const emptyState = document.getElementById('empty-state');
+            const today = new Date().toISOString().split('T')[0];
+            const todays = appointments.filter(a => a.date === today);
+            
+            if (todays.length === 0) {
+                list.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            
+            list.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            
+            list.innerHTML = todays.map(a => `
+                <div class="card flex items-center justify-between">
+                    <div>
+                        <div class="font-bold text-2xl">${a.patient}</div>
+                        <div class="text-teal-400 text-xl mt-1">${a.time}</div>
+                    </div>
+                    <button onclick="deleteAppointment(${a.id})" class="text-red-400 p-3 text-3xl">🗑</button>
+                </div>
+            `).join('');
+        }
+        
+        async function deleteAppointment(id) {
+            if (!confirm('Delete?')) return;
+            let appointments = JSON.parse(localStorage.getItem(getStorageKey('appointments')) || '[]');
+            appointments = appointments.filter(a => a.id !== id);
+            localStorage.setItem(getStorageKey('appointments'), JSON.stringify(appointments));
+            await cacheData('appointments', appointments);
+            loadAppointments();
+            updateStats();
+        }
+        
+        // Tasks
+        async function addTask() {
+            const task = prompt('Task:');
+            if (!task) return;
+            
+            let tasks = JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            tasks.push({ id: Date.now(), text: task, done: false });
+            localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasks));
+            await cacheData('tasks', tasks);
+            loadTasks();
+            updateStats();
+        }
+        
+        async function loadTasks() {
+            const cached = await getCachedData('tasks');
+            const tasks = cached || JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            const list = document.getElementById('tasks-list');
+            
+            if (tasks.length === 0) {
+                list.innerHTML = '<div class="text-center text-slate-500 py-6 text-xl">No tasks</div>';
+                return;
+            }
+            
+            list.innerHTML = tasks.map(t => `
+                <div class="card flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <button onclick="toggleTask(${t.id})" class="text-3xl">${t.done ? '✅' : '⭕'}</button>
+                        <span class="text-xl ${t.done ? 'line-through text-slate-500' : ''}">${t.text}</span>
+                    </div>
+                    <button onclick="deleteTask(${t.id})" class="text-red-400 p-3 text-2xl">🗑</button>
+                </div>
+            `).join('');
+        }
+        
+        async function toggleTask(id) {
+            let tasks = JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            tasks = tasks.map(t => t.id === id ? {...t, done: !t.done} : t);
+            localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasks));
+            await cacheData('tasks', tasks);
+            loadTasks();
+            updateStats();
+        }
+        
+        async function deleteTask(id) {
+            let tasks = JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            tasks = tasks.filter(t => t.id !== id);
+            localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasks));
+            await cacheData('tasks', tasks);
+            loadTasks();
+            updateStats();
+        }
+        
+        // Patients with Zoom Call
+        function renderPatientsList(patients) {
+            const list = document.getElementById('patients-list');
+            list.innerHTML = patients.map(p => `
+                <div class="patient-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="font-bold text-2xl">${p.name}</div>
+                        <button onclick="selectPatient('${p.name}', '${p.phone}')" class="text-teal-400 text-xl">📋</button>
+                    </div>
+                    <button onclick="callZoom('${p.phone}')" class="btn-zoom w-full flex items-center justify-center gap-3">
+                        <span class="text-2xl">📞</span> Call in Zoom
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function searchPatients(query) {
+            const filtered = patientsData.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
+            renderPatientsList(filtered);
+        }
+        
+        function selectPatient(name, phone) {
+            document.getElementById('patient-name').textContent = name;
+            document.getElementById('patient-phone').textContent = phone;
+            currentPatientPhone = phone;
+            document.getElementById('patient-modal').classList.add('show');
+        }
+        
+        function closePatientModal() {
+            document.getElementById('patient-modal').classList.remove('show');
+            currentPatientPhone = null;
+        }
+        
+        function callPatientZoom() {
+            if (currentPatientPhone) {
+                callZoom(currentPatientPhone);
+            }
+        }
+        
+        function callZoom(phoneNumber) {
+            const cleanNumber = phoneNumber.replace(/[^\d+]/g, '');
+            const zoomUrl = `zoomphonecall:${cleanNumber}`;
+            window.location.href = zoomUrl;
+            setTimeout(() => {
+                alert('Open Zoom Workplace app to call');
+            }, 500);
+        }
+        
+        // Add Patient Functions
+        function openAddPatientModal() {
+            document.getElementById('add-patient-modal').classList.add('show');
+        }
+        
+        function closeAddPatientModal() {
+            document.getElementById('add-patient-modal').classList.remove('show');
+            document.getElementById('new-patient-name').value = '';
+            document.getElementById('new-patient-phone').value = '';
+        }
+        
+        async function saveNewPatient() {
+            const name = document.getElementById('new-patient-name').value.trim();
+            const phone = document.getElementById('new-patient-phone').value.trim();
+            
+            if (!name || !phone) {
+                alert('Enter name and phone');
+                return;
+            }
+            
+            patientsData.push({ name: name, phone: phone });
+            localStorage.setItem(getStorageKey('patients'), JSON.stringify(patientsData));
+            await cacheData('patients', patientsData);
+            
+            closeAddPatientModal();
+            renderPatientsList(patientsData);
+            
+            document.getElementById('success-message').textContent = `Added ${name}`;
+            document.getElementById('success-modal').classList.add('show');
+            
+            // Sync with API if online
+            if (isOnline) {
+                try {
+                    await fetch(`${API_BASE}/api/patients`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${REFRESH_TOKEN}`
+                        },
+                        body: JSON.stringify({ name, phone })
+                    });
+                } catch (e) {
+                    console.log('API sync failed, saved locally');
+                }
+            }
+        }
+        
+        // Load saved patients from localStorage
+        async function loadPatients() {
+            // Reset to defaults first
+            patientsData = [...defaultPatients];
+            
+            const saved = localStorage.getItem(getStorageKey('patients'));
+            if (saved) {
+                const savedPatients = JSON.parse(saved);
+                savedPatients.forEach(p => {
+                    if (!patientsData.find(existing => existing.name === p.name)) {
+                        patientsData.push(p);
+                    }
+                });
+            }
+            
+            // Also check cache
+            const cached = await getCachedData('patients');
+            if (cached) {
+                cached.forEach(p => {
+                    if (!patientsData.find(existing => existing.name === p.name)) {
+                        patientsData.push(p);
+                    }
+                });
+            }
+        }
+        
+        // Stats
+        function updateStats() {
+            const appointments = JSON.parse(localStorage.getItem(getStorageKey('appointments')) || '[]');
+            const tasks = JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            const today = new Date().toISOString().split('T')[0];
+            
+            document.getElementById('stat-today').textContent = appointments.filter(a => a.date === today).length;
+            document.getElementById('stat-tasks').textContent = tasks.filter(t => !t.done).length;
+            document.getElementById('stat-recalls').textContent = '0';
+        }
+        
+        // Install
+        function addToHomeScreen() {
+            if (navigator.share) {
+                navigator.share({ title: 'Elixir', url: window.location.href });
+            } else {
+                alert('Tap Share → Add to Home Screen');
+            }
+        }
+        
+        // Service Worker Registration with full caching
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                const CACHE_NAME = 'elixir-pwa-v1';
+                const DATA_CACHE_NAME = 'elixir-data-v1';
+                const STATIC_ASSETS = [
+                    '/',
+                    '/elixir_offline_pwa.html'
+                ];
+                
+                // Install event - cache static assets
+                self.addEventListener('install', event => {
+                    event.waitUntil(
+                        caches.open(CACHE_NAME).then(cache => {
+                            return cache.addAll(STATIC_ASSETS);
+                        }).then(() => self.skipWaiting())
+                    );
+                });
+                
+                // Activate event - clean old caches
+                self.addEventListener('activate', event => {
+                    event.waitUntil(
+                        caches.keys().then(cacheNames => {
+                            return Promise.all(
+                                cacheNames.filter(name => {
+                                    return name !== CACHE_NAME && name !== DATA_CACHE_NAME;
+                                }).map(name => caches.delete(name))
+                            );
+                        }).then(() => self.clients.claim())
+                    );
+                });
+                
+                // Fetch event - serve from cache when offline
+                self.addEventListener('fetch', event => {
+                    const { request } = event;
+                    const url = new URL(request.url);
+                    
+                    // API requests - network first, then cache
+                    if (url.pathname.startsWith('/api/')) {
+                        event.respondWith(
+                            fetch(request).catch(() => {
+                                return caches.match(request);
+                            })
+                        );
+                        return;
+                    }
+                    
+                    // Static assets - cache first, then network
+                    event.respondWith(
+                        caches.match(request).then(response => {
+                            if (response) {
+                                return response;
+                            }
+                            return fetch(request).then(fetchResponse => {
+                                return caches.open(CACHE_NAME).then(cache => {
+                                    cache.put(request, fetchResponse.clone());
+                                    return fetchResponse;
+                                });
+                            });
+                        }).catch(() => {
+                            return new Response('Offline - No cached data available');
+                        })
+                    );
+                });
+            `;
+            
+            const swBlob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(swBlob);
+            
+            navigator.serviceWorker.register(swUrl).then(registration => {
+                console.log('Service Worker registered:', registration);
+            }).catch(error => {
+                console.log('Service Worker registration failed:', error);
+            });
+        }
+    </script>
+</body>
 </html>
