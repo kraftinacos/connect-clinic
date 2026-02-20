@@ -59,10 +59,7 @@
 
     <!-- Profile Switcher Bar -->
     <div class="profile-bar flex items-center gap-2 sticky top-0 z-50">
-        <button onclick="switchProfile('dr-smith')" class="btn-profile btn-secondary" id="btn-dr-smith">Dr<br>Smith</button>
-        <button onclick="switchProfile('dr-lee')" class="btn-profile btn-secondary" id="btn-dr-lee">Dr<br>Lee</button>
-        <button onclick="switchProfile('nurse-kim')" class="btn-profile btn-secondary" id="btn-nurse-kim">Nurse<br>Kim</button>
-        <button onclick="switchProfile('admin-taylor')" class="btn-profile btn-secondary" id="btn-admin-taylor">Admin<br>Taylor</button>
+        <button onclick="switchProfile('dr-francis')" class="btn-profile btn-active" id="btn-dr-francis">Dr<br>Francis</button>
     </div>
 
     <!-- Header -->
@@ -269,14 +266,11 @@
     <script>
         // State
         let selectedTime = null;
-        let currentProfile = localStorage.getItem('elixir_current_profile') || 'dr-smith';
+        let currentProfile = localStorage.getItem('elixir_current_profile') || 'dr-francis';
         let currentPatientPhone = null;
         
         const profileNames = {
-            'dr-smith': 'Dr Smith',
-            'dr-lee': 'Dr Lee',
-            'nurse-kim': 'Nurse Kim',
-            'admin-taylor': 'Admin Taylor'
+            'dr-francis': 'Dr Francis Katoa'
         };
         
         // Patient data with phone numbers
