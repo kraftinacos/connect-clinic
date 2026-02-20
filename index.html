@@ -2,422 +2,797 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="theme-color" content="#000000">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Connect Clinic">
-    <meta name="msapplication-TileColor" content="#000000">
-    <meta name="format-detection" content="telephone=no">
-    <title>Connect Clinic | Culturally Attuned Telehealth</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta name="apple-mobile-web-app-title" content="Elixir">
+    <meta name="theme-color" content="#0F172A">
+    <title>Elixir</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --bg-primary: #000;
-            --bg-surface: #0a0a0a;
-            --bg-card: #111;
-            --gold: #e8c4a0;
-            --text-primary: #fff;
-            --text-secondary: #a0a0a0;
-            --border: #222;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            text-align: center;
-        }
-        .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-        /* Navigation */
-        nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            background: rgba(0,0,0,0.95); backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-        }
-        nav .container {
-            display: flex; justify-content: space-between; align-items: center;
-            height: 72px;
-        }
-        .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--text-primary); }
-        .logo span { color: var(--gold); }
-        .nav-links { display: flex; gap: 32px; align-items: center; }
-        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
-        .nav-links a:hover { color: var(--text-primary); }
-        .lang-selector { position: relative; }
-        .lang-btn {
-            background: var(--bg-card); border: 1px solid var(--border);
-            color: var(--text-primary); padding: 8px 16px; border-radius: 2px;
-            font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 8px;
-        }
-        .lang-dropdown {
-            position: absolute; top: 100%; right: 0; margin-top: 8px;
-            background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: 2px; min-width: 140px; display: none;
-        }
-        .lang-dropdown.active { display: block; }
-        .lang-dropdown a {
-            display: block; padding: 10px 16px; color: var(--text-secondary);
-            text-decoration: none; font-size: 0.85rem; transition: all 0.3s;
-        }
-        .lang-dropdown a:hover { background: var(--bg-surface); color: var(--text-primary); }
-        .lang-dropdown a.active { color: var(--gold); }
-        /* Hero */
-        .hero {
-            min-height: 100vh; display: flex; align-items: center; justify-content: center;
-            text-align: center; padding: 120px 24px 80px;
-            background: radial-gradient(ellipse at center, var(--bg-surface) 0%, var(--bg-primary) 70%);
-        }
-        .hero-content { max-width: 800px; }
-        .hero h1 {
-            font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 600; line-height: 1.1; margin-bottom: 24px;
-            opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease forwards;
-        }
-        .hero h1 span { color: var(--gold); }
-        .hero p {
-            font-size: 1.2rem; color: var(--text-secondary); max-width: 600px;
-            margin: 0 auto 40px; opacity: 0; transform: translateY(30px);
-            animation: fadeUp 0.8s ease 0.2s forwards;
-        }
-        .hero-buttons {
-            display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
-            opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s ease 0.4s forwards;
-        }
-        .btn {
-            padding: 14px 32px; border-radius: 2px; font-size: 0.95rem;
-            font-weight: 500; text-decoration: none; transition: all 0.3s; cursor: pointer; border: none;
-        }
-        .btn-primary { background: var(--gold); color: #000; }
-        .btn-primary:hover { background: #f0d4b0; transform: translateY(-2px); }
-        .btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border); }
-        .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-        /* Services */
-        .services { padding: 100px 0; }
-        .section-header { text-align: center; margin-bottom: 60px; }
-        .section-header h2 {
-            font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 600; margin-bottom: 16px;
-        }
-        .section-header p { color: var(--text-secondary); max-width: 500px; margin: 0 auto; }
-        .services-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
-        }
-        .service-card {
-            background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px;
-            padding: 40px; transition: all 0.3s; opacity: 0; transform: translateY(30px);
-            text-align: center;
-        }
-        .service-card.visible { opacity: 1; transform: translateY(0); transition: all 0.6s ease; }
-        .service-card:hover { border-color: var(--gold); transform: translateY(-4px); }
-        .service-icon {
-            width: 56px; height: 56px; background: var(--bg-surface); border-radius: 8px;
-            display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;
-        }
-        .service-icon svg { width: 28px; height: 28px; stroke: var(--gold); stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-        .service-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; margin-bottom: 12px; }
-        .service-card p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 24px; }
-        .service-card .btn { padding: 10px 24px; font-size: 0.85rem; display: inline-block; }
-        /* How We Help */
-        .how-we-help { padding: 100px 0; border-top: 1px solid var(--border); }
-        .steps-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        .step-card {
-            background: var(--bg-card); border: 1px solid var(--border); border-radius: 2px;
-            padding: 48px 32px 40px; position: relative; overflow: hidden; text-align: center;
-        }
-        .step-card .step-watermark {
-            position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
-            font-family: 'Cormorant Garamond', serif; font-size: 7rem; font-weight: 700;
-            color: #fff; opacity: 0.07; line-height: 1; pointer-events: none; user-select: none;
-        }
-        .step-card h3 {
-            font-family: 'Cormorant Garamond', serif; font-size: 1.35rem;
-            margin-bottom: 8px; position: relative; z-index: 1;
-        }
-        .step-card p { color: var(--text-secondary); font-size: 0.9rem; position: relative; z-index: 1; margin: 0; }
-        /* Our Team */
-        .our-team {
-            padding: 100px 0; background: var(--bg-surface);
-            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-        }
-        .team-layout { display: grid; grid-template-columns: 280px 1fr; gap: 60px; align-items: start; text-align: left; }
-        .team-photo {
-            width: 280px; height: 340px; background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: 2px; display: flex; align-items: center; justify-content: center;
-            color: var(--text-secondary); font-size: 0.85rem;
-        }
-        .team-info h3 {
-            font-family: 'Cormorant Garamond', serif; font-size: clamp(1.5rem, 3vw, 2rem);
-            font-weight: 600; margin-bottom: 4px;
-        }
-        .team-title { color: var(--gold); font-size: 0.95rem; font-weight: 500; margin-bottom: 24px; }
-        .team-bio p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 16px; line-height: 1.7; }
-        /* Testimonials */
-        .testimonials { padding: 100px 0; }
-        .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: left; }
-        .quote-card {
-            background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--gold);
-            border-radius: 2px; padding: 32px;
-        }
-        .quote-text {
-            font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;
-            margin-bottom: 20px; font-style: italic;
-        }
-        .quote-text::before { content: '\201C'; color: var(--gold); font-size: 1.5rem; font-style: normal; margin-right: 2px; }
-        .quote-author { font-size: 0.85rem; color: var(--text-primary); font-weight: 500; }
-        .quote-meta { font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px; }
-        .testimonials-disclaimer { color: var(--text-secondary); font-size: 0.8rem; margin-top: 32px; opacity: 0.6; }
-        /* About */
-        .about {
-            padding: 100px 0; background: var(--bg-surface);
-            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-        }
-        .about-content {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
-        }
-        .about-text h2 {
-            font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 600; margin-bottom: 24px;
-        }
-        .about-text p { color: var(--text-secondary); margin-bottom: 20px; }
-        .about-features { display: flex; flex-direction: column; gap: 20px; }
-        .feature {
-            display: flex; gap: 16px; align-items: flex-start;
-            opacity: 0; transform: translateX(30px);
-        }
-        .feature.visible { opacity: 1; transform: translateX(0); transition: all 0.6s ease; }
-        .feature-icon { width: 40px; height: 40px; background: var(--bg-card); border-radius: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .feature h4 { font-size: 1rem; margin-bottom: 4px; }
-        .feature p { color: var(--text-secondary); font-size: 0.9rem; }
-        /* Footer */
-        footer { padding: 60px 0 40px; text-align: center; }
-        .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; margin-bottom: 20px; }
-        .footer-logo span { color: var(--gold); }
-        footer p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 8px; }
-        .footer-links { display: flex; gap: 24px; justify-content: center; margin: 24px 0; }
-        .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
-        .footer-links a:hover { color: var(--gold); }
-        .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 24px; }
-        /* Mobile */
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .about-content { grid-template-columns: 1fr; }
-            .services-grid { grid-template-columns: 1fr; }
-            .steps-row { grid-template-columns: 1fr; }
-            .team-layout { grid-template-columns: 1fr; justify-items: center; text-align: center; }
-            .team-photo { width: 200px; height: 240px; }
-            .team-info { text-align: left; }
-            .testimonials-grid { grid-template-columns: 1fr; }
-        }
+        * { -webkit-tap-highlight-color: transparent; touch-action: manipulation; box-sizing: border-box; }
+        html, body { max-width: 100vw; overflow-x: hidden; margin: 0; padding: 0; background: #0F172A; color: white; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+        .safe-top { padding-top: env(safe-area-inset-top); }
+        .safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 100px); }
+        .btn-huge { min-height: 72px; border-radius: 24px; font-size: 24px; font-weight: 700; }
+        .btn-profile { min-height: 72px; min-width: 72px; border-radius: 24px; font-size: 16px; font-weight: 700; padding: 8px 12px; flex: 1; }
+        .btn-zoom { min-height: 72px; border-radius: 24px; font-size: 20px; font-weight: 700; background: #14B8A6; color: white; box-shadow: 0 4px 20px rgba(20,184,166,0.4); }
+        .btn-zoom:active { transform: scale(0.98); background: #0D9488; }
+        .btn-primary { background: #14B8A6; color: white; box-shadow: 0 4px 20px rgba(20,184,166,0.4); }
+        .btn-primary:active { transform: scale(0.98); background: #0D9488; }
+        .btn-secondary { background: #1E2937; color: white; border: 3px solid #334155; }
+        .btn-secondary:active { transform: scale(0.98); background: #0F172A; }
+        .btn-active { background: #14B8A6; color: white; border-color: #14B8A6; box-shadow: 0 4px 20px rgba(20,184,166,0.4); }
+        .card { background: #1E2937; border-radius: 28px; padding: 28px; }
+        .patient-card { background: #1E2937; border-radius: 28px; padding: 24px; margin-bottom: 16px; }
+        .patient-nhi { font-size: 14px; color: #94A3B8; background: #0F172A; padding: 4px 12px; border-radius: 12px; display: inline-block; margin-bottom: 8px; }
+        .patient-dob { font-size: 16px; color: #64748B; margin-bottom: 4px; }
+        .patient-address { font-size: 14px; color: #64748B; margin-bottom: 12px; }
+        .tab-active { color: #14B8A6; }
+        .tab-inactive { color: #64748B; }
+        .time-slot { min-height: 72px; border-radius: 20px; background: #1E2937; border: 3px solid #334155; font-size: 22px; font-weight: 600; }
+        .time-slot.selected { background: #14B8A6; border-color: #14B8A6; color: white; }
+        .day-pill { min-width: 64px; min-height: 88px; border-radius: 20px; font-size: 18px; }
+        .day-pill.today { background: #14B8A6; color: white; box-shadow: 0 4px 20px rgba(20,184,166,0.4); }
+        .day-pill.other { background: #1E2937; color: #94A3B8; border: 3px solid #334155; }
+        #install-banner { position: fixed; bottom: 120px; left: 20px; right: 20px; background: #14B8A6; border-radius: 28px; padding: 28px; z-index: 1000; display: none; }
+        #install-banner.show { display: block; animation: slideUp 0.3s ease; }
+        #offline-banner { position: fixed; top: 0; left: 0; right: 0; background: #EF4444; color: white; padding: 12px; z-index: 9999; display: none; font-weight: 600; text-align: center; }
+        #offline-banner.show { display: block; }
+        #toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: #1E2937; color: white; padding: 16px 24px; border-radius: 16px; z-index: 10000; display: none; font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        #toast.show { display: block; animation: fadeIn 0.3s ease; }
+        #api-debug { position: fixed; bottom: 100px; left: 20px; right: 20px; background: #1E2937; border: 2px solid #14B8A6; border-radius: 16px; padding: 16px; z-index: 5000; display: none; max-height: 300px; overflow-y: auto; }
+        #api-debug.show { display: block; }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .hidden { display: none !important; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal.show { display: flex; }
+        .modal-content { background: #1E2937; border-radius: 32px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px; }
+        input, select, textarea { background: #0F172A; border: 3px solid #334155; border-radius: 20px; color: white; min-height: 72px; padding: 0 24px; font-size: 22px; width: 100%; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #14B8A6; }
+        .stat-num { font-size: 44px; font-weight: 800; }
+        .profile-bar { height: 80px; background: #0F172A; border-bottom: 3px solid #1E2937; padding: 8px 12px; }
+        .notes-area { min-height: 200px; resize: vertical; padding: 16px; font-size: 18px; }
+        .platform-link { display: block; padding: 16px; background: #1E2937; border-radius: 16px; margin-bottom: 12px; text-decoration: none; color: white; }
+        .platform-link:active { background: #0F172A; }
+        .task-input-row { display: flex; gap: 12px; margin-bottom: 16px; }
+        .task-input { flex: 1; }
+        .recall-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: #1E2937; border-radius: 16px; margin-bottom: 12px; }
+        .debug-log { font-family: monospace; font-size: 12px; color: #14B8A6; margin: 4px 0; }
     </style>
 </head>
-<body>
-    <nav>
-        <div class="container">
-            <div class="logo">Connect<span>Clinic</span></div>
-            <div class="nav-links">
-                <a href="#services">Services</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-                <div class="lang-selector">
-                    <button class="lang-btn" onclick="toggleLang()">EN &#9662;</button>
-                    <div class="lang-dropdown" id="langDropdown">
-                        <a href="index.html" class="active">English</a>
-                        <a href="index-to.html">Lea fakatonga</a>
-                        <a href="index-sm.html">Gagana Samoa</a>
-                        <a href="index-fj.html">Vosa Vakaviti</a>
-                        <a href="index-ck.html">Te reo Māori Kūki</a>
+<body class="safe-top safe-bottom">
+    <div id="offline-banner">📡 No internet connection - Offline mode</div>
+    <div id="toast"></div>
+    <div id="api-debug">
+        <div class="flex justify-between items-center mb-2">
+            <h3 class="font-bold">API Debug</h3>
+            <button onclick="toggleDebug()" class="text-sm text-teal-400">Close</button>
+        </div>
+        <div id="debug-logs"></div>
+    </div>
+    <div id="install-banner">
+        <div class="flex items-center justify-between text-white">
+            <div>
+                <p class="font-bold text-2xl">Add to Home Screen</p>
+                <p class="text-lg opacity-90 mt-2">Launch Elixir as native app</p>
+            </div>
+            <button onclick="addToHomeScreen()" class="bg-white text-slate-900 px-8 py-5 rounded-3xl font-bold text-xl">ADD</button>
+        </div>
+    </div>
+    <div class="profile-bar flex items-center gap-2 sticky top-0 z-50">
+        <button onclick="switchProfile('dr-francis')" class="btn-profile btn-active" id="btn-dr-francis">Dr<br>Francis</button>
+    </div>
+    <header class="bg-slate-900 px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 bg-teal-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">E</div>
+            <div>
+                <span class="font-bold text-2xl">Elixir</span>
+                <div class="text-teal-400 text-sm" id="current-user">Dr Francis Katoa</div>
+            </div>
+        </div>
+        <button onclick="toggleDebug()" class="text-teal-400 text-sm">Debug</button>
+    </header>
+    <div class="px-6 py-3 text-center">
+        <span class="text-slate-400 text-lg" id="week-range">Mon 16 Feb - Sun 22 Feb 2026</span>
+    </div>
+    <div class="px-6 py-3 grid grid-cols-3 gap-3">
+        <div class="card text-center py-4">
+            <div class="stat-num text-teal-400" id="stat-today">0</div>
+            <div class="text-base text-slate-400 mt-1">Today</div>
+        </div>
+        <div class="card text-center py-4">
+            <div class="stat-num text-teal-400" id="stat-tasks">0</div>
+            <div class="text-base text-slate-400 mt-1">Tasks</div>
+        </div>
+        <div class="card text-center py-4">
+            <div class="stat-num text-teal-400" id="stat-recalls">0</div>
+            <div class="text-base text-slate-400 mt-1">Recalls</div>
+        </div>
+    </div>
+    <div class="px-6 py-3 overflow-x-auto">
+        <div class="flex gap-2 min-w-max" id="week-selector"></div>
+    </div>
+    <main class="px-6 pb-40">
+        <div id="view-schedule" class="view-section">
+            <button onclick="openBookingModal()" class="btn-huge btn-primary w-full mb-4 flex items-center justify-center gap-2">
+                <span class="text-3xl">+</span> Book
+            </button>
+            <div class="card text-center py-8" id="empty-state">
+                <div class="text-7xl mb-4">📅</div>
+                <h3 class="font-bold text-2xl mb-2">No appointments</h3>
+                <p class="text-slate-400 text-lg" id="selected-date-display">Select a date to view</p>
+            </div>
+            <div id="appointments-list" class="space-y-3 hidden"></div>
+        </div>
+        <div id="view-daylist" class="view-section hidden">
+            <div class="card text-center py-10">
+                <div class="text-7xl mb-4">📋</div>
+                <h3 class="font-bold text-2xl mb-2">Day List</h3>
+                <p class="text-slate-400 text-lg">Queue appears here</p>
+            </div>
+        </div>
+        <div id="view-patients" class="view-section hidden">
+            <button onclick="testAPIConnection()" class="btn-huge btn-secondary w-full mb-4">🔄 Sync from Elixir</button>
+            <button onclick="openAddPatientModal()" class="btn-huge btn-primary w-full mb-4 flex items-center justify-center gap-2" style="background: #22C55E;">
+                <span class="text-3xl">+</span> Add Patient
+            </button>
+            <input type="text" id="patient-search" placeholder="🔍 Search patients" class="mb-4" oninput="searchPatients(this.value)">
+            <div id="patients-list" class="space-y-4"></div>
+        </div>
+        <div id="view-office" class="view-section hidden">
+            <div class="card mb-4">
+                <h3 class="font-bold text-xl mb-4">📊 Today's Summary</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="text-center p-4 bg-slate-800 rounded-2xl">
+                        <div class="text-3xl font-bold text-teal-400" id="office-bookings">0</div>
+                        <div class="text-sm text-slate-400">Bookings</div>
+                    </div>
+                    <div class="text-center p-4 bg-slate-800 rounded-2xl">
+                        <div class="text-3xl font-bold text-teal-400" id="office-patients">0</div>
+                        <div class="text-sm text-slate-400">Patients</div>
                     </div>
                 </div>
             </div>
+            <div class="card mb-4">
+                <h3 class="font-bold text-xl mb-4">🔗 Quick Links</h3>
+                <a href="https://alternaleaf.com.au" target="_blank" class="platform-link">🌿 Alternaleaf</a>
+                <a href="https://calyx.health" target="_blank" class="platform-link">💊 Calyx</a>
+                <a href="https://getmosh.com.au" target="_blank" class="platform-link">⚡ Mosh</a>
+                <a href="https://groclinics.co.nz" target="_blank" class="platform-link">💇 Gro Clinics</a>
+            </div>
+            <div class="card mb-4">
+                <h3 class="font-bold text-xl mb-4">🔄 Recalls</h3>
+                <div id="recalls-list" class="mb-4"></div>
+                <button onclick="addRecall()" class="btn-huge btn-primary w-full">+ Add Recall</button>
+            </div>
+            <div class="card">
+                <h3 class="font-bold text-xl mb-4">📝 Notes</h3>
+                <textarea id="office-notes" class="notes-area" placeholder="Type your notes here..."></textarea>
+                <button onclick="saveNotes()" class="btn-huge btn-primary w-full mt-4">Save Notes</button>
+            </div>
+        </div>
+        <div id="view-tasks" class="view-section hidden">
+            <div class="task-input-row">
+                <input type="text" id="new-task-input" class="task-input" placeholder="Enter new task...">
+                <button onclick="addTaskInline()" class="btn-huge btn-primary" style="min-width: 80px;">+</button>
+            </div>
+            <div id="tasks-list" class="space-y-3"></div>
+        </div>
+    </main>
+    <div id="booking-modal" class="modal">
+        <div class="modal-content">
+            <h2 class="font-bold text-3xl mb-6">New Booking</h2>
+            <label class="block text-slate-400 mb-2 text-lg">Patient</label>
+            <input type="text" id="booking-patient" list="patient-suggestions" placeholder="Patient name" class="mb-4" autocomplete="off">
+            <datalist id="patient-suggestions"></datalist>
+            <label class="block text-slate-400 mb-2 text-lg">Date</label>
+            <input type="date" id="booking-date" class="mb-4">
+            <label class="block text-slate-400 mb-2 text-lg">Time</label>
+            <div class="grid grid-cols-2 gap-3 mb-6">
+                <button class="time-slot flex items-center justify-center" onclick="selectTime(this, '08:00')">8:00</button>
+                <button class="time-slot flex items-center justify-center" onclick="selectTime(this, '09:00')">9:00</button>
+                <button class="time-slot flex items-center justify-center" onclick="selectTime(this, '10:00')">10:00</button>
+                <button class="time-slot flex items-center justify-center" onclick="selectTime(this, '11:00')">11:00</button>
+                <button class="time-slot flex items-center justify-center" onclick="selectTime(this, '14:00')">14:00</button>
+                <button class="time-slot flex items-center justify-center" onclick="selectTime(this, '15:00')">15:00</button>
+                <button class="time-slot flex items-center justify-center" onclick="selectTime(this, '16:00')">16:00</button>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="closeBookingModal()" class="btn-huge btn-secondary flex-1">Cancel</button>
+                <button onclick="saveAppointment()" class="btn-huge btn-primary flex-1">Save</button>
+            </div>
+        </div>
+    </div>
+    <div id="success-modal" class="modal">
+        <div class="modal-content text-center">
+            <div class="text-7xl mb-4">✅</div>
+            <h2 class="font-bold text-3xl mb-3">Saved!</h2>
+            <p class="text-slate-400 text-xl mb-6" id="success-message">Appointment booked</p>
+            <button onclick="closeSuccessModal()" class="btn-huge btn-primary w-full">Done</button>
+        </div>
+    </div>
+    <div id="patient-modal" class="modal">
+        <div class="modal-content">
+            <h2 class="font-bold text-3xl mb-2" id="patient-name">Patient</h2>
+            <div class="patient-nhi" id="patient-nhi"></div>
+            <div class="patient-dob" id="patient-dob"></div>
+            <div class="patient-address" id="patient-address"></div>
+            <p class="text-teal-400 text-lg mb-6" id="patient-phone"></p>
+            <div class="space-y-3">
+                <button onclick="callPatientZoom()" class="btn-zoom w-full flex items-center justify-center gap-3">
+                    <span class="text-3xl">📞</span> Call in Zoom
+                </button>
+                <button class="btn-huge btn-primary w-full">📋 Records</button>
+                <button class="btn-huge btn-primary w-full">💊 Prescribe</button>
+                <button class="btn-huge btn-secondary w-full" onclick="closePatientModal()">Back</button>
+            </div>
+        </div>
+    </div>
+    <div id="add-patient-modal" class="modal">
+        <div class="modal-content">
+            <h2 class="font-bold text-3xl mb-6">Add Patient</h2>
+            <label class="block text-slate-400 mb-2 text-lg">Name</label>
+            <input type="text" id="new-patient-name" placeholder="Full name" class="mb-4">
+            <label class="block text-slate-400 mb-2 text-lg">NHI</label>
+            <input type="text" id="new-patient-nhi" placeholder="e.g. XRK2639" class="mb-4">
+            <label class="block text-slate-400 mb-2 text-lg">DOB</label>
+            <input type="text" id="new-patient-dob" placeholder="e.g. 24/12/1997" class="mb-4">
+            <label class="block text-slate-400 mb-2 text-lg">Address</label>
+            <input type="text" id="new-patient-address" placeholder="Full address" class="mb-4">
+            <label class="block text-slate-400 mb-2 text-lg">Phone</label>
+            <input type="tel" id="new-patient-phone" placeholder="+64 21 123 4567" class="mb-6">
+            <div class="flex gap-3">
+                <button onclick="closeAddPatientModal()" class="btn-huge btn-secondary flex-1">Cancel</button>
+                <button onclick="saveNewPatient()" class="btn-huge btn-primary flex-1" style="background: #22C55E;">Save</button>
+            </div>
+        </div>
+    </div>
+    <nav class="fixed bottom-0 left-0 right-0 bg-slate-900 border-t-4 border-slate-800 px-2 py-3 safe-bottom z-50">
+        <div class="flex justify-around items-center">
+            <button onclick="switchTab('schedule')" class="tab-btn flex flex-col items-center gap-1 p-2 tab-active" data-tab="schedule">
+                <span class="text-3xl">📅</span>
+                <span class="text-sm font-bold">Book</span>
+            </button>
+            <button onclick="switchTab('daylist')" class="tab-btn flex flex-col items-center gap-1 p-2 tab-inactive" data-tab="daylist">
+                <span class="text-3xl">📋</span>
+                <span class="text-sm font-bold">List</span>
+            </button>
+            <button onclick="switchTab('patients')" class="tab-btn flex flex-col items-center gap-1 p-2 tab-inactive" data-tab="patients">
+                <span class="text-3xl">👤</span>
+                <span class="text-sm font-bold">Patients</span>
+            </button>
+            <button onclick="switchTab('office')" class="tab-btn flex flex-col items-center gap-1 p-2 tab-inactive" data-tab="office">
+                <span class="text-3xl">🏢</span>
+                <span class="text-sm font-bold">Office</span>
+            </button>
+            <button onclick="switchTab('tasks')" class="tab-btn flex flex-col items-center gap-1 p-2 tab-inactive" data-tab="tasks">
+                <span class="text-3xl">✓</span>
+                <span class="text-sm font-bold">Tasks</span>
+            </button>
         </div>
     </nav>
-
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Culturally Attuned <span>Mental Health</span> Care</h1>
-            <p>Professional telehealth services designed for Pasifika and Indigenous communities. Supporting your wellbeing with understanding and respect.</p>
-            <div class="hero-buttons">
-                <a href="#services" class="btn btn-primary">Explore Services</a>
-                <a href="#about" class="btn btn-secondary">Learn More</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="services" id="services">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Services</h2>
-                <p>Specialised mental health support tailored to your unique journey and cultural background</p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v4M12 16h.01"/></svg></div>
-                    <h3>Anxiety Support</h3>
-                    <p>Evidence-based strategies to manage anxiety, panic, and worry within a culturally safe framework.</p>
-                    <a href="forms/anxiety.html" class="btn btn-primary">Book Consultation</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg></div>
-                    <h3>Depression Care</h3>
-                    <p>Compassionate support for navigating depression, low mood, and finding your path forward.</p>
-                    <a href="forms/depression.html" class="btn btn-primary">Book Consultation</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
-                    <h3>ADHD Assessment</h3>
-                    <p>Comprehensive assessment and support for attention, focus, and executive function challenges.</p>
-                    <a href="forms/adhd.html" class="btn btn-primary">Book Assessment</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
-                    <h3>Stress Management</h3>
-                    <p>Practical tools to manage life stressors, work pressure, and restore balance to your life.</p>
-                    <a href="forms/stress.html" class="btn btn-primary">Book Consultation</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
-                    <h3>Grief Support</h3>
-                    <p>Understanding guidance through loss, honouring your loved ones while caring for yourself.</p>
-                    <a href="forms/grief.html" class="btn btn-primary">Book Consultation</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/><line x1="23" y1="22" x2="1" y2="22"/></svg></div>
-                    <h3>Sleep Wellness</h3>
-                    <p>Personalised approaches to improve sleep quality and establish healthy rest patterns.</p>
-                    <a href="forms/sleep.html" class="btn btn-primary">Book Consultation</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How We Help -->
-    <section class="how-we-help">
-        <div class="container">
-            <div class="section-header">
-                <h2>How We Help</h2>
-                <p>Three simple steps to get the support you deserve</p>
-            </div>
-            <div class="steps-row">
-                <div class="step-card">
-                    <div class="step-watermark">01</div>
-                    <h3>Book a free intro call</h3>
-                    <p>15 minutes, no pressure, we just listen.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-watermark">02</div>
-                    <h3>Complete your intake</h3>
-                    <p>Short online form so we're prepared for you.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-watermark">03</div>
-                    <h3>Start your sessions</h3>
-                    <p>6 structured sessions via video from wherever you are.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Our Team -->
-    <section class="our-team" id="team">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Team</h2>
-            </div>
-            <div class="team-layout">
-                <div class="team-photo">Photo coming soon</div>
-                <div class="team-info">
-                    <h3>Dr Francis Katoa</h3>
-                    <div class="team-title">GP, RNZCGP Fellow</div>
-                    <div class="team-bio">
-                        <p>Raised in a traditional Tongan household in South Auckland, Dr Katoa brings seven years of frontline primary care experience to Connect Clinic. A Fellow of the Royal New Zealand College of General Practitioners with specialised training in CBT, youth mental health, and cultural safety, he built Connect Clinic because too many young Pasifika and Māori were falling through the cracks of a system that wasn't designed for them.</p>
-                        <p>He serves as Secretary of the RNZCGP Pacific Chapter and Clinical Skills Tutor at the University of Auckland.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="testimonials">
-        <div class="container">
-            <div class="section-header">
-                <h2>What Our Patients Say</h2>
-            </div>
-            <div class="testimonials-grid">
-                <div class="quote-card">
-                    <p class="quote-text">I kept putting it off because I thought therapy wasn't really for Polynesian guys. But Dr Katoa got it straight away — the family pressure, the church stuff, all of it. I didn't have to explain myself. Six sessions in and I actually have tools now. The breathing thing alone changed my mornings.</p>
-                    <div class="quote-author">Sione, 27</div>
-                    <div class="quote-meta">Tongan · Anxiety pathway</div>
-                </div>
-                <div class="quote-card">
-                    <p class="quote-text">I'd been told my whole life I was just lazy or not trying hard enough. Getting the ADHD diagnosis at 24 was honestly life-changing. The fact I could do it all over video from my flat in Christchurch made it way less scary. I didn't have to sit in some waiting room feeling out of place.</p>
-                    <div class="quote-author">Maia, 24</div>
-                    <div class="quote-meta">Māori · ADHD assessment</div>
-                </div>
-                <div class="quote-card">
-                    <p class="quote-text">After my nan passed I just shut down for months. My cousin sent me the link to Connect and I'm glad she did. Having someone who understood what losing a matriarch means in a Samoan family — not just the grief but the weight of everything that comes after — that made all the difference.</p>
-                    <div class="quote-author">Lani, 31</div>
-                    <div class="quote-meta">Samoan · Depression pathway</div>
-                </div>
-            </div>
-            <p class="testimonials-disclaimer">Names changed to protect privacy. Shared with permission.</p>
-        </div>
-    </section>
-
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-logo">Connect<span>Clinic</span></div>
-            <p>Culturally attuned mental health care for our communities</p>
-            <div class="footer-links">
-                <a href="#services">Services</a>
-                <a href="#about">About</a>
-                <a href="mailto:hello@connectclinic.health">Contact</a>
-            </div>
-            <div class="crisis-line" style="margin-top: 20px; padding: 16px; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px;">
-                <p style="font-size: 0.95rem; color: var(--text-secondary); margin: 0;">If you or someone you know needs help: <strong style="color: var(--gold);">1737</strong> — free, 24/7 call or text</p>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Connect Clinic. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Language dropdown toggle
-        function toggleLang() {
-            document.getElementById('langDropdown').classList.toggle('active');
+    <script>        // State
+        let selectedTime = null;
+        let currentProfile = localStorage.getItem('elixir_current_profile') || 'dr-francis';
+        let currentPatientPhone = null;
+        let isOnline = navigator.onLine;
+        let selectedDate = new Date().toISOString().split('T')[0];
+        let deferredPrompt = null;
+        
+        const profileNames = { 'dr-francis': 'Dr Francis Katoa' };
+        let patientsData = [];
+        let recallsData = [];
+        
+        // API Configuration - Uses Cloudflare Pages Functions proxy
+        // /api/* requests are automatically proxied to https://secure.elixirapp.nz
+        const API_BASE = '/api';  // Proxied via Cloudflare Pages Functions
+        const REFRESH_TOKEN = 'UXNWauurXZHef-8bEiU9dS-9Le4LA@Hf6w1-em@wvA!';
+        const ENCRYPTION_KEY = 'Mxf7/.1rorc:NBlc';
+        
+        // Debug logging
+        function debugLog(message) {
+            console.log(message);
+            const logs = document.getElementById('debug-logs');
+            if (logs) {
+                const entry = document.createElement('div');
+                entry.className = 'debug-log';
+                entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                logs.appendChild(entry);
+                logs.scrollTop = logs.scrollHeight;
+            }
         }
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.lang-selector')) {
-                document.getElementById('langDropdown').classList.remove('active');
+        
+        function toggleDebug() {
+            document.getElementById('api-debug').classList.toggle('show');
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async function() {
+            debugLog('PWA Initializing with Cloudflare Pages proxy...');
+            generateWeekSelector();
+            updateProfileButtons();
+            loadAppointments();
+            loadTasks();
+            await loadPatients();
+            loadRecalls();
+            loadNotes();
+            updateStats();
+            updateOfficeStats();
+            populatePatientSuggestions();
+            
+            document.getElementById('booking-date').value = new Date().toISOString().split('T')[0];
+            
+            updateOnlineStatus();
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+            });
+            
+            if (!window.navigator.standalone && !window.matchMedia('(display-mode: standalone)').matches) {
+                setTimeout(() => document.getElementById('install-banner').classList.add('show'), 2000);
+            }
+            
+            if (isOnline) {
+                setTimeout(() => testAPIConnection(), 1000);
             }
         });
-        // Scroll reveal animation
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('visible');
-                    }, index * 100);
+        
+        // Generate week selector with ISO dates
+        function generateWeekSelector() {
+            const container = document.getElementById('week-selector');
+            const today = new Date();
+            const weekStart = new Date(today);
+            weekStart.setDate(today.getDate() - today.getDay() + 1);
+            
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            container.innerHTML = days.map((day, index) => {
+                const date = new Date(weekStart);
+                date.setDate(weekStart.getDate() + index);
+                const dateStr = date.toISOString().split('T')[0];
+                const dayNum = date.getDate();
+                const isToday = dateStr === today.toISOString().split('T')[0];
+                return `<button class="day-pill ${isToday ? 'today' : 'other'} flex flex-col items-center justify-center" onclick="selectDay('${day}', '${dateStr}')"><span class="text-sm">${day}</span><span class="font-bold text-xl">${dayNum}</span></button>`;
+            }).join('');
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+        
+        function updateOnlineStatus() {
+            isOnline = navigator.onLine;
+            document.getElementById('offline-banner').classList.toggle('show', !isOnline);
+        }
+        
+        // Test API via Cloudflare Pages proxy
+        async function testAPIConnection() {
+            showToast('Testing API via proxy...');
+            debugLog('=== Testing API via Cloudflare Pages Proxy ===');
+            debugLog(`API_BASE: ${API_BASE}`);
+            
+            const endpoints = ['/v1/patients', '/patients', '/patient/list', '/patients?limit=100'];
+            
+            for (const endpoint of endpoints) {
+                try {
+                    debugLog(`Trying ${endpoint}...`);
+                    const res = await fetch(`${API_BASE}${endpoint}`, {
+                        headers: {
+                            'Authorization': `Bearer ${REFRESH_TOKEN}`,
+                            'X-Encryption-Key': ENCRYPTION_KEY,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    debugLog(`${endpoint}: Status ${res.status}`);
+                    
+                    if (res.ok) {
+                        const data = await res.json();
+                        debugLog(`${endpoint}: SUCCESS!`);
+                        
+                        let patients = Array.isArray(data) ? data : (data.patients || data.data || data.results || []);
+                        if (patients.length > 0) {
+                            processPatientData(patients);
+                            showToast(`Synced ${patients.length} patients`);
+                            return;
+                        }
+                    } else {
+                        const text = await res.text();
+                        debugLog(`${endpoint}: ${text.substring(0, 200)}`);
+                    }
+                } catch (e) {
+                    debugLog(`${endpoint}: ERROR - ${e.message}`);
+                }
+            }
+            
+            debugLog('=== All endpoints attempted ===');
+            showToast('API test complete - check debug panel');
+        }
+        
+        function processPatientData(apiPatients) {
+            apiPatients.forEach(p => {
+                const patient = {
+                    name: p.name || p.full_name || `${p.first_name || ''} ${p.last_name || ''}`.trim(),
+                    nhi: p.nhi || p.NHI || p.nhi_number || '',
+                    dob: p.dob || p.date_of_birth || p.birth_date || '',
+                    age: p.age || calculateAge(p.dob || p.date_of_birth),
+                    address: p.address || p.full_address || `${p.street || ''} ${p.city || ''}`.trim(),
+                    phone: p.phone || p.phone_number || p.mobile || ''
+                };
+                if (patient.name && !patientsData.find(e => e.nhi === patient.nhi && patient.nhi)) {
+                    patientsData.push(patient);
                 }
             });
-        }, observerOptions);
-        document.querySelectorAll('.service-card, .feature').forEach(el => observer.observe(el));
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            localStorage.setItem(getStorageKey('patients'), JSON.stringify(patientsData));
+            renderPatientsList(patientsData);
+            populatePatientSuggestions();
+            updateOfficeStats();
+            debugLog(`Processed ${apiPatients.length} patients`);
+        }
+        
+        function calculateAge(dobString) {
+            if (!dobString) return '';
+            try {
+                const dob = new Date(dobString);
+                const today = new Date();
+                let age = today.getFullYear() - dob.getFullYear();
+                if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) age--;
+                return age;
+            } catch (e) { return ''; }
+        }
+        
+        // Profile Functions
+        function switchProfile(profileId) {
+            currentProfile = profileId;
+            localStorage.setItem('elixir_current_profile', profileId);
+            document.getElementById('current-user').textContent = profileNames[profileId];
+            updateProfileButtons();
+            loadAppointments();
+            loadTasks();
+            loadPatients();
+            loadRecalls();
+            loadNotes();
+            updateStats();
+            updateOfficeStats();
+            renderPatientsList(patientsData);
+            populatePatientSuggestions();
+        }
+        
+        function updateProfileButtons() {
+            document.querySelectorAll('.btn-profile').forEach(btn => {
+                btn.classList.remove('btn-active');
+                btn.classList.add('btn-secondary');
             });
-        });
+            const activeBtn = document.getElementById('btn-' + currentProfile);
+            if (activeBtn) {
+                activeBtn.classList.remove('btn-secondary');
+                activeBtn.classList.add('btn-active');
+            }
+        }
+        
+        function getStorageKey(key) { return `elixir_${currentProfile}_${key}`; }
+        
+        function switchTab(tabName) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById('view-' + tabName).classList.remove('hidden');
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.dataset.tab === tabName) {
+                    btn.classList.remove('tab-inactive');
+                    btn.classList.add('tab-active');
+                } else {
+                    btn.classList.remove('tab-active');
+                    btn.classList.add('tab-inactive');
+                }
+            });
+            if (tabName === 'office') updateOfficeStats();
+        }
+        
+        function selectDay(day, date) {
+            selectedDate = date;
+            document.querySelectorAll('.day-pill').forEach(pill => {
+                pill.classList.remove('today');
+                pill.classList.add('other');
+            });
+            event.currentTarget.classList.remove('other');
+            event.currentTarget.classList.add('today');
+            const dateObj = new Date(date);
+            document.getElementById('selected-date-display').textContent = dateObj.toLocaleDateString('en-NZ', { weekday: 'long', day: 'numeric', month: 'short' });
+            loadAppointments();
+        }
+        
+        function openBookingModal() { document.getElementById('booking-modal').classList.add('show'); }
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.remove('show');
+            selectedTime = null;
+            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            document.getElementById('booking-patient').value = '';
+        }
+        function selectTime(element, time) {
+            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedTime = time;
+        }
+        function populatePatientSuggestions() {
+            document.getElementById('patient-suggestions').innerHTML = patientsData.map(p => `<option value="${p.name}">`).join('');
+        }
+        
+        async function saveAppointment() {
+            const patient = document.getElementById('booking-patient').value;
+            const date = document.getElementById('booking-date').value;
+            if (!patient || !selectedTime) { alert('Enter name and time'); return; }
+            
+            const appointment = { id: Date.now(), patient, date, time: selectedTime, created: new Date().toISOString() };
+            let appointments = JSON.parse(localStorage.getItem(getStorageKey('appointments')) || '[]');
+            appointments.push(appointment);
+            localStorage.setItem(getStorageKey('appointments'), JSON.stringify(appointments));
+            
+            closeBookingModal();
+            document.getElementById('success-message').textContent = `Booked ${patient} at ${selectedTime}`;
+            document.getElementById('success-modal').classList.add('show');
+            loadAppointments();
+            updateStats();
+            updateOfficeStats();
+        }
+        
+        function closeSuccessModal() { document.getElementById('success-modal').classList.remove('show'); }
+        
+        async function loadAppointments() {
+            const appointments = JSON.parse(localStorage.getItem(getStorageKey('appointments')) || '[]');
+            const list = document.getElementById('appointments-list');
+            const emptyState = document.getElementById('empty-state');
+            const dayAppointments = appointments.filter(a => a.date === selectedDate);
+            
+            if (dayAppointments.length === 0) {
+                list.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+            } else {
+                list.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+                list.innerHTML = dayAppointments.map(a => `
+                    <div class="card flex items-center justify-between">
+                        <div><div class="font-bold text-2xl">${a.patient}</div><div class="text-teal-400 text-xl mt-1">${a.time}</div></div>
+                        <button onclick="deleteAppointment(${a.id})" class="text-red-400 p-3 text-3xl">🗑</button>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        async function deleteAppointment(id) {
+            if (!confirm('Delete?')) return;
+            let appointments = JSON.parse(localStorage.getItem(getStorageKey('appointments')) || '[]');
+            appointments = appointments.filter(a => a.id !== id);
+            localStorage.setItem(getStorageKey('appointments'), JSON.stringify(appointments));
+            loadAppointments();
+            updateStats();
+            updateOfficeStats();
+        }
+        
+        async function addTaskInline() {
+            const input = document.getElementById('new-task-input');
+            const task = input.value.trim();
+            if (!task) return;
+            let tasks = JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            tasks.push({ id: Date.now(), text: task, done: false });
+            localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasks));
+            input.value = '';
+            loadTasks();
+            updateStats();
+        }
+        
+        async function loadTasks() {
+            const tasks = JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            const list = document.getElementById('tasks-list');
+            if (tasks.length === 0) {
+                list.innerHTML = '<div class="text-center text-slate-500 py-6 text-xl">No tasks</div>';
+            } else {
+                list.innerHTML = tasks.map(t => `
+                    <div class="card flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <button onclick="toggleTask(${t.id})" class="text-3xl">${t.done ? '✅' : '⭕'}</button>
+                            <span class="text-xl ${t.done ? 'line-through text-slate-500' : ''}">${t.text}</span>
+                        </div>
+                        <button onclick="deleteTask(${t.id})" class="text-red-400 p-3 text-2xl">🗑</button>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        async function toggleTask(id) {
+            let tasks = JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            tasks = tasks.map(t => t.id === id ? {...t, done: !t.done} : t);
+            localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasks));
+            loadTasks();
+            updateStats();
+        }
+        
+        async function deleteTask(id) {
+            let tasks = JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            tasks = tasks.filter(t => t.id !== id);
+            localStorage.setItem(getStorageKey('tasks'), JSON.stringify(tasks));
+            loadTasks();
+            updateStats();
+        }
+        
+        function renderPatientsList(patients) {
+            const list = document.getElementById('patients-list');
+            if (patients.length === 0) {
+                list.innerHTML = `<div class="card text-center py-8"><div class="text-6xl mb-4">👤</div><h3 class="font-bold text-xl mb-2">No patients</h3><p class="text-slate-400">Tap "Sync from Elixir" or "+ Add Patient"</p></div>`;
+                return;
+            }
+            list.innerHTML = patients.map(p => `
+                <div class="patient-card" onclick="selectPatient('${p.name}', '${p.phone}', '${p.nhi}', '${p.dob}', '${p.address}')">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="font-bold text-2xl">${p.name}</div>
+                        ${p.nhi ? `<span class="patient-nhi">${p.nhi}</span>` : ''}
+                    </div>
+                    ${p.dob ? `<div class="patient-dob">DOB: ${p.dob} ${p.age ? `(${p.age} yrs)` : ''}</div>` : ''}
+                    ${p.address ? `<div class="patient-address">📍 ${p.address}</div>` : ''}
+                    <button onclick="event.stopPropagation(); callZoom('${p.phone}')" class="btn-zoom w-full flex items-center justify-center gap-3 mt-3">
+                        <span class="text-2xl">📞</span> ${p.phone || 'No phone'}
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function searchPatients(query) {
+            const filtered = patientsData.filter(p => 
+                p.name.toLowerCase().includes(query.toLowerCase()) ||
+                (p.nhi && p.nhi.toLowerCase().includes(query.toLowerCase()))
+            );
+            renderPatientsList(filtered);
+        }
+        
+        function selectPatient(name, phone, nhi, dob, address) {
+            document.getElementById('patient-name').textContent = name;
+            document.getElementById('patient-phone').textContent = phone || 'No phone';
+            document.getElementById('patient-nhi').textContent = nhi || '';
+            document.getElementById('patient-dob').textContent = dob ? `DOB: ${dob}` : '';
+            document.getElementById('patient-address').textContent = address ? `📍 ${address}` : '';
+            currentPatientPhone = phone;
+            document.getElementById('patient-modal').classList.add('show');
+        }
+        
+        function closePatientModal() {
+            document.getElementById('patient-modal').classList.remove('show');
+            currentPatientPhone = null;
+        }
+        
+        function callPatientZoom() { if (currentPatientPhone) callZoom(currentPatientPhone); }
+        
+        function callZoom(phoneNumber) {
+            const cleanNumber = (phoneNumber || '').replace(/[^\d+]/g, '');
+            if (!cleanNumber) { showToast('No phone number'); return; }
+            window.location.href = `zoomphonecall:${cleanNumber}`;
+            setTimeout(() => showToast('Open Zoom Workplace app'), 500);
+        }
+        
+        function openAddPatientModal() { document.getElementById('add-patient-modal').classList.add('show'); }
+        function closeAddPatientModal() {
+            document.getElementById('add-patient-modal').classList.remove('show');
+            ['name', 'nhi', 'dob', 'address', 'phone'].forEach(f => document.getElementById(`new-patient-${f}`).value = '');
+        }
+        
+        async function saveNewPatient() {
+            const name = document.getElementById('new-patient-name').value.trim();
+            const nhi = document.getElementById('new-patient-nhi').value.trim();
+            const dob = document.getElementById('new-patient-dob').value.trim();
+            const address = document.getElementById('new-patient-address').value.trim();
+            const phone = document.getElementById('new-patient-phone').value.trim();
+            
+            if (!name) { alert('Enter patient name'); return; }
+            
+            const patient = { name, nhi, dob, age: calculateAge(dob), address, phone };
+            patientsData.push(patient);
+            localStorage.setItem(getStorageKey('patients'), JSON.stringify(patientsData));
+            
+            closeAddPatientModal();
+            renderPatientsList(patientsData);
+            populatePatientSuggestions();
+            updateOfficeStats();
+            
+            document.getElementById('success-message').textContent = `Added ${name}`;
+            document.getElementById('success-modal').classList.add('show');
+        }
+        
+        async function loadPatients() {
+            patientsData = [];
+            const saved = localStorage.getItem(getStorageKey('patients'));
+            if (saved) patientsData = JSON.parse(saved);
+            renderPatientsList(patientsData);
+        }
+        
+        function loadRecalls() {
+            const saved = localStorage.getItem(getStorageKey('recalls'));
+            if (saved) recallsData = JSON.parse(saved);
+            renderRecalls();
+            updateRecallsCount();
+        }
+        
+        function renderRecalls() {
+            const list = document.getElementById('recalls-list');
+            if (recallsData.length === 0) {
+                list.innerHTML = '<div class="text-center text-slate-500 py-4">No recalls pending</div>';
+            } else {
+                list.innerHTML = recallsData.map((r, index) => `
+                    <div class="recall-item">
+                        <div><div class="font-bold">${r.name}</div><div class="text-sm text-slate-400">${r.reason}</div></div>
+                        <button onclick="deleteRecall(${index})" class="text-red-400 text-xl">🗑</button>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function addRecall() {
+            const name = prompt('Patient name:');
+            if (!name) return;
+            const reason = prompt('Recall reason:');
+            if (!reason) return;
+            recallsData.push({ name, reason, date: new Date().toISOString() });
+            localStorage.setItem(getStorageKey('recalls'), JSON.stringify(recallsData));
+            renderRecalls();
+            updateRecallsCount();
+        }
+        
+        function deleteRecall(index) {
+            recallsData.splice(index, 1);
+            localStorage.setItem(getStorageKey('recalls'), JSON.stringify(recallsData));
+            renderRecalls();
+            updateRecallsCount();
+        }
+        
+        function updateRecallsCount() { document.getElementById('stat-recalls').textContent = recallsData.length; }
+        
+        function loadNotes() {
+            const notes = localStorage.getItem(getStorageKey('notes')) || '';
+            document.getElementById('office-notes').value = notes;
+        }
+        
+        function saveNotes() {
+            localStorage.setItem(getStorageKey('notes'), document.getElementById('office-notes').value);
+            showToast('Notes saved');
+        }
+        
+        function updateOfficeStats() {
+            const today = new Date().toISOString().split('T')[0];
+            const appointments = JSON.parse(localStorage.getItem(getStorageKey('appointments')) || '[]');
+            document.getElementById('office-bookings').textContent = appointments.filter(a => a.date === today).length;
+            document.getElementById('office-patients').textContent = patientsData.length;
+        }
+        
+        function updateStats() {
+            const today = new Date().toISOString().split('T')[0];
+            const appointments = JSON.parse(localStorage.getItem(getStorageKey('appointments')) || '[]');
+            const tasks = JSON.parse(localStorage.getItem(getStorageKey('tasks')) || '[]');
+            document.getElementById('stat-today').textContent = appointments.filter(a => a.date === today).length;
+            document.getElementById('stat-tasks').textContent = tasks.filter(t => !t.done).length;
+            updateRecallsCount();
+        }
+        
+        function addToHomeScreen() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') document.getElementById('install-banner').classList.remove('show');
+                    deferredPrompt = null;
+                });
+            } else {
+                showToast('Tap Share → Add to Home Screen');
+            }
+        }
+        
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/elixir-sw.js')
+                .then(reg => debugLog('Service Worker registered'))
+                .catch(err => debugLog('SW registration failed: ' + err.message));
+        }
     </script>
 </body>
 </html>
