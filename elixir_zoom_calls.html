@@ -68,7 +68,7 @@
             <div class="w-14 h-14 bg-teal-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">E</div>
             <div>
                 <span class="font-bold text-2xl">Elixir</span>
-                <div class="text-teal-400 text-sm" id="current-user">Dr Smith</div>
+                <div class="text-teal-400 text-sm" id="current-user">Dr Francis Katoa</div>
             </div>
         </div>
     </header>
@@ -158,6 +158,9 @@
 
         <!-- Patients View -->
         <div id="view-patients" class="view-section hidden">
+            <button onclick="openAddPatientModal()" class="btn-huge btn-primary w-full mb-4 flex items-center justify-center gap-2" style="background: #22C55E;">
+                <span class="text-3xl">+</span> Add Patient
+            </button>
             <input type="text" id="patient-search" placeholder="🔍 Search patients" class="mb-4" oninput="searchPatients(this.value)">
             <div id="patients-list" class="space-y-4">
                 <!-- Patients injected here -->
@@ -237,6 +240,24 @@
         </div>
     </div>
 
+    <!-- Add Patient Modal -->
+    <div id="add-patient-modal" class="modal">
+        <div class="modal-content">
+            <h2 class="font-bold text-3xl mb-6">Add Patient</h2>
+            
+            <label class="block text-slate-400 mb-2 text-lg">Name</label>
+            <input type="text" id="new-patient-name" placeholder="Patient name" class="mb-4">
+            
+            <label class="block text-slate-400 mb-2 text-lg">Phone</label>
+            <input type="tel" id="new-patient-phone" placeholder="+64 21 123 4567" class="mb-6">
+            
+            <div class="flex gap-3">
+                <button onclick="closeAddPatientModal()" class="btn-huge btn-secondary flex-1">Cancel</button>
+                <button onclick="saveNewPatient()" class="btn-huge btn-primary flex-1" style="background: #22C55E;">Save</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 bg-slate-900 border-t-4 border-slate-800 px-2 py-3 safe-bottom z-50">
         <div class="flex justify-around items-center">
@@ -288,6 +309,7 @@
             updateProfileButtons();
             loadAppointments();
             loadTasks();
+            loadPatients();
             updateStats();
             renderPatientsList(patientsData);
             
@@ -309,7 +331,9 @@
             updateProfileButtons();
             loadAppointments();
             loadTasks();
+            loadPatients();
             updateStats();
+            renderPatientsList(patientsData);
         }
         
         function updateProfileButtons() {
@@ -541,6 +565,67 @@
             setTimeout(() => {
                 alert('Open Zoom Workplace app to call');
             }, 500);
+        }
+        
+        // Add Patient Functions
+        function openAddPatientModal() {
+            document.getElementById('add-patient-modal').classList.add('show');
+        }
+        
+        function closeAddPatientModal() {
+            document.getElementById('add-patient-modal').classList.remove('show');
+            document.getElementById('new-patient-name').value = '';
+            document.getElementById('new-patient-phone').value = '';
+        }
+        
+        function saveNewPatient() {
+            const name = document.getElementById('new-patient-name').value.trim();
+            const phone = document.getElementById('new-patient-phone').value.trim();
+            
+            if (!name || !phone) {
+                alert('Enter name and phone');
+                return;
+            }
+            
+            // Add to patientsData array
+            patientsData.push({ name: name, phone: phone });
+            
+            // Save to localStorage per profile
+            localStorage.setItem(getStorageKey('patients'), JSON.stringify(patientsData));
+            
+            closeAddPatientModal();
+            renderPatientsList(patientsData);
+            
+            document.getElementById('success-message').textContent = `Added ${name}`;
+            document.getElementById('success-modal').classList.add('show');
+        }
+        
+        // Default patients (seed data)
+        const defaultPatients = [
+            { name: 'John Smith', phone: '+64 21 123 4567' },
+            { name: 'Sarah Lee', phone: '+64 22 234 5678' },
+            { name: 'Mike Chen', phone: '+64 27 345 6789' },
+            { name: 'Emma Wilson', phone: '+64 21 456 7890' },
+            { name: 'David Park', phone: '+64 22 567 8901' },
+            { name: 'Lisa Wong', phone: '+64 27 678 9012' }
+        ];
+        
+        // Load saved patients from localStorage
+        function loadPatients() {
+            // Reset to defaults first
+            patientsData.length = 0;
+            defaultPatients.forEach(p => patientsData.push(p));
+            
+            const saved = localStorage.getItem(getStorageKey('patients'));
+            if (saved) {
+                const savedPatients = JSON.parse(saved);
+                // Add any additional saved patients
+                savedPatients.forEach(p => {
+                    if (!patientsData.find(existing => existing.name === p.name)) {
+                        patientsData.push(p);
+                    }
+                });
+            }
         }
         
         // Stats
